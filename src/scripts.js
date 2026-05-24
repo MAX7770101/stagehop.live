@@ -1,21 +1,9 @@
 var _MOON_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 var _SUN_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-// ── SIMULATION FLAG — set to false before public launch ──
-var SIM_ENABLED = true;
-var _simActive = false, _simDate = null, _simMins = null;
-var _simPlaying = false, _simSpeed = 10;
-var _simInterval = null, _simStartRealMs = null, _simStartMins = null;
-
 // ── UTILS ──
 function toMins(t){var p=t.split(":");return parseInt(p[0])<8?parseInt(p[0])*60+parseInt(p[1])+1440:parseInt(p[0])*60+parseInt(p[1]);}
-function getNow(){
-  if(SIM_ENABLED&&_simActive&&_simMins!==null)return _simMins;
-  var n=new Date(),h=n.getHours(),m=n.getMinutes();return h*60+m+(h<8?1440:0);
-}
-function getDay(){
-  if(SIM_ENABLED&&_simActive&&_simDate)return DAYS.find(function(day){return day.date===_simDate;})||null;
-  var d=new Date(),ds=d.toISOString().slice(0,10);return DAYS.find(function(day){return day.date===ds;})||null;
-}
+function getNow(){var n=new Date(),h=n.getHours(),m=n.getMinutes();return h*60+m+(h<8?1440:0);}
+function getDay(){var d=new Date(),ds=d.toISOString().slice(0,10);return DAYS.find(function(day){return day.date===ds;})||null;}
 function isLive(show){var n=getNow();return n>=toMins(show.time)&&n<toMins(show.end);}
 
 // ── FAVORITES ──
@@ -327,8 +315,7 @@ function renderInfo(){
       '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.lostBody+'</div></div>'+
     '</div>'+
     '<div class="info-section" style="text-align:center">'+
-      '<div class="info-h">🔗 '+L.faqH+'</div>'+
-      '<a class="footer-link" style="font-size:13px" href="https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs" target="_blank" rel="noopener">'+L.faqLink+' ↗</a>'+
+      '<a class="info-h" style="text-decoration:none" href="https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs" target="_blank" rel="noopener">🔗 '+L.faqH+' ↗</a>'+
     '</div>';
   document.getElementById("vinfo").innerHTML=html;
   if(!_wxCache){
@@ -529,73 +516,6 @@ function toggleTheme(){
   if(saved==="light"){document.body.classList.add("light-mode");document.documentElement.classList.add("light-mode");document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_SUN_SVG;});}
 })();
 
-// ── SIM UI ──
-function initSimUI(){
-  if(!SIM_ENABLED)return;
-  var menu=document.getElementById("nav-menu");
-  var dateOpts=DAYS.map(function(d){return'<option value="'+d.date+'">'+d.label+'</option>';}).join("");
-  var row=document.createElement("div");
-  row.className="nm-settings-row sim-row";row.id="sim-row";
-  row.innerHTML='<span class="nm-setting-lbl">🕐 Simulate</span>'
-    +'<label class="sim-toggle-lbl"><input type="checkbox" id="sim-chk" onchange="onSimToggle(this.checked)"><span class="sim-on-lbl" id="sim-status">OFF</span></label>';
-  var pickers=document.createElement("div");
-  pickers.id="sim-pickers";pickers.className="nm-sim-pickers";pickers.style.display="none";
-  pickers.innerHTML='<select class="sim-sel" id="sim-date-sel">'+dateOpts+'</select>'
-    +'<input class="sim-time-inp" type="time" id="sim-time-inp" value="20:00">'
-    +'<button class="sim-play-btn" id="sim-play-btn" onclick="toggleSimPlay()">▶</button>';
-  var speedRow=document.createElement("div");
-  speedRow.id="sim-speed-row";speedRow.className="nm-sim-speed-row";speedRow.style.display="none";
-  speedRow.innerHTML='<input class="sim-speed-slider" type="range" id="sim-speed-sl" min="1" max="60" value="'+_simSpeed+'" oninput="onSimSpeedChange(this.value)">'
-    +'<span class="sim-speed-lbl" id="sim-speed-lbl">'+_simSpeed+'×</span>';
-  menu.appendChild(row);menu.appendChild(pickers);menu.appendChild(speedRow);
-}
-function onSimToggle(on){
-  _simActive=on;
-  document.getElementById("sim-pickers").style.display=on?"flex":"none";
-  document.getElementById("sim-speed-row").style.display=on?"flex":"none";
-  document.getElementById("sim-status").textContent=on?"ON":"OFF";
-  if(!on){_simDate=null;_simMins=null;if(_simPlaying)pauseSim();}
-  updateNowPlaying();render();
-}
-function toggleSimPlay(){
-  if(_simPlaying)pauseSim();else startSim();
-}
-function startSim(){
-  var dv=document.getElementById("sim-date-sel").value;
-  var tv=document.getElementById("sim-time-inp").value||"20:00";
-  var p=tv.split(":");var h=parseInt(p[0]),m=parseInt(p[1]);
-  _simDate=dv;
-  _simStartMins=h*60+m+(h<8?1440:0);
-  _simMins=_simStartMins;
-  _simStartRealMs=Date.now();
-  _simPlaying=true;
-  document.getElementById("sim-play-btn").textContent="⏸";
-  var day=DAYS.find(function(d){return d.date===dv;});
-  if(day){curDay=day.key;curStage=null;}
-  renderDayTabs();
-  clearInterval(_simInterval);
-  _simInterval=setInterval(simTick,500);
-  simTick();
-}
-function pauseSim(){
-  clearInterval(_simInterval);_simInterval=null;
-  _simPlaying=false;
-  document.getElementById("sim-play-btn").textContent="▶";
-}
-function simTick(){
-  var elapsed=Date.now()-_simStartRealMs;
-  _simMins=Math.floor(_simStartMins+elapsed*_simSpeed/60000);
-  var dm=_simMins>=1440?_simMins-1440:_simMins;
-  var hh=Math.floor(dm/60),mm=dm%60;
-  document.getElementById("sim-time-inp").value=(hh<10?"0"+hh:hh)+":"+(mm<10?"0"+mm:mm);
-  updateNowPlaying();render();
-}
-function onSimSpeedChange(v){
-  _simSpeed=parseInt(v);
-  document.getElementById("sim-speed-lbl").textContent=_simSpeed+"×";
-  if(_simPlaying){_simStartMins=_simMins;_simStartRealMs=Date.now();}
-}
-
 // ── NAV MENU ──
 function toggleNavMenu(){
   var isOpen=document.getElementById("nav-menu").classList.contains("open");
@@ -637,4 +557,3 @@ updateNowPlaying();
   window.addEventListener("resize",function(){if(window.innerWidth>540)closeNavMenu();});
 })();
 updateNavMenuActive();
-initSimUI();

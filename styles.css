@@ -519,69 +519,6 @@ body {
     text-transform: uppercase
 }
 
-/* SIMULATION */
-.sim-row { border-top: 1px solid var(--line) }
-.sim-toggle-lbl { display: flex; align-items: center; gap: 4px; cursor: pointer }
-.sim-toggle-lbl input { display: none }
-.sim-on-lbl {
-    font-size: 10px;
-    font-family: "DM Mono", monospace;
-    color: var(--muted);
-    background: var(--bg2);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 2px 6px;
-    user-select: none
-}
-.sim-toggle-lbl input:checked + .sim-on-lbl { color: var(--gold); border-color: var(--gold) }
-.nm-sim-pickers {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-top: 1px solid var(--line)
-}
-.sim-sel, .sim-time-inp {
-    background: var(--bg2);
-    border: 1px solid var(--line);
-    color: var(--text);
-    border-radius: 6px;
-    padding: 4px 6px;
-    font-size: 11px;
-    font-family: "DM Mono", monospace;
-    min-width: 0;
-    flex: 1
-}
-.sim-play-btn {
-    background: var(--gold);
-    color: #000;
-    border: none;
-    border-radius: 6px;
-    padding: 4px 10px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    flex-shrink: 0
-}
-.nm-sim-speed-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 16px 10px;
-    border-top: 1px solid var(--line)
-}
-.sim-speed-slider {
-    flex: 1;
-    accent-color: var(--gold);
-    cursor: pointer
-}
-.sim-speed-lbl {
-    font-size: 11px;
-    font-family: "DM Mono", monospace;
-    color: var(--gold);
-    min-width: 28px;
-    text-align: right
-}
 
 /* RESPONSIVE: hamburger on mobile */
 @media (max-width: 540px) {
