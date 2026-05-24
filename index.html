@@ -35,7 +35,6 @@
       <div class="nav-col">
         <div class="nav-row-btns">
           <button class="vt on" onclick="setView('schedule',this)" title="排班">📅</button>
-          <button class="vt" onclick="setView('my',this)" title="我的行程">💖</button>
           <button class="vt" onclick="setView('map',this)" title="地图">🗺️</button>
           <button class="vt" onclick="setView('info',this)" title="实用信息">ℹ️</button>
         </div>
@@ -71,6 +70,7 @@
       <span class="slbl" id="lbl-sort">排序</span>
       <button class="srt on" id="srt-time" onclick="setSort('time')">⏱ <span data-i="byTime">时间</span></button>
       <button class="srt" id="srt-az" onclick="setSort('az')">🔤 <span data-i="byName">名称</span></button>
+      <button class="srt srt-fav" id="srt-fav" onclick="toggleFavFilter()">💖</button>
     </div>
     <div id="slist"></div>
   </div>

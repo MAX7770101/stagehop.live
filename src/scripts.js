@@ -47,7 +47,7 @@ function updateNowPlaying(){
 setInterval(updateNowPlaying,30000);
 
 // ── STATE ──
-var curDay="thu",curView="schedule",curStage=null,curSort="time",activeStageFilter=null;
+var curDay="thu",curView="schedule",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false;
 
 // ── RENDER ──
 function renderDayTabs(){
@@ -61,6 +61,7 @@ function renderSchedule(){
   var day=DAYS.find(function(d){return d.key===curDay;});
   var stages=[...new Set(day.shows.map(function(s){return s.stage;}))];
   var shows=curStage?day.shows.filter(function(s){return s.stage===curStage;}):day.shows;
+  if(curFavFilter)shows=shows.filter(function(s){return favs.has(s.artist);});
   var sorted=[...shows].sort(function(a,b){return curSort==="az"?a.artist.localeCompare(b.artist):toMins(a.time)-toMins(b.time);});
   var isToday=getDay()&&getDay().key===curDay;
   var conflicts=getConflicts(day.shows);
@@ -73,6 +74,7 @@ function renderSchedule(){
   var allBtn=document.querySelector('#fbar .sfb.all');if(allBtn)allBtn.textContent=curLang==="zh"?"全部":(curLang==="es"?"Todo":"All");
   document.getElementById("srt-time").classList.toggle("on",curSort==="time");
   document.getElementById("srt-az").classList.toggle("on",curSort==="az");
+  document.getElementById("srt-fav").classList.toggle("on",curFavFilter);
   document.getElementById("slist").innerHTML=sorted.map(function(show){
     var si=ST[show.stage]||{color:"#888",bg:"var(--bg)",e:"🎵",s:"?"};
     var m=toMins(show.time),late=m>=1440,vl=m>=1620;
@@ -325,6 +327,7 @@ function setDay(k){
 }
 function setStage(s){curStage=s;renderSchedule();}
 function setSort(s){curSort=s;renderSchedule();}
+function toggleFavFilter(){curFavFilter=!curFavFilter;renderSchedule();}
 function render(){
   if(curView==="schedule")renderSchedule();
   else if(curView==="my")renderMyLineup();

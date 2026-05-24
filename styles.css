@@ -388,6 +388,10 @@ body {
     color: #000
 }
 
+.srt-fav {
+    margin-left: auto
+}
+
 /* SHOW LIST */
 #slist {
     padding-bottom: 80px;
