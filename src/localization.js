@@ -38,7 +38,7 @@ var LANGS={
     lostH:"失物招领",
     lostBody:"节日期间失物统一送至外部信息点，可就近前往或填写失物表格。节日结束后未认领物品移交至 Guàrdia Urbana de Poblenou（Carrer d'Espronceda, 148）。",
     faqH:"官方常见问题",faqLink:"查看完整官方 FAQ",
-    navSchedule:"排班",navMap:"地图",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
+    navSchedule:"演出表",navMap:"地图",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
     showPast:"场已结束",hidePast:"隐藏已结束",more:"更多",collapse:"收起",
     disclaimer:"本站为乐迷自制的非官方指南，与 Primavera Sound S.L. 无任何关联。<br>所有商标归各自所有者所有。<br>演出信息仅供参考，请以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方网站</a>为准。<br>反馈或纠错请联系：",
   },

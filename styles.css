@@ -113,10 +113,10 @@ body {
 
 .title-en {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-    font-weight: 800;
-    font-size: 15px;
-    letter-spacing: .04em;
-    color: var(--subtitle-color, #EAE0CC);
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: .06em;
+    color: var(--muted);
     line-height: 1;
     text-transform: uppercase;
     white-space: nowrap
