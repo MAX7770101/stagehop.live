@@ -91,6 +91,14 @@ body {
     margin-bottom: 1px
 }
 
+.lang-sep {
+    color: var(--muted);
+    font-size: 11px;
+    align-self: center;
+    pointer-events: none;
+    user-select: none;
+    padding: 0 1px
+}
 .title-stagehop {
     font-family: "Playfair Display", Georgia, serif;
     font-size: 15px;

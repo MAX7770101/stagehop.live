@@ -521,13 +521,17 @@ function toggleNavMenu(){
   var isOpen=document.getElementById("nav-menu").classList.contains("open");
   if(isOpen){closeNavMenu();}else{
     updateNavMenuActive();
-    document.getElementById("nav-menu").classList.add("open");
+    var nm=document.getElementById("nav-menu");
+    nm.classList.add("open");
+    nm.setAttribute("aria-hidden","false");
     document.getElementById("nav-backdrop").classList.add("open");
     document.getElementById("hamburger-btn").classList.add("open");
   }
 }
 function closeNavMenu(){
-  document.getElementById("nav-menu").classList.remove("open");
+  var nm=document.getElementById("nav-menu");
+  nm.classList.remove("open");
+  nm.setAttribute("aria-hidden","true");
   document.getElementById("nav-backdrop").classList.remove("open");
   document.getElementById("hamburger-btn").classList.remove("open");
 }
