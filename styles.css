@@ -91,6 +91,12 @@ body {
     margin-bottom: 1px
 }
 
+.title-sep {
+    color: var(--gold);
+    opacity: .4;
+    font-weight: 300;
+    margin: 0 1px
+}
 .title-stagehop {
     font-family: "Playfair Display", Georgia, serif;
     font-size: 15px;
