@@ -1,3 +1,5 @@
+var _MOON_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+var _SUN_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
 // ── SIMULATION FLAG — set to false before public launch ──
 var SIM_ENABLED = true;
 var _simActive = false, _simDate = null, _simMins = null;
@@ -298,6 +300,35 @@ function renderInfo(){
     '<div class="info-section">'+
       '<div class="info-h">💡 '+L.tipsH+'</div>'+
       L.tips.map(function(tip){return '<div class="info-row"><div class="info-icon">→</div><div class="info-text">'+tip+'</div></div>';}).join("")+
+    '</div>'+
+    '<div class="info-section">'+
+      '<div class="info-h">🎟️ '+L.ticketsH+'</div>'+
+      '<div class="info-row"><div class="info-icon">🛒</div><div class="info-text">'+L.ticketSalesBody+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">📅</div><div class="info-text">'+L.ticketTypesBody+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">⚠</div><div class="info-text">'+L.ticketQRBody+'</div></div>'+
+    '</div>'+
+    '<div class="info-section">'+
+      '<div class="info-h">👶 '+L.minorsH+'</div>'+
+      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor12+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1315+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1617+'</div></div>'+
+    '</div>'+
+    '<div class="info-section">'+
+      '<div class="info-h">♿ '+L.accessH+'</div>'+
+      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.accessBody+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">✉</div><div class="info-text"><a class="footer-link" href="mailto:'+L.accessEmail+'">'+L.accessEmail+'</a></div></div>'+
+    '</div>'+
+    '<div class="info-section">'+
+      '<div class="info-h">💳 '+L.payH+'</div>'+
+      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.payBody+'</div></div>'+
+    '</div>'+
+    '<div class="info-section">'+
+      '<div class="info-h">🔍 '+L.lostH+'</div>'+
+      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.lostBody+'</div></div>'+
+    '</div>'+
+    '<div class="info-section" style="text-align:center">'+
+      '<div class="info-h">🔗 '+L.faqH+'</div>'+
+      '<a class="footer-link" style="font-size:13px" href="https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs" target="_blank" rel="noopener">'+L.faqLink+' ↗</a>'+
     '</div>';
   document.getElementById("vinfo").innerHTML=html;
   if(!_wxCache){
@@ -484,18 +515,18 @@ function toggleTheme(){
   var isLight=body.classList.contains("light-mode");
   if(isLight){
     body.classList.remove("light-mode");document.documentElement.classList.remove("light-mode");
-    document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.textContent="🌙";});
+    document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_MOON_SVG;});
     localStorage.setItem("ps26_theme","dark");
   } else {
     body.classList.add("light-mode");document.documentElement.classList.add("light-mode");
-    document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.textContent="☀️";});
+    document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_SUN_SVG;});
     localStorage.setItem("ps26_theme","light");
   }
 }
 // restore saved theme
 (function(){
   var saved=localStorage.getItem("ps26_theme");
-  if(saved==="light"){document.body.classList.add("light-mode");document.documentElement.classList.add("light-mode");document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.textContent="☀️";});}
+  if(saved==="light"){document.body.classList.add("light-mode");document.documentElement.classList.add("light-mode");document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_SUN_SVG;});}
 })();
 
 // ── SIM UI ──

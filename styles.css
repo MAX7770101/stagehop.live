@@ -159,6 +159,21 @@ body {
     transform: scale(.92)
 }
 
+.theme-icon-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    line-height: 0;
+    color: var(--text);
+    opacity: .7;
+    transition: opacity .15s
+}
+
+.theme-icon-btn:active {
+    opacity: 1
+}
+
 .lang-grp-inline {
     display: flex;
     gap: 0;
