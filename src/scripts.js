@@ -51,10 +51,12 @@ function updateNowPlaying(){
     .sort(function(a,b){return toMins(a.time)-toMins(b.time)||a.artist.localeCompare(b.artist);});
   if(!upFavs.length){np.style.display="none";refreshMapGlow();return;}
   var pivot=upFavs[0];
-  _npToShow=upFavs.filter(function(s){
+  var newToShow=upFavs.filter(function(s){
     return toMins(pivot.time)<toMins(s.end)&&toMins(s.time)<toMins(pivot.end);
   });
-  _npExpanded=false;
+  var changed=newToShow.length!==_npToShow.length||newToShow.some(function(s,i){return s.artist!==(_npToShow[i]&&_npToShow[i].artist);});
+  if(changed)_npExpanded=false;
+  _npToShow=newToShow;
   np.style.display="block";
   document.getElementById("np-header").textContent=t("next");
   renderNpRows();

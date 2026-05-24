@@ -80,10 +80,10 @@ var LANGS={
   }
 };
 
-var curLang="zh";
+var curLang=localStorage.getItem("ps26_lang")||"zh";
 function t(k){return LANGS[curLang][k]||LANGS.zh[k]||k;}
 function setLang(l){
-  curLang=l;
+  curLang=l;localStorage.setItem("ps26_lang",l);
   document.querySelectorAll(".lang-btn").forEach(function(b){b.classList.remove("on");});
   document.querySelectorAll(".lang-btn[data-lang='"+l+"']").forEach(function(b){b.classList.add("on");});
   applyLang();
