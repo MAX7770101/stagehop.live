@@ -91,6 +91,18 @@ body {
     margin-bottom: 1px
 }
 
+.title-stagehop {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: .04em;
+    color: var(--gold);
+    opacity: .6;
+    margin-left: 8px;
+    vertical-align: baseline
+}
+
 .title-en {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     font-weight: 800;
