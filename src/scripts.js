@@ -410,3 +410,10 @@ renderDayTabs();
 renderSchedule();
 renderFavBar();
 updateNowPlaying();
+(function(){
+  var hdr=document.getElementById("hdr");
+  function syncHdrH(){document.documentElement.style.setProperty("--hdr-h",hdr.offsetHeight+"px");}
+  syncHdrH();
+  if(window.ResizeObserver){new ResizeObserver(syncHdrH).observe(hdr);}
+  else{window.addEventListener("resize",syncHdrH);}
+})();
