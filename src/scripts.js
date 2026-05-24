@@ -46,6 +46,54 @@ function updateNowPlaying(){
 }
 setInterval(updateNowPlaying,30000);
 
+// ── WEATHER ──
+var _wxCache=null;
+var _wxFallback=[
+  {date:"2026-06-03",code:0,max:27,min:19},
+  {date:"2026-06-04",code:1,max:26,min:18},
+  {date:"2026-06-05",code:0,max:28,min:19},
+  {date:"2026-06-06",code:2,max:25,min:18},
+  {date:"2026-06-07",code:0,max:27,min:19}
+];
+var _wxDateLabel={"2026-06-03":"Wed 6/3","2026-06-04":"Thu 6/4","2026-06-05":"Fri 6/5","2026-06-06":"Sat 6/6","2026-06-07":"Sun 6/7"};
+function _wxInfo(code,lang){
+  var m=[
+    [0,"☀️","晴天","Despejado","Clear"],
+    [1,"🌤️","晴间多云","Mainly clear","Mainly clear"],
+    [2,"⛅","多云","Parcialmente nublado","Partly cloudy"],
+    [3,"☁️","阴天","Nublado","Overcast"],
+    [45,"🌫️","雾","Niebla","Fog"],[48,"🌫️","冻雾","Niebla helada","Icy fog"],
+    [51,"🌦️","小毛毛雨","Llovizna ligera","Light drizzle"],[53,"🌦️","毛毛雨","Llovizna","Drizzle"],[55,"🌦️","浓毛毛雨","Llovizna intensa","Heavy drizzle"],
+    [61,"🌧️","小雨","Lluvia ligera","Light rain"],[63,"🌧️","中雨","Lluvia","Rain"],[65,"🌧️","大雨","Lluvia fuerte","Heavy rain"],
+    [80,"🌦️","阵雨","Chubascos","Showers"],[81,"🌦️","阵雨","Chubascos","Showers"],[82,"⛈️","强阵雨","Chubascos fuertes","Heavy showers"],
+    [95,"⛈️","雷暴","Tormenta","Thunderstorm"],[96,"⛈️","冰雹雷暴","Tormenta c/ granizo","Hail storm"],[99,"⛈️","冰雹雷暴","Tormenta c/ granizo","Hail storm"]
+  ];
+  var e=m.find(function(r){return r[0]===code;})||[code,"🌡️","未知","Desconocido","Unknown"];
+  return {icon:e[1],desc:lang==="zh"?e[2]:lang==="es"?e[3]:e[4]};
+}
+function _wxRowHtml(data){
+  return '<div class="weather-row">'+data.map(function(w){
+    var info=_wxInfo(w.code,curLang);
+    return '<div class="weather-day"><div class="wd-date">'+(_wxDateLabel[w.date]||w.date.slice(5))+'</div><div class="wd-icon">'+info.icon+'</div><div class="wd-temp">'+w.max+'°C</div><div class="wd-desc">'+info.desc+'</div></div>';
+  }).join("")+'</div>';
+}
+function fetchWeather(cb){
+  if(_wxCache){cb(_wxCache);return;}
+  var xhr=new XMLHttpRequest();
+  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude=41.3874&longitude=2.1686&daily=weather_code,temperature_2m_max&timezone=Europe%2FMadrid&start_date=2026-06-03&end_date=2026-06-07");
+  xhr.onload=function(){
+    if(xhr.status===200){
+      try{
+        var d=JSON.parse(xhr.responseText).daily;
+        _wxCache=d.time.map(function(date,i){return{date:date,code:d.weather_code[i],max:Math.round(d.temperature_2m_max[i])};});
+      }catch(e){_wxCache=_wxFallback;}
+    }else{_wxCache=_wxFallback;}
+    cb(_wxCache);
+  };
+  xhr.onerror=function(){_wxCache=_wxFallback;cb(_wxCache);};
+  xhr.send();
+}
+
 // ── STATE ──
 var curDay="thu",curView="schedule",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false;
 
@@ -126,18 +174,12 @@ function renderMyLineup(){
 
 // ── INFO ──
 function renderInfo(){
-  var weather=[
-    {date:"Wed 6/3",icon:"☀️",temp:"27°C",desc:"Sunny"},
-    {date:"Thu 6/4",icon:"🌤️",temp:"26°C",desc:"Partly cloudy"},
-    {date:"Fri 6/5",icon:"☀️",temp:"28°C",desc:"Sunny"},
-    {date:"Sat 6/6",icon:"⛅",temp:"25°C",desc:"Cloudy"},
-    {date:"Sun 6/7",icon:"☀️",temp:"27°C",desc:"Sunny"},
-  ];
   var L=LANGS[curLang];
+  var wxHtml=_wxCache?_wxRowHtml(_wxCache):'<div class="weather-loading">'+(_wxCache===null?"⏳ …":"")+'</div>';
   var html=
     '<div class="info-section">'+
       '<div class="info-h">🌤️ '+L.weatherH+'</div>'+
-      '<div class="weather-row">'+weather.map(function(w){return '<div class="weather-day"><div class="wd-date">'+w.date+'</div><div class="wd-icon">'+w.icon+'</div><div class="wd-temp">'+w.temp+'</div><div class="wd-desc">'+w.desc+'</div></div>';}).join("")+'</div>'+
+      '<div id="weather-data">'+wxHtml+'</div>'+
       '<div class="info-row" style="margin-top:10px"><div class="info-icon">💡</div><div class="info-text">'+L.weatherNote+'</div></div>'+
     '</div>'+
     '<div class="info-section">'+
@@ -166,6 +208,12 @@ function renderInfo(){
       L.tips.map(function(tip){return '<div class="info-row"><div class="info-icon">→</div><div class="info-text">'+tip+'</div></div>';}).join("")+
     '</div>';
   document.getElementById("vinfo").innerHTML=html;
+  if(!_wxCache){
+    fetchWeather(function(){
+      var el=document.getElementById("weather-data");
+      if(el)el.innerHTML=_wxRowHtml(_wxCache);
+    });
+  }
 }
 
 // ── MAP ──

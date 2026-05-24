@@ -392,6 +392,13 @@ body {
     margin-left: auto
 }
 
+.weather-loading {
+    padding: 18px 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 18px
+}
+
 /* SHOW LIST */
 #slist {
     padding-bottom: 80px;
