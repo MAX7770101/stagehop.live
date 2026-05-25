@@ -7,6 +7,11 @@ Add-Type -AssemblyName System.Drawing
 $project = Split-Path $PSScriptRoot -Parent
 Write-Host "Output dir: $project"
 
+# Unicode code points avoid UTF-8/ANSI encoding issues in PS 5.1
+# Note: [char]+[char] does integer addition in PS; cast to string first
+$CH_MAIN  = [string][char]0x6625 + [string][char]0x58F0  # 春声
+$CH_SMALL = [string][char]0x6625                          # 春
+
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 function New-G($bmp) {
@@ -29,18 +34,24 @@ function Center-SF {
 
 # ── Icon renderer ─────────────────────────────────────────────────────────────
 #
+# Colors match site light-mode CSS variables:
+#   BG  = --bg:   #F4F1EB
+#   FG  = --text: #1A1714
+#
 # Layout (fractions of safe-area height h):
-#   14.5%  ornament diamond center
-#   26%    top of "春声" text rect
-#   67.5%  divider line
-#   70%    top of "Stage Hop" rect
+#   12%   ornament diamond center
+#   20%   top of "春声" text rect     | font = h*0.32 pt (~38% visible height)
+#   63%   divider line
+#   67%   top of "Stage Hop" rect     | font = h*0.13 pt (~15% visible height)
+#
+# Fonts: SimSun Bold (Chinese) + Palatino Linotype Italic (English subtitle)
 
 function Draw-Icon([int]$S, [bool]$Maskable = $false) {
     $bmp = New-Object System.Drawing.Bitmap($S, $S)
     $g   = New-G $bmp
 
-    $BG   = [System.Drawing.ColorTranslator]::FromHtml("#F5F0E6")
-    $FG   = [System.Drawing.ColorTranslator]::FromHtml("#2A2520")
+    $BG   = [System.Drawing.ColorTranslator]::FromHtml("#F4F1EB")
+    $FG   = [System.Drawing.ColorTranslator]::FromHtml("#1A1714")
     $bgBr = New-Object System.Drawing.SolidBrush($BG)
     $fgBr = New-Object System.Drawing.SolidBrush($FG)
 
@@ -53,10 +64,10 @@ function Draw-Icon([int]$S, [bool]$Maskable = $false) {
     if ($S -ge 48) {
         $sf = Center-SF
 
-        # ── Ornament diamond ───────────────────────────────────────────────
-        $ornCY = [float]($pad + $h * 0.145)
+        # ── Ornament diamond (center at 12%) ───────────────────────────────
+        $ornCY = [float]($pad + $h * 0.12)
         $ornCX = [float]($S / 2)
-        $ornR  = [float]($h * 0.03)
+        $ornR  = [float]($h * 0.028)
 
         if ($ornR -ge 2) {
             $pts = [System.Drawing.PointF[]] @(
@@ -68,45 +79,45 @@ function Draw-Icon([int]$S, [bool]$Maskable = $false) {
             $g.FillPolygon($fgBr, $pts)
         }
 
-        # ── "春声" ─────────────────────────────────────────────────────────
-        $chFS   = [float]($h * 0.285)
-        $chFont = New-Object System.Drawing.Font("SimSun", $chFS, [System.Drawing.FontStyle]::Bold)
+        # All fonts use GraphicsUnit.Pixel so sizes are DPI-independent
+        $GUP = [System.Drawing.GraphicsUnit]::Pixel
 
-        $chRectTop = [float]($pad + $h * 0.26)
-        $chRect    = New-Object System.Drawing.RectangleF(0, $chRectTop, [float]$S, [float]($h * 0.41))
-        $g.DrawString("春声", $chFont, $fgBr, $chRect, $sf)
+        # ── "春声" (top at 20%, em = h*0.32 px) ───────────────────────────
+        $chFS      = [float]($h * 0.32)
+        $chFont    = New-Object System.Drawing.Font("SimSun", $chFS, [System.Drawing.FontStyle]::Bold, $GUP)
+        $chRectTop = [float]($pad + $h * 0.20)
+        $chRect    = New-Object System.Drawing.RectangleF(0, $chRectTop, [float]$S, [float]($h * 0.44))
+        $g.DrawString($CH_MAIN, $chFont, $fgBr, $chRect, $sf)
 
-        # ── Divider line ───────────────────────────────────────────────────
-        $lineY  = [float]($pad + $h * 0.675)
-        # SimSun glyph width ≈ 1.33× point size (96-DPI px per pt)
-        $pxPerPt = [float](96.0 / 72.0)
-        $estW   = [float]($chFS * $pxPerPt * 2)   # 2 chars
-        $lineW  = [float]($estW * 0.78)
+        # ── Divider line (at 63%) ──────────────────────────────────────────
+        $lineY  = [float]($pad + $h * 0.63)
+        $estW   = [float]($chFS * 2)   # SimSun glyphs ≈ square; 2 chars
+        $lineW  = [float]($estW * 0.70)
         $lineX1 = [float](($S - $lineW) / 2)
         $lineX2 = [float](($S + $lineW) / 2)
-        $penW   = [float]([Math]::Max(1.0, $h * 0.007))
+        $penW   = [float]([Math]::Max(1.0, $h * 0.006))
         $pen    = New-Object System.Drawing.Pen($FG, $penW)
         $g.DrawLine($pen, $lineX1, $lineY, $lineX2, $lineY)
         $pen.Dispose()
 
-        # ── "Stage Hop" ────────────────────────────────────────────────────
-        $subFS   = [float]($h * 0.058)
-        $subFont = New-Object System.Drawing.Font("Georgia", $subFS, [System.Drawing.FontStyle]::Italic)
+        # ── "Stage Hop" (top at 67%, em = h*0.13 px) ──────────────────────
+        $subFS   = [float]($h * 0.13)
+        $subFont = New-Object System.Drawing.Font("Palatino Linotype", $subFS, [System.Drawing.FontStyle]::Italic, $GUP)
         $subTop  = [float]($lineY + $h * 0.025)
-        $subRect = New-Object System.Drawing.RectangleF(0, $subTop, [float]$S, [float]($h * 0.12))
+        $subRect = New-Object System.Drawing.RectangleF(0, $subTop, [float]$S, [float]($h * 0.20))
         $g.DrawString("Stage Hop", $subFont, $fgBr, $subRect, $sf)
 
         $chFont.Dispose(); $subFont.Dispose(); $sf.Dispose()
 
     } elseif ($S -ge 16) {
-        # Small sizes: just "春" centered
+        # Small sizes: "春" centered
         $sf2 = New-Object System.Drawing.StringFormat
         $sf2.Alignment     = [System.Drawing.StringAlignment]::Center
         $sf2.LineAlignment = [System.Drawing.StringAlignment]::Center
-        $chFS   = [float]($S * 0.52)
-        $chFont = New-Object System.Drawing.Font("SimSun", $chFS, [System.Drawing.FontStyle]::Bold)
+        $chFS   = [float]($S * 0.55)
+        $chFont = New-Object System.Drawing.Font("SimSun", $chFS, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
         $r = New-Object System.Drawing.RectangleF(0, 0, [float]$S, [float]$S)
-        $g.DrawString("春", $chFont, $fgBr, $r, $sf2)
+        $g.DrawString($CH_SMALL, $chFont, $fgBr, $r, $sf2)
         $chFont.Dispose(); $sf2.Dispose()
     }
 
