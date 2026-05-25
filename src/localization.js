@@ -128,7 +128,7 @@ var LANGS={
   }
 };
 
-var curLang=localStorage.getItem("ps26_lang")||"zh";
+var curLang=localStorage.getItem("ps26_lang")||"en";
 function t(k){return LANGS[curLang][k]||LANGS.zh[k]||k;}
 function setLang(l){
   curLang=l;localStorage.setItem("ps26_lang",l);

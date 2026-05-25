@@ -350,7 +350,9 @@ function renderMap(){
       el.style.left=l+"%";el.style.top=top+"%";
       el.style.width=sw+"%";el.style.height=sh+"%";
       el.style.background=hasShows?si.color+"22":"rgba(0,0,0,0)";
-      el.style.border=(hasShows?"2px":"1px")+" solid "+(hasShows?si.color+(hasLive?"ff":"77"):"rgba(255,255,255,0.1)");
+      var bv=(hasShows?"2px":"1px")+" solid "+(hasShows?si.color+(hasLive?"ff":"77"):"rgba(255,255,255,0.1)");
+      el.style.border=bv;
+      el.dataset.border=bv;
       if(hasLive){el.style.setProperty("--gc",si.color);el.style.animation="hsglow 2s ease-in-out infinite";}
       var lbl=document.createElement("div");
       lbl.className="hs-label";
@@ -375,22 +377,24 @@ function openStagePop(stage){
   var si=ST[stage];
   var shows=day.shows.filter(function(s){return s.stage===stage;}).sort(function(a,b){return toMins(a.time)-toMins(b.time);});
   var isToday=getDay()&&getDay().key===curDay;
-  _selStage=stage;
-  document.querySelectorAll(".hs").forEach(function(el){
+  // Reset only the previously selected hotspot; leave all others untouched
+  document.querySelectorAll(".hs.selected").forEach(function(el){
     el.classList.remove("selected");
-    el.style.animation="";
     el.style.boxShadow="";
-    if(el.dataset.stage===stage){
-      el.classList.add("selected");
-      // Direct box-shadow with stage color for guaranteed glow effect
-      el.style.boxShadow="0 0 14px 4px "+si.color+"aa, 0 0 28px 8px "+si.color+"55";
-      el.style.borderColor=si.color;
-      el.style.borderWidth="2px";
-    } else {
-      el.style.borderColor="";
-      el.style.borderWidth="";
-    }
+    el.style.border=el.dataset.border||"";
+    var sn=el.dataset.stage;
+    if(day.shows.some(function(s){return s.stage===sn&&isLive(s);}))
+      el.style.animation="hsglow 2s ease-in-out infinite";
   });
+  _selStage=stage;
+  var newEl=document.querySelector('.hs[data-stage="'+stage+'"]');
+  if(newEl){
+    newEl.classList.add("selected");
+    newEl.style.animation="";
+    newEl.style.boxShadow="0 0 14px 4px "+si.color+"aa, 0 0 28px 8px "+si.color+"55";
+    newEl.style.borderColor=si.color;
+    newEl.style.borderWidth="2px";
+  }
   dimOthers(stage);
   var pop=document.getElementById("stagepop");
   pop.style.display="block";pop.classList.remove("visible");
@@ -421,8 +425,7 @@ function closePop(){
   document.querySelectorAll(".hs").forEach(function(el){
     el.classList.remove("selected");
     el.style.boxShadow="";
-    el.style.borderColor="";
-    el.style.borderWidth="";
+    el.style.border=el.dataset.border||"";
     // re-apply live glow if needed
     var stageName=el.dataset.stage;
     var day=DAYS.find(function(d){return d.key===curDay;});
