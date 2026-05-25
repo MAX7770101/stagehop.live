@@ -34,10 +34,10 @@ function Center-SF {
 
 # ── Icon renderer ─────────────────────────────────────────────────────────────
 #
-# Colors match site dark-mode CSS variables:
-#   BG   = --bg:   #0E1017
-#   FG   = --text: #E8E0CC
-#   GOLD = --gold: #F5C842  (used for subtitle)
+# Colors match site light-mode CSS variables:
+#   BG   = --bg:   #F4F1EB
+#   FG   = --text: #1A1714
+#   GOLD = --gold: #8A6800  (used for subtitle)
 #
 # Layout (fractions of safe-area height h):
 #   12%   ornament diamond center
@@ -51,9 +51,9 @@ function Draw-Icon([int]$S, [bool]$Maskable = $false) {
     $bmp = New-Object System.Drawing.Bitmap($S, $S)
     $g   = New-G $bmp
 
-    $BG     = [System.Drawing.ColorTranslator]::FromHtml("#0E1017")
-    $FG     = [System.Drawing.ColorTranslator]::FromHtml("#E8E0CC")
-    $GOLD   = [System.Drawing.ColorTranslator]::FromHtml("#F5C842")
+    $BG     = [System.Drawing.ColorTranslator]::FromHtml("#F4F1EB")
+    $FG     = [System.Drawing.ColorTranslator]::FromHtml("#1A1714")
+    $GOLD   = [System.Drawing.ColorTranslator]::FromHtml("#8A6800")
     $bgBr   = New-Object System.Drawing.SolidBrush($BG)
     $fgBr   = New-Object System.Drawing.SolidBrush($FG)
     $goldBr = New-Object System.Drawing.SolidBrush($GOLD)
