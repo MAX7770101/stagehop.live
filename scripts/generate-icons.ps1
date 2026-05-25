@@ -166,36 +166,36 @@ function Build-Ico([string[]]$pngPaths, [string]$outPath) {
 
 Write-Host "Drawing 512x512..."
 $b512 = Draw-Icon -S 512
-$b512.Save("$project\icon-512.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$b512.Save("$project\assets\icon-512.png", [System.Drawing.Imaging.ImageFormat]::Png)
 
 Write-Host "Drawing maskable 512x512..."
 $bMask = Draw-Icon -S 512 -Maskable $true
-$bMask.Save("$project\icon-maskable-512.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$bMask.Save("$project\assets\icon-maskable-512.png", [System.Drawing.Imaging.ImageFormat]::Png)
 
 foreach ($sz in @(192, 180)) {
     Write-Host "Downscaling to ${sz}x${sz}..."
     $b    = Resize-Bmp $b512 $sz
     $name = if ($sz -eq 180) { "apple-touch-icon" } else { "icon-$sz" }
-    $b.Save("$project\$name.png", [System.Drawing.Imaging.ImageFormat]::Png)
+    $b.Save("$project\assets\$name.png", [System.Drawing.Imaging.ImageFormat]::Png)
     $b.Dispose()
 }
 
 Write-Host "Drawing 48x48..."
 $b48 = Draw-Icon -S 48
-$b48.Save("$project\favicon-48x48.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$b48.Save("$project\assets\favicon-48x48.png", [System.Drawing.Imaging.ImageFormat]::Png)
 
 Write-Host "Drawing 32x32..."
 $b32 = Draw-Icon -S 32
-$b32.Save("$project\favicon-32x32.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$b32.Save("$project\assets\favicon-32x32.png", [System.Drawing.Imaging.ImageFormat]::Png)
 
 Write-Host "Drawing 16x16..."
 $b16 = Draw-Icon -S 16
-$b16.Save("$project\favicon-16x16.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$b16.Save("$project\assets\favicon-16x16.png", [System.Drawing.Imaging.ImageFormat]::Png)
 
 Write-Host "Building favicon.ico (16+32+48)..."
 Build-Ico `
-    -pngPaths @("$project\favicon-16x16.png", "$project\favicon-32x32.png", "$project\favicon-48x48.png") `
-    -outPath "$project\favicon.ico"
+    -pngPaths @("$project\assets\favicon-16x16.png", "$project\assets\favicon-32x32.png", "$project\assets\favicon-48x48.png") `
+    -outPath "$project\assets\favicon.ico"
 
 $b512.Dispose(); $bMask.Dispose(); $b48.Dispose(); $b32.Dispose(); $b16.Dispose()
 
