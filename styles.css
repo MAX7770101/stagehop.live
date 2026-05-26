@@ -1225,6 +1225,16 @@ body {
     margin-bottom: 10px
 }
 
+.privacy-note {
+    font-size: 9px;
+    color: var(--dim);
+    margin-top: 12px;
+    line-height: 1.5;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto
+}
+
 .ig-link {
     display: inline-flex;
     align-items: center;
