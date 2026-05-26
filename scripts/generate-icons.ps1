@@ -199,5 +199,61 @@ Build-Ico `
 
 $b512.Dispose(); $bMask.Dispose(); $b48.Dispose(); $b32.Dispose(); $b16.Dispose()
 
+# ── OG image (1200x630) ───────────────────────────────────────────────────────
+Write-Host "Drawing og-image 1200x630..."
+
+$OW = 1200; $OH = 630
+$ogBmp = New-Object System.Drawing.Bitmap($OW, $OH)
+$og    = New-G $ogBmp
+
+$ogBG       = [System.Drawing.ColorTranslator]::FromHtml("#F4F1EB")
+$ogDEEPGOLD = [System.Drawing.ColorTranslator]::FromHtml("#6E5000")
+$ogGOLD     = [System.Drawing.ColorTranslator]::FromHtml("#8A6800")
+$ogBgBr     = New-Object System.Drawing.SolidBrush($ogBG)
+$ogFgBr     = New-Object System.Drawing.SolidBrush($ogDEEPGOLD)
+$ogGoldBr   = New-Object System.Drawing.SolidBrush($ogGOLD)
+
+$og.FillRectangle($ogBgBr, 0, 0, $OW, $OH)
+
+$GUP = [System.Drawing.GraphicsUnit]::Pixel
+$sfC = Center-SF
+
+# Diamond ornament (center at 95)
+$ornCX = [float]600; $ornCY = [float]95; $ornR = [float]16
+$pts = [System.Drawing.PointF[]] @(
+    [System.Drawing.PointF]::new($ornCX,                ($ornCY - $ornR)),
+    [System.Drawing.PointF]::new(($ornCX + $ornR*0.55), $ornCY),
+    [System.Drawing.PointF]::new($ornCX,                ($ornCY + $ornR)),
+    [System.Drawing.PointF]::new(($ornCX - $ornR*0.55), $ornCY)
+)
+$og.FillPolygon($ogFgBr, $pts)
+
+# 春日之声
+$CH_ZH   = [string][char]0x6625 + [string][char]0x65E5 + [string][char]0x4E4B + [string][char]0x58F0
+$chFont  = New-Object System.Drawing.Font("SimSun", [float]130, [System.Drawing.FontStyle]::Bold, $GUP)
+$og.DrawString($CH_ZH, $chFont, $ogFgBr,
+    (New-Object System.Drawing.RectangleF([float]80, [float]128, [float]1040, [float]180)), $sfC)
+
+# Stage Hop
+$shFont = New-Object System.Drawing.Font("Palatino Linotype", [float]64, [System.Drawing.FontStyle]::Italic, $GUP)
+$og.DrawString("Stage Hop", $shFont, $ogFgBr,
+    (New-Object System.Drawing.RectangleF([float]80, [float]308, [float]1040, [float]90)), $sfC)
+
+# Divider line
+$lineY = [float]423; $lineW = [float]260
+$pen   = New-Object System.Drawing.Pen($ogDEEPGOLD, [float]1.5)
+$og.DrawLine($pen, [float](600 - $lineW/2), $lineY, [float](600 + $lineW/2), $lineY)
+$pen.Dispose()
+
+# Subtitle
+$subFont = New-Object System.Drawing.Font("Palatino Linotype", [float]30, [System.Drawing.FontStyle]::Italic, $GUP)
+$og.DrawString("Unofficial Primavera Sound 2026 Fan Guide", $subFont, $ogGoldBr,
+    (New-Object System.Drawing.RectangleF([float]80, [float]440, [float]1040, [float]55)), $sfC)
+
+$og.Dispose(); $ogBgBr.Dispose(); $ogFgBr.Dispose(); $ogGoldBr.Dispose()
+$chFont.Dispose(); $shFont.Dispose(); $subFont.Dispose(); $sfC.Dispose()
+$ogBmp.Save("$project\assets\og-image.png", [System.Drawing.Imaging.ImageFormat]::Png)
+$ogBmp.Dispose()
+
 Write-Host ""
 Write-Host "Done. Files in: $project"
