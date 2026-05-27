@@ -15,7 +15,10 @@
     --muted: #5A6070;
     --dim: #353B4A;
     --gold: #F5C842;
-    --live: var(--gold)
+    --live: var(--gold);
+    --hdr-h: 96px;
+    --np-h: 0px;
+    --brand-h: 60px
 }
 
 html.light-mode,
@@ -580,7 +583,8 @@ body {
 
 #slist {
     padding-bottom: 80px;
-    background: var(--bg)
+    background: var(--bg);
+    min-height: 60vh
 }
 
 .si {
