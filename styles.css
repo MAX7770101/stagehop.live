@@ -116,7 +116,7 @@ body {
 
 .title-en {
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 13px;
     letter-spacing: .06em;
     color: var(--muted);
