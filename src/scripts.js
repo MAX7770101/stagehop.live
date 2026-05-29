@@ -12,7 +12,7 @@ function vaTrack(name,data){try{if(typeof window.va==='function')window.va('even
 // ── FAVORITES ──
 var favs=new Set(JSON.parse(localStorage.getItem("ps26_favs")||"[]"));
 function saveFavs(){localStorage.setItem("ps26_favs",JSON.stringify([...favs]));}
-function toggleFav(a){if(favs.has(a)){favs.delete(a);}else{favs.add(a);vaTrack('favorite_artist');}saveFavs();render();renderFavBar();updateNowPlaying();}
+function toggleFav(a){if(favs.has(a)){favs.delete(a);}else{favs.add(a);vaTrack('favorite_artist');}saveFavs();render();renderFavBar();updateNowPlaying();if(curView==="map"&&_selStage)openStagePop(_selStage);}
 function toggleFavBar(){document.getElementById("fav-bar").classList.toggle("on");renderFavBar();}
 function renderFavBar(){
   var list=document.getElementById("fav-list");
