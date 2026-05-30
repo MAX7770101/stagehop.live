@@ -1,5 +1,3 @@
-var _MOON_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-var _SUN_SVG='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
 // ── UTILS ──
 function toMins(t){var p=t.split(":");return parseInt(p[0])<8?parseInt(p[0])*60+parseInt(p[1])+1440:parseInt(p[0])*60+parseInt(p[1]);}
 function getNow(){var n=new Date(),h=n.getHours(),m=n.getMinutes();return h*60+m+(h<8?1440:0);}
@@ -12,16 +10,48 @@ function vaTrack(name,data){try{if(typeof window.va==='function')window.va('even
 // ── FAVORITES ──
 var favs=new Set(JSON.parse(localStorage.getItem("ps26_favs")||"[]"));
 function saveFavs(){localStorage.setItem("ps26_favs",JSON.stringify([...favs]));}
-function toggleFav(a){if(favs.has(a)){favs.delete(a);}else{favs.add(a);vaTrack('favorite_artist');}saveFavs();render();renderFavBar();updateNowPlaying();if(curView==="map"&&_selStage)openStagePop(_selStage);}
-function toggleFavBar(){document.getElementById("fav-bar").classList.toggle("on");renderFavBar();}
-function renderFavBar(){
-  var list=document.getElementById("fav-list");
-  document.getElementById("lbl-favs").textContent=t("favs");
-  if(!favs.size){list.innerHTML='<div class="fav-empty">'+t("noFavs")+'</div>';return;}
-  list.innerHTML=[...favs].sort().map(function(a){
-    return '<div class="fav-chip">'+a+'<span class="rm" onclick="toggleFav(\''+a.replace(/'/g,"\\'")+'\')">\u00d7</span></div>';
-  }).join("");
+
+// Heart pop state: tracks which artists have the animation active across re-renders
+var _heartPop=new Set();
+
+function toggleFavAnim(a,btn){
+  var wasOff=!favs.has(a);
+  if(wasOff)_heartPop.add(a);
+  toggleFav(a);
+  if(wasOff){setTimeout(function(){_heartPop.delete(a);},460);}
 }
+
+function toggleFav(a){
+  if(favs.has(a)){favs.delete(a);}else{favs.add(a);vaTrack('favorite_artist');}
+  saveFavs();render();updateFavHead();updateNowPlaying();
+  if(curView==="map"&&_selStage)openStagePop(_selStage);
+}
+
+// Update favorites count badge in tab bar and favorites screen subtitle
+function updateFavHead(){
+  var cnt=favs.size;
+  // tab badge
+  var ic=document.getElementById("fav-tab-ic");
+  if(ic){
+    var badge=ic.querySelector(".tab-badge");
+    if(cnt>0){
+      if(!badge){badge=document.createElement("span");badge.className="tab-badge";ic.appendChild(badge);}
+      badge.textContent=cnt;
+    }else{
+      if(badge)badge.remove();
+    }
+  }
+  // favorites screen subtitle
+  var el=document.getElementById("lbl-fav-count");
+  if(el)el.textContent=cnt+" SAVED ♥";
+  // screen title
+  var titleEl=document.getElementById("lbl-fav-title");
+  if(titleEl)titleEl.textContent=t("navFavs")||"我的收藏";
+}
+
+// renderFavBar kept as stub for backward compat (called from localization setLang)
+function renderFavBar(){updateFavHead();}
+function toggleFavBar(){/* replaced by tab-based favorites view */}
 
 // ── CONFLICT DETECTION ──
 function getConflicts(shows){
@@ -37,6 +67,7 @@ function getConflicts(shows){
 var _npExpanded=false,_npToShow=[];
 function updateNowPlaying(){
   var today=getDay(),np=document.getElementById("now-playing");
+  if(!np)return;
   if(!today||!favs.size){np.style.display="none";refreshMapGlow();return;}
   var nowM=getNow();
   var upFavs=today.shows
@@ -51,7 +82,6 @@ function updateNowPlaying(){
   if(changed)_npExpanded=false;
   _npToShow=newToShow;
   np.style.display="block";
-  document.getElementById("np-header").textContent=t("next");
   renderNpRows();
   refreshMapGlow();
 }
@@ -68,10 +98,8 @@ function renderNpRows(){
     var mins=toMins(group[0].time)-nowM;
     var isNow=mins<=0;
     var ct=isNow?"NOW":mins<60?mins+"m":Math.floor(mins/60)+"h"+(mins%60<10?"0":"")+mins%60;
-    var tc=isNow?"var(--gold)":mins<=5?"#FF4040":mins<=15?"#FF8C00":mins<=30?"var(--gold)":"var(--muted)";
-    var n=group.length;
-    var fs=n===1?14:n===2?20:n===3?26:30;
-    var fw=n>1?600:500;
+    var tc=isNow?"var(--accent-text)":mins<=5?"var(--accent-text)":mins<=30?"var(--accent-text)":"var(--dim)";
+    var fw=mins<=15?700:400;
     return '<div class="np-group">'+
       '<div class="np-group-artists">'+
       group.map(function(s){
@@ -82,7 +110,7 @@ function renderNpRows(){
           '</div>';
       }).join("")+
       '</div>'+
-      '<div class="np-time" style="font-size:'+fs+'px;font-weight:'+fw+';color:'+tc+'">'+ct+'</div>'+
+      '<div class="np-time" style="font-size:14px;font-weight:'+fw+';color:'+tc+'">'+ct+'</div>'+
       '</div>';
   }).join("");
   var more=document.getElementById("np-more");
@@ -136,7 +164,7 @@ function _wxInfo(code,lang){
 function _wxRowHtml(data){
   return '<div class="weather-row">'+data.map(function(w){
     var info=_wxInfo(w.code,curLang);
-    return '<div class="weather-day"><div class="wd-date">'+(_wxDateLabel[w.date]||w.date.slice(5))+'</div><div class="wd-icon">'+info.icon+'</div><div class="wd-temp">'+w.max+'°C</div><div class="wd-desc">'+info.desc+'</div></div>';
+    return '<div class="weather-day"><div class="wd-date">'+(_wxDateLabel[w.date]||w.date.slice(5))+'</div><div class="wd-icon">'+info.icon+'</div><div class="wd-temp">'+w.max+'°</div><div class="wd-desc">'+info.desc+'</div></div>';
   }).join("")+'</div>';
 }
 function fetchWeather(cb){
@@ -157,35 +185,174 @@ function fetchWeather(cb){
 }
 
 // ── STATE ──
-var curDay="thu",curView="schedule",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
+var curDay="thu",curView="home",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
+var curTab=parseInt(localStorage.getItem("sh.tab")||"0");
+var TAB_VIEWS=["home","schedule","map","my","info"];
+
+// ── HOME SCREEN ──
+function renderHome(){
+  var body=document.getElementById("home-body");
+  if(!body)return;
+  var festStart=new Date("2026-06-03T00:00:00");
+  var today=new Date();today.setHours(0,0,0,0);
+  var days=Math.ceil((festStart-today)/86400000);
+  var daysStr=days>0?(days<10?"0"+days:String(days)):"0";
+  var daysUnit=curLang==="zh"?" 天":curLang==="es"?" días":curLang==="ca"?" dies":" days";
+  var isDark=document.body.getAttribute("data-theme")==="dark";
+  var toggleIcon=isDark?"☾":"☀";
+  var toggleLbl=isDark
+    ?(curLang==="zh"?"暗色":curLang==="es"?"Oscuro":curLang==="ca"?"Fosc":"Dark")
+    :(curLang==="zh"?"浅色":curLang==="es"?"Claro":curLang==="ca"?"Clar":"Light");
+  var festDateRange=curLang==="zh"?"6月 3—7 日":curLang==="es"?"3—7 JUN":curLang==="ca"?"3—7 JUN":"JUN 3—7";
+  var festDuration=curLang==="zh"?"5 天":curLang==="es"?"5 días":curLang==="ca"?"5 dies":"5 days";
+  var navItemsData=[
+    [curLang==="zh"?"排班 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
+     curLang==="zh"?"5天 · 11舞台 · 撞车检测":curLang==="es"?"5 días · 11 escenarios · solapamientos":curLang==="ca"?"5 dies · 11 escenaris · solapaments":"5 days · 11 stages · clash detection",1],
+    [curLang==="zh"?"场地地图":curLang==="es"?"Mapa del recinto":curLang==="ca"?"Mapa del recinte":"Venue map",
+     curLang==="zh"?"场地热图 · 舞台位置":curLang==="es"?"Plano del recinto y escenarios":curLang==="ca"?"Plànol del recinte i escenaris":"Stage locations & venue",2],
+    [curLang==="zh"?"我的收藏":curLang==="es"?"Mis favoritos":curLang==="ca"?"Els meus favorits":"My Favorites",
+     curLang==="zh"?"收藏艺人 · 查看我的行程":curLang==="es"?"Artistas guardados · tu agenda personal":curLang==="ca"?"Artistes desats · la teva agenda":"Saved artists & your itinerary",3],
+    [curLang==="zh"?"实用信息":curLang==="es"?"Info práctica":curLang==="ca"?"Info pràctica":"Practical info",
+     curLang==="zh"?"交通 · 禁带 · 实用贴士":curLang==="es"?"Transporte, normas y consejos":curLang==="ca"?"Transport, normes i consells":"Know before you go",4]
+  ];
+  var langs=[["中","zh"],["ES","es"],["CA","ca"],["EN","en"]];
+  body.innerHTML=
+    '<div class="home-top">'+
+      '<div class="home-brand-label mono">春日之声 · Unofficial</div>'+
+      '<span class="home-lang-row">'+
+      langs.map(function(l,i){
+        var isOn=curLang===l[1];
+        return (i?'<span class="home-lang-sep">·</span>':'')+
+          '<button class="home-lang-btn'+(isOn?" on":"")+'" onclick="setLang(\''+l[1]+'\')">'+l[0]+'</button>';
+      }).join("")+
+      '</span>'+
+    '</div>'+
+    '<div class="home-wordmark syne">stage<br>hop<span class="dot" style="width:12px;height:12px;vertical-align:middle;margin-left:2px;display:inline-block"></span></div>'+
+    '<div class="home-ps-title syne">PRIMAVERA SOUND 2026</div>'+
+    '<div class="home-location mono">Barcelona · Parc del Fòrum</div>'+
+    '<div class="countdown-card">'+
+      '<div>'+
+        '<div class="countdown-label mono">COUNTDOWN</div>'+
+        '<div class="countdown-days syne">'+daysStr+'<span class="countdown-days-unit dim">'+daysUnit+'</span></div>'+
+      '</div>'+
+      '<div class="countdown-dates mono">'+festDateRange+'<br>'+festDuration+'</div>'+
+    '</div>'+
+    '<div class="home-nav">'+
+    navItemsData.map(function(item,i){
+      return '<div class="home-nav-item" onclick="setTab('+item[2]+')">'+
+        '<div>'+
+          '<div class="home-nav-title">'+item[0]+'</div>'+
+          '<div class="home-nav-sub mono">'+item[1]+'</div>'+
+        '</div>'+
+        '<span class="home-nav-arrow dim">›</span>'+
+      '</div>';
+    }).join("")+
+    '</div>'+
+    '<div class="home-spacer"></div>'+
+    '<div class="home-footer">'+
+      '<button class="theme-toggle" onclick="toggleTheme(event)">'+
+        '<span class="theme-toggle-icon">'+toggleIcon+'</span>'+
+        '<span class="theme-toggle-lbl">'+toggleLbl+'</span>'+
+      '</button>'+
+    '</div>';
+}
+
+// ── TAB NAVIGATION ──
+function setTab(n){
+  if(n<0||n>4)n=0;
+  curTab=n;
+  localStorage.setItem("sh.tab",n);
+  var v=TAB_VIEWS[n];
+  // hide all views
+  ["vhome","vschedule","vmap","vmy","vinfo"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el)return;
+    el.classList.remove("on","screen-anim");
+  });
+  // show target with entrance animation
+  var target=document.getElementById("v"+v);
+  if(target){
+    void target.offsetWidth; // force reflow
+    target.classList.add("on","screen-anim");
+  }
+  // update tab buttons
+  document.querySelectorAll(".tab-btn").forEach(function(btn,i){
+    btn.classList.toggle("on",i===n);
+  });
+  // slide indicator dot
+  var ind=document.getElementById("tab-ind");
+  if(ind)ind.style.left="calc("+n+" * 20% + 10%)";
+  // sync curView for compat
+  curView=v;
+  curStage=null;
+  vaTrack("view_tab",{tab:n,view:v});
+  // render view
+  if(v==="home")renderHome();
+  else if(v==="schedule"){renderDayTabs();renderSchedule();}
+  else if(v==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(v==="my"){renderMyLineup();updateFavHead();}
+  else if(v==="info")renderInfo();
+}
+
+// Legacy setView kept for internal callers (setDay, render, etc.)
+function setView(v){
+  var idx=TAB_VIEWS.indexOf(v);
+  if(idx<0){
+    // Map old view names to tab indices
+    if(v==="schedule")idx=1;
+    else if(v==="map")idx=2;
+    else if(v==="my")idx=3;
+    else if(v==="info")idx=4;
+    else idx=0;
+  }
+  // Only update curView and re-render, don't animate (setView is for internal calls)
+  curView=v;
+  if(v==="schedule")renderSchedule();
+  else if(v==="my")renderMyLineup();
+  else if(v==="info")renderInfo();
+  else if(v==="map"){renderMap();setTimeout(initMapGestures,200);}
+}
 
 // ── RENDER ──
 function renderDayTabs(){
-  document.getElementById("dtabs").innerHTML=DAYS.map(function(d){
+  var dtabs=document.getElementById("dtabs");
+  if(!dtabs)return;
+  dtabs.innerHTML=DAYS.map(function(d){
     var on=d.key===curDay;
-    return '<button class="dtab'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')" style="'+(on?"border-bottom-color:"+d.bc:"")+'"><div class="dl">'+d.label+'</div><div class="ds" style="color:'+(on?d.bc:"#333")+'">'+t(d.sub)+'</div></button>';
+    // Show short day label for capsule style
+    var shortLabel=d.label.split(" ")[0]; // "Thu", "Fri", etc.
+    return '<button class="dtab'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')">' +
+      '<div class="dl">'+shortLabel+'</div>'+
+    '</button>';
   }).join("");
 }
 
 function renderSchedule(){
   var day=DAYS.find(function(d){return d.key===curDay;});
+  // Update schedule screen subtitle
+  var subEl=document.getElementById("sched-sub");
+  if(subEl)subEl.textContent=day.label+" · "+day.shows.length+" ACTS";
+
   var stages=[...new Set(day.shows.map(function(s){return s.stage;}))];
   var shows=curStage?day.shows.filter(function(s){return s.stage===curStage;}):day.shows;
   if(curFavFilter)shows=shows.filter(function(s){return favs.has(s.artist);});
   var sorted=[...shows].sort(function(a,b){return curSort==="az"?a.artist.localeCompare(b.artist):toMins(a.time)-toMins(b.time);});
   var isToday=getDay()&&getDay().key===curDay;
   var conflicts=getConflicts(day.shows);
+
+  // Filter bar
+  var allLbl=curLang==="zh"?"全部":curLang==="es"?"Todo":curLang==="ca"?"Tot":"All";
   document.getElementById("fbar").innerHTML=
-    '<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)" data-i="byTime"></button>'+
+    '<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)">'+allLbl+'</button>'+
     stages.map(function(s){var si=ST[s];if(!si)return"";var on=curStage===s;
-      return '<button class="sfb" onclick="setStage(\''+s.replace(/'/g,"\\'")+'\')" style="background:'+(on?si.color:"var(--bg3)")+';color:'+(on?"#000":si.color)+';border-color:'+si.color+(on?"cc":"55")+'">'+si.e+" "+si.s+'</button>';
+      return '<button class="sfb" onclick="setStage(\''+s.replace(/'/g,"\\'")+'\')" style="background:'+(on?si.color:"var(--surface)")+';color:'+(on?"#000":si.color)+';border-color:'+si.color+(on?"cc":"55")+'">'+si.e+" "+si.s+'</button>';
     }).join("")+'</div>';
-  var allBtn=document.querySelector('#fbar .sfb.all');if(allBtn)allBtn.textContent=curLang==="zh"?"全部":(curLang==="es"?"Todo":"All");
+
   document.getElementById("srt-time").classList.toggle("on",curSort==="time");
   document.getElementById("srt-az").classList.toggle("on",curSort==="az");
   document.getElementById("srt-fav").classList.toggle("on",curFavFilter);
 
-  // Split past / upcoming when viewing the current day
+  // Split past / upcoming
   var pastShows=[],upcomingShows=sorted;
   if(isToday){
     var nowM=getNow();
@@ -195,24 +362,27 @@ function renderSchedule(){
 
   var cardHtml=function(show,isPast){
     var si=ST[show.stage]||{color:"#888",e:"🎵",s:"?"};
-    var m=toMins(show.time),late=m>=1440,vl=m>=1620;
-    var live=isToday&&!isPast&&isLive(show),faved=favs.has(show.artist),conflict=conflicts.has(show.artist);
-    var tc=isPast?"var(--muted)":vl?"var(--dim)":late?"var(--muted)":"var(--text)";
-    var hasBar=!isPast&&(show.hl||live);
-    return '<div class="si'+(live?" current-set":"")+(faved?" faved":"")+(isPast?" past":"")+'" style="background:'+(live?"var(--current-set)":"var(--bg)")+'">'+
-      (hasBar?'<div class="hlbar'+(live?" live":"")+'" style="background:'+si.color+'"></div>':"")+
-      '<div class="stime" style="padding-left:'+(hasBar?"5px":"0")+'">'+
-        '<div class="tstart" style="color:'+(isPast?"var(--muted)":live?si.color:tc)+'">'+show.time+'</div>'+
-        '<div class="tend">–'+show.end+'</div>'+
-        (live?'<div class="scur">'+t("live")+'</div>':(!isPast&&vl)?'<div class="tlate">AM</div>':"")+
+    var live=isToday&&!isPast&&isLive(show);
+    var faved=favs.has(show.artist);
+    var conflict=conflicts.has(show.artist)&&faved;
+    var pop=_heartPop.has(show.artist);
+    var timeColor=conflict||live?"var(--accent-text)":"var(--text)";
+    var cardBorder=live?"border-color:var(--accent-soft);box-shadow:inset 3px 0 0 "+si.color
+      :conflict?"border-color:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)":"";
+    return '<div class="si'+(live?" current-set":"")+(faved?" faved":"")+(isPast?" past":"")+'" style="'+cardBorder+'" >'+
+      '<div class="stime">'+
+        '<div class="tstart mono" style="color:'+(isPast?"var(--dim)":timeColor)+'">'+show.time+'</div>'+
+        '<div class="tend">'+show.end+'</div>'+
+        (live?'<div class="scur mono">LIVE</div>':"")+
       '</div>'+
-      '<div class="spill" style="background:'+si.color+(isPast?"0d":"18")+';border-color:'+si.color+(isPast?"22":"44")+';color:'+(isPast?"var(--muted)":si.color)+'">'+si.e+" "+si.s+'</div>'+
       '<div class="sartist">'+
-        '<div class="aname" style="font-size:'+(show.hl?"15px":"13px")+';font-weight:'+(show.hl?500:400)+';color:'+(isPast?"var(--muted)":live?si.color:show.hl?si.color:"var(--text)")+'">'+show.artist+'</div>'+
-        (!isPast&&show.hl?'<div class="hllabel" style="color:'+si.color+'99">'+t("headliner")+'</div>':"")+
-        (!isPast&&conflict&&faved?'<div class="conflict-badge">⚠ '+t("conflict")+'</div>':"")+
+        '<div class="aname" style="color:'+(isPast?"var(--dim)":live?si.color:"var(--text)")+'">'+show.artist+'</div>'+
+        '<div class="sc-stage-lbl mono">'+si.e+" "+si.s+(conflict?' <span style="color:var(--accent-text)">· '+t("conflict")+'</span>':"")+
+        '</div>'+
       '</div>'+
-      '<div class="fav-star" onclick="toggleFav(\''+show.artist.replace(/'/g,"\\'")+'\')">'+(faved?"💖":"🤍")+'</div>'+
+      '<button class="heart-btn'+(faved?" on":"")+(pop?" pop":"")+'" onclick="toggleFavAnim(\''+show.artist.replace(/'/g,"\\'")+'\',this)">'+
+        '<span class="ring"></span><span class="glyph">'+(faved?"♥":"♡")+'</span>'+
+      '</button>'+
     '</div>';
   };
 
@@ -221,7 +391,6 @@ function renderSchedule(){
     pastBtn='<button class="past-toggle'+(curShowPast?" on":"")+'" onclick="toggleShowPast()">'+
       (curShowPast?"▲ "+t("hidePast"):"▼ "+pastShows.length+" "+t("showPast"))+'</button>';
   }
-
   var html=pastBtn;
   if(isToday&&curShowPast&&pastShows.length){
     html+=pastShows.map(function(s){return cardHtml(s,true);}).join("")+'<div class="past-sep"></div>';
@@ -233,7 +402,13 @@ function renderSchedule(){
 
 function renderMyLineup(){
   var container=document.getElementById("mylist");
-  if(!favs.size){container.innerHTML='<div class="my-empty">'+t("myEmpty").replace("\n","<br>")+'</div>';return;}
+  if(!favs.size){
+    container.innerHTML='<div class="my-empty">'+
+      '<div class="my-empty-heart">♡</div>'+
+      '<div class="my-empty-text">'+t("myEmpty").replace("\n","<br>")+'</div>'+
+    '</div>';
+    return;
+  }
   var html="";
   DAYS.forEach(function(day){
     var myShows=day.shows.filter(function(s){return favs.has(s.artist);});
@@ -241,26 +416,37 @@ function renderMyLineup(){
     var sorted=myShows.sort(function(a,b){return toMins(a.time)-toMins(b.time);});
     var conflicts=getConflicts(day.shows);
     var isToday=getDay()&&getDay().key===day.key;
-    html+='<div class="my-day-header">'+day.label+' · '+t(day.sub)+'</div>';
+    html+='<div class="my-day-header">'+day.label+'</div>';
     sorted.forEach(function(show){
-      var si=ST[show.stage]||{color:"#888",bg:"var(--bg)",e:"🎵",s:"?"};
-      var live=isToday&&isLive(show),conflict=conflicts.has(show.artist);
-      html+='<div class="my-item'+(conflict?" conflict":"")+(live?" current-set":"")+'" style="background:'+(live?"#1A1A00":conflict?"#3A1000":"var(--bg)")+'">'+
-        (live?'<div class="hlbar live" style="background:'+si.color+'"></div>':"")+
-        '<div class="stime"><div class="tstart" style="color:'+(live?si.color:"#DDD")+'">'+show.time+'</div><div class="tend">–'+show.end+'</div>'+(live?'<div class="scur">'+t("live")+'</div>':"")+'</div>'+
-        '<div class="spill" style="background:'+si.color+'18;border-color:'+si.color+'44;color:'+si.color+'">'+si.e+" "+si.s+'</div>'+
-        '<div class="sartist"><div class="aname" style="color:'+(live?si.color:show.hl?si.color:"var(--text)")+'">'+show.artist+'</div>'+
-        (conflict?'<div class="my-conflict-label">⚠ '+t("conflict")+'</div>':"")+
-        '</div><div class="fav-star on" onclick="toggleFav(\''+show.artist.replace(/'/g,"\\'")+'\')" style="color:var(--gold)">💖</div></div>';
+      var si=ST[show.stage]||{color:"#888",e:"🎵",s:"?"};
+      var live=isToday&&isLive(show);
+      var conflict=conflicts.has(show.artist);
+      var pop=_heartPop.has(show.artist);
+      html+='<div class="my-item'+(conflict?" conflict":"")+(live?" current-set":"")+'">' +
+        '<div class="stime">'+
+          '<div class="tstart mono" style="color:'+(live?si.color:conflict?"var(--accent-text)":"var(--text)")+'">'+show.time+'</div>'+
+          (live?'<div class="scur mono">LIVE</div>':"")+
+        '</div>'+
+        '<div class="sartist">'+
+          '<div class="aname" style="color:'+(live?si.color:"var(--text)")+'">'+show.artist+'</div>'+
+          '<div class="sc-stage-lbl mono">'+si.e+" "+si.s+'</div>'+
+          (conflict?'<div class="my-conflict-label">⚠ '+t("conflict")+'</div>':"")+
+        '</div>'+
+        '<button class="heart-btn on'+(pop?" pop":"")+'" onclick="toggleFavAnim(\''+show.artist.replace(/'/g,"\\'")+'\',this)">'+
+          '<span class="ring"></span><span class="glyph">♥</span>'+
+        '</button>'+
+      '</div>';
     });
   });
-  document.getElementById("mylist").innerHTML=html;
+  container.innerHTML=html;
 }
 
 // ── INFO ──
 function renderInfo(){
   var L=LANGS[curLang];
-  var wxHtml=_wxCache?_wxRowHtml(_wxCache):'<div class="weather-loading">'+(_wxCache===null?"⏳ …":"")+'</div>';
+  var wxHtml=_wxCache?_wxRowHtml(_wxCache):'<div style="padding:18px 0;text-align:center;color:var(--dim);font-size:18px">⏳</div>';
+  var target=document.getElementById("info-body");
+  if(!target)return;
   var html=
     '<div class="info-section">'+
       '<div class="info-h">🌤️ '+L.weatherH+'</div>'+
@@ -273,7 +459,7 @@ function renderInfo(){
     '</div>'+
     '<div class="info-section">'+
       '<div class="info-h">🚇 '+L.transitH+'</div>'+
-      '<div class="info-row"><div class="info-icon">🟡</div><div class="info-text"><strong>'+L.metroLine+'</strong><br>'+L.metroStop+'<br><span style="font-size:10px;color:var(--muted)">'+L.metroHours+'</span></div></div>'+
+      '<div class="info-row"><div class="info-icon">🟡</div><div class="info-text"><strong>'+L.metroLine+'</strong><br>'+L.metroStop+'<br><span style="font-size:10px;color:var(--dim)">'+L.metroHours+'</span></div></div>'+
       '<div class="info-row"><div class="info-icon">🚋</div><div class="info-text"><strong>'+L.tramLine+'</strong><br>'+L.tramStop+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🚌</div><div class="info-text"><strong>'+L.daybus+'</strong><br>'+L.daybusDesc+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🌙</div><div class="info-text"><strong>'+L.nightbus+'</strong><br>'+L.nightbusDesc+'</div></div>'+
@@ -283,9 +469,9 @@ function renderInfo(){
     '</div>'+
     '<div class="info-section">'+
       '<div class="info-h">🚫 '+L.banH+'</div>'+
-      '<div style="margin-bottom:8px"><div style="font-size:9px;color:var(--muted);letter-spacing:.1em;margin-bottom:6px">'+L.banLabel.toUpperCase()+'</div>'+
+      '<div style="margin-bottom:8px"><div style="font-size:9px;font-family:\'Space Mono\',monospace;color:var(--dim);letter-spacing:.1em;margin-bottom:6px">'+L.banLabel.toUpperCase()+'</div>'+
       L.banItems.map(function(i){return '<span class="info-chip red">✕ '+i+'</span>';}).join("")+'</div>'+
-      '<div><div style="font-size:9px;color:var(--muted);letter-spacing:.1em;margin-bottom:6px">'+L.allowLabel.toUpperCase()+'</div>'+
+      '<div><div style="font-size:9px;font-family:\'Space Mono\',monospace;color:var(--dim);letter-spacing:.1em;margin-bottom:6px">'+L.allowLabel.toUpperCase()+'</div>'+
       L.allowItems.map(function(i){return '<span class="info-chip green">✓ '+i+'</span>';}).join("")+'</div>'+
     '</div>'+
     '<div class="info-section">'+
@@ -322,9 +508,16 @@ function renderInfo(){
       '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.lostBody+'</div></div>'+
     '</div>'+
     '<div class="info-section" style="text-align:center">'+
-      '<a class="info-h" style="text-decoration:none" href="https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs" target="_blank" rel="noopener">🔗 '+L.faqH+' ↗</a>'+
+      '<a style="font-family:\'Syne\',sans-serif;font-size:14px;font-weight:700;color:var(--accent-text);text-decoration:none" href="https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs" target="_blank" rel="noopener">🔗 '+L.faqH+' ↗</a>'+
+    '</div>'+
+    '<div style="font-family:\'Space Mono\',monospace;font-size:8px;letter-spacing:.06em;color:var(--dim);padding:8px 0 4px;text-align:center">OFFLINE-READY PWA · DATA STORED LOCALLY</div>'+
+    '<div class="info-footer">'+
+      '<p class="info-disclaimer">'+t("disclaimer")+' <a class="footer-mail" href="mailto:maxx7770101@gmail.com">maxx7770101@gmail.com</a></p>'+
+      '<p class="info-made">Made by Max777</p>'+
+      '<p class="info-made"><span class="info-ig" onclick="window.open(\'https://www.instagram.com/max7770101\',\'_blank\')">IG @max7770101</span></p>'+
+      '<p class="info-privacy">This site uses Vercel Web Analytics to collect anonymous visitor metrics. Favorites and preferences are stored locally on your device only.</p>'+
     '</div>';
-  document.getElementById("vinfo").innerHTML=html;
+  target.innerHTML=html;
   if(!_wxCache){
     fetchWeather(function(){
       var el=document.getElementById("weather-data");
@@ -337,7 +530,8 @@ function renderInfo(){
 var _selStage=null;
 function renderMap(){
   var day=DAYS.find(function(d){return d.key===curDay;});
-  document.getElementById("mapfoot").textContent=day.label+" · "+t("mapHint");
+  var mf=document.getElementById("mapfoot");
+  if(mf)mf.textContent=day.label+" · "+t("mapHint");
   var inner=document.getElementById("mapinner");
   inner.querySelectorAll(".hs").forEach(function(e){e.remove();});
   _selStage=null;
@@ -364,7 +558,6 @@ function renderMap(){
       var lbl=document.createElement("div");
       lbl.className="hs-label";
       lbl.style.color=hasShows?si.color:"rgba(255,255,255,0.2)";
-      lbl.style.fontSize="clamp(8px,2vw,11px)";
       lbl.textContent=si.e+" "+si.s;
       el.appendChild(lbl);
       if(hasShows){el.addEventListener("click",function(e){e.stopPropagation();openStagePop(stage);});}
@@ -377,15 +570,12 @@ function renderMap(){
   pop.style.display="none";pop.classList.remove("visible");
 }
 
-function dimOthers(s){/* no dimming */}
-
 function openStagePop(stage){
   vaTrack('tap_stage',{stage:stage});
   var day=DAYS.find(function(d){return d.key===curDay;});
   var si=ST[stage];
   var shows=day.shows.filter(function(s){return s.stage===stage;}).sort(function(a,b){return toMins(a.time)-toMins(b.time);});
   var isToday=getDay()&&getDay().key===curDay;
-  // Reset only the previously selected hotspot; leave all others untouched
   document.querySelectorAll(".hs.selected").forEach(function(el){
     el.classList.remove("selected");
     el.style.boxShadow="";
@@ -403,7 +593,6 @@ function openStagePop(stage){
     newEl.style.borderColor=si.color;
     newEl.style.borderWidth="2px";
   }
-  dimOthers(stage);
   var pop=document.getElementById("stagepop");
   pop.style.display="block";pop.classList.remove("visible");
   setTimeout(function(){pop.classList.add("visible");},10);
@@ -413,11 +602,11 @@ function openStagePop(stage){
     var live=isToday&&isLive(s),faved=favs.has(s.artist);
     var conflicts=getConflicts(day.shows);
     html+='<div class="pop-show'+(live?" live-row":"")+'">'+
-      '<div class="pop-time" style="color:'+(live?si.color:"var(--muted)")+'">'+s.time+'</div>'+
+      '<div class="pop-time" style="color:'+(live?si.color:"var(--dim)")+'">'+s.time+'</div>'+
       '<div class="pop-artist'+(s.hl?" hl":"")+'" style="color:'+(s.hl?si.color:"var(--text)")+'">'+s.artist+(live?'<span class="pop-cur">● LIVE</span>':"")+
-      (conflicts.has(s.artist)&&faved?' <span style="color:#FF5722">⚠</span>':"")+
+      (conflicts.has(s.artist)&&faved?' <span style="color:var(--accent-text)">⚠</span>':"")+
       '</div>'+
-      '<div class="pop-fav'+(faved?" on":"")+'" onclick="toggleFav(\''+s.artist.replace(/'/g,"\\'")+'\')">'+(faved?"💖":"🤍")+'</div>'+
+      '<div class="pop-fav'+(faved?" on":"")+'" onclick="toggleFav(\''+s.artist.replace(/'/g,"\\'")+'\')">'+(faved?"♥":"♡")+'</div>'+
     '</div>';
   });}
   html+='</div>';pop.innerHTML=html;
@@ -429,12 +618,10 @@ function closePop(){
   pop.classList.remove("visible");
   setTimeout(function(){pop.style.display="none";},250);
   _selStage=null;
-  // Restore default state - re-render map to restore live animations
   document.querySelectorAll(".hs").forEach(function(el){
     el.classList.remove("selected");
     el.style.boxShadow="";
     el.style.border=el.dataset.border||"";
-    // re-apply live glow if needed
     var stageName=el.dataset.stage;
     var day=DAYS.find(function(d){return d.key===curDay;});
     if(day&&day.shows.some(function(s){return s.stage===stageName&&isLive(s);})){
@@ -472,23 +659,7 @@ function initMapGestures(){
   wrap.addEventListener("touchend",function(e){if(e.touches.length<2)gesture.active=false;if(e.touches.length===0)gesture.dragging=false;});
 }
 
-// ── NAV ──
-function setView(v,btn){
-  vaTrack('view_tab',{view:v});
-  curView=v;curStage=null;
-  document.querySelectorAll(".view").forEach(function(el){el.classList.remove("on");});
-  document.getElementById("v"+v).classList.add("on");
-  document.querySelectorAll(".vt").forEach(function(el){el.classList.remove("on");});
-  if(btn)btn.classList.add("on");
-  updateNavMenuActive();
-  // hide day tabs for info view
-  var dtabs=document.getElementById("dtabs");
-  if(v==="info"){dtabs.style.display="none";}else{dtabs.style.display="";}
-  if(v==="schedule")renderSchedule();
-  else if(v==="my")renderMyLineup();
-  else if(v==="info")renderInfo();
-  else{renderMap();setTimeout(initMapGestures,200);}
-}
+// ── SORT / FILTER / DAY ──
 function toggleShowPast(){curShowPast=!curShowPast;renderSchedule();}
 function setDay(k){
   vaTrack('switch_day',{day:k});
@@ -497,7 +668,6 @@ function setDay(k){
   if(curView==="schedule")renderSchedule();
   else if(curView==="my")renderMyLineup();
   else if(curView==="map"){renderMap();setTimeout(initMapGestures,200);}
-  window.scrollTo({top:0,behavior:"smooth"});
 }
 function setStage(s){curStage=s;renderSchedule();}
 function setSort(s){curSort=s;renderSchedule();}
@@ -506,71 +676,94 @@ function render(){
   if(curView==="schedule")renderSchedule();
   else if(curView==="my")renderMyLineup();
   else if(curView==="info")renderInfo();
-  renderFavBar();
+  else if(curView==="home")renderHome();
 }
 
 // ── THEME ──
-function toggleTheme(){
+function toggleTheme(e){
   var body=document.body;
-  var isLight=body.classList.contains("light-mode");
-  if(isLight){
-    body.classList.remove("light-mode");document.documentElement.classList.remove("light-mode");
-    document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_MOON_SVG;});
-    localStorage.setItem("ps26_theme","dark");
-  } else {
-    body.classList.add("light-mode");document.documentElement.classList.add("light-mode");
-    document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_SUN_SVG;});
-    localStorage.setItem("ps26_theme","light");
-  }
+  var isDark=body.getAttribute("data-theme")==="dark";
+  var next=isDark?"light":"dark";
+  var x=(e&&e.clientX)||window.innerWidth/2;
+  var y=(e&&e.clientY)||70;
+  document.documentElement.style.setProperty("--vt-x",x+"px");
+  document.documentElement.style.setProperty("--vt-y",y+"px");
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var apply=function(){
+    body.setAttribute("data-theme",next);
+    localStorage.setItem("ps26_theme",next);
+    updateThemeToggleUI();
+    if(curView==="home")renderHome();
+  };
+  if(!document.startViewTransition||reduce){apply();return;}
+  var vt=document.startViewTransition(apply);
+  if(vt.ready)vt.ready.catch(function(){});
+  if(vt.finished)vt.finished.catch(function(){});
 }
-// restore saved theme
-(function(){
-  var saved=localStorage.getItem("ps26_theme");
-  if(saved==="light"){document.body.classList.add("light-mode");document.documentElement.classList.add("light-mode");document.querySelectorAll(".theme-icon-btn").forEach(function(b){b.innerHTML=_SUN_SVG;});}
-})();
 
-// ── NAV MENU ──
-function toggleNavMenu(){
-  var isOpen=document.getElementById("nav-menu").classList.contains("open");
-  if(isOpen){closeNavMenu();}else{
-    updateNavMenuActive();
-    var nm=document.getElementById("nav-menu");
-    nm.classList.add("open");
-    nm.setAttribute("aria-hidden","false");
-    document.getElementById("nav-backdrop").classList.add("open");
-    document.getElementById("hamburger-btn").classList.add("open");
-  }
-}
-function closeNavMenu(){
-  var nm=document.getElementById("nav-menu");
-  nm.classList.remove("open");
-  nm.setAttribute("aria-hidden","true");
-  document.getElementById("nav-backdrop").classList.remove("open");
-  document.getElementById("hamburger-btn").classList.remove("open");
-}
-function updateNavMenuActive(){
-  document.querySelectorAll(".nm-nav-item").forEach(function(el){el.classList.toggle("on",el.dataset.view===curView);});
+function updateThemeToggleUI(){
+  var isDark=document.body.getAttribute("data-theme")==="dark";
+  var icon=isDark?"☾":"☀";
+  var lbl=isDark
+    ?(curLang==="zh"?"暗色":curLang==="es"?"Oscuro":curLang==="ca"?"Fosc":"Dark")
+    :(curLang==="zh"?"浅色":curLang==="es"?"Claro":curLang==="ca"?"Clar":"Light");
+  document.querySelectorAll(".theme-toggle-icon").forEach(function(el){el.textContent=icon;});
+  document.querySelectorAll(".theme-toggle-lbl").forEach(function(el){el.textContent=lbl;});
 }
 
 // ── INIT ──
-applyLang();
-renderDayTabs();
-renderSchedule();
-renderFavBar();
-updateNowPlaying();
 (function(){
-  var hdr=document.getElementById("hdr");
-  var brand=document.querySelector(".brand");
+  // Restore theme
+  var savedTheme=localStorage.getItem("ps26_theme")||"light";
+  document.body.setAttribute("data-theme",savedTheme);
+
+  // Restore saved tab
+  var savedTab=parseInt(localStorage.getItem("sh.tab")||"0");
+  if(isNaN(savedTab)||savedTab<0||savedTab>4)savedTab=0;
+  curTab=savedTab;
+
+  // Init localization (calls applyLang from localization.js)
+  applyLang();
+  updateThemeToggleUI();
+
+  // Set initial default day to today if festival is running, else first day
+  var today=getDay();
+  if(today)curDay=today.key;
+
+  // Show starting tab (home initially, then restore)
+  // First show home (tab 0) with no animation, then jump to saved tab
+  document.querySelectorAll(".view").forEach(function(el){el.classList.remove("on");});
+  var startView=TAB_VIEWS[savedTab];
+  var startEl=document.getElementById("v"+startView);
+  if(startEl)startEl.classList.add("on");
+  document.querySelectorAll(".tab-btn").forEach(function(btn,i){btn.classList.toggle("on",i===savedTab);});
+  var ind=document.getElementById("tab-ind");
+  if(ind)ind.style.left="calc("+savedTab+" * 20% + 10%)";
+  curView=startView;
+
+  // Render the starting view
+  if(startView==="home")renderHome();
+  else if(startView==="schedule"){renderDayTabs();renderSchedule();}
+  else if(startView==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(startView==="my"){renderMyLineup();updateFavHead();}
+  else if(startView==="info")renderInfo();
+
+  // Always also render home lazily for subsequent visit
+  if(startView!=="home")renderHome();
+
+  updateFavHead();
+  updateNowPlaying();
+
+  // Track header/np height for --hdr-h compat (now-playing top sticky)
   var npEl=document.getElementById("now-playing");
-  function syncHdrH(){document.documentElement.style.setProperty("--hdr-h",hdr.offsetHeight+"px");}
-  function syncBrandH(){document.documentElement.style.setProperty("--brand-h",brand.offsetHeight+"px");}
-  function syncNpH(){document.documentElement.style.setProperty("--np-h",npEl.getBoundingClientRect().height+"px");}
-  syncHdrH();syncBrandH();syncNpH();
-  if(window.ResizeObserver){
-    new ResizeObserver(function(e){var s=e[0].borderBoxSize;document.documentElement.style.setProperty("--hdr-h",(s?s[0].blockSize:e[0].contentRect.height)+"px");}).observe(hdr);
-    new ResizeObserver(function(e){var s=e[0].borderBoxSize;document.documentElement.style.setProperty("--brand-h",(s?s[0].blockSize:e[0].contentRect.height)+"px");}).observe(brand);
-    new ResizeObserver(function(e){var s=e[0].borderBoxSize;document.documentElement.style.setProperty("--np-h",(s?s[0].blockSize:e[0].contentRect.height)+"px");}).observe(npEl);
-  } else {window.addEventListener("resize",function(){syncHdrH();syncBrandH();syncNpH();});}
-  window.addEventListener("resize",function(){if(window.innerWidth>540)closeNavMenu();});
+  if(window.ResizeObserver&&npEl){
+    new ResizeObserver(function(e){
+      var s=e[0].borderBoxSize;
+      document.documentElement.style.setProperty("--np-h",(s?s[0].blockSize:e[0].contentRect.height)+"px");
+    }).observe(npEl);
+  }
+
+  window.addEventListener("resize",function(){
+    // nothing needed — layout is flex, no sticky heights to track
+  });
 })();
-updateNavMenuActive();

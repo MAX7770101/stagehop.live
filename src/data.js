@@ -5,11 +5,11 @@ var ST={
   "Occident":{color:"#7DCE82",bg:"#0a1a0acc",e:"🎸",s:"Occident"},
   "CUPRA":{color:"#60AAEE",bg:"#00112acc",e:"🌊",s:"CUPRA"},
   "CUPRA PULSE":{color:"#3A8FDD",bg:"#001020cc",e:"⚡",s:"Pulse"},
-  "Schwarzkopf":{color:"#CC88EE",bg:"#1a001acc",e:"☀️",s:"Schwarz."},
+  "Schwarzkopf":{color:"#CC88EE",bg:"#1a001acc",e:"☀️",s:"Schwarz"},
   "Port":{color:"#F4A261",bg:"#1a0e00cc",e:"⚓",s:"Port"},
-  "Plenitude":{color:"#00CFCF",bg:"#001a1acc",e:"🎛️",s:"Pleni."},
+  "Plenitude":{color:"#00CFCF",bg:"#001a1acc",e:"🎛️",s:"Pleni"},
   "The Levi's Warehouse":{color:"#C9B070",bg:"#12100ecc",e:"🏚️",s:"Levi's"},
-  "Auditori Rockdelux":{color:"#FF8FAB",bg:"#1a0010cc",e:"🪑",s:"Auditori"},
+  "Auditori Rockdelux":{color:"#FF8FAB",bg:"#1a0010cc",e:"🪑",s:"Aud"},
   "Parc Del Forum":{color:"#4ADE80",bg:"#001a0acc",e:"🎪",s:"Forum"},
 };
 

@@ -40,7 +40,7 @@ var LANGS={
     lostH:"失物招领",
     lostBody:"节日期间失物统一送至外部信息点，可就近前往或填写失物表格。节日结束后未认领物品移交至 Guàrdia Urbana de Poblenou（Carrer d'Espronceda, 148）。",
     faqH:"官方常见问题",faqLink:"查看完整官方 FAQ",
-    navSchedule:"演出表",navMap:"地图",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
+    navHome:"首页",navSchedule:"演出表",navMap:"地图",navFavs:"收藏",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
     showPast:"场已结束",hidePast:"隐藏已结束",more:"更多",collapse:"收起",
     disclaimer:"本站为乐迷自制的非官方指南，与 Primavera Sound S.L. 无任何关联。<br>所有商标归各自所有者所有。<br>演出信息仅供参考，请以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方网站</a>为准。<br>反馈或纠错请联系：",
   },
@@ -84,7 +84,7 @@ var LANGS={
     lostH:"Objetos perdidos",
     lostBody:"Los objetos encontrados se llevan al punto de información exterior. Ve a cualquier punto de info o rellena el formulario. Tras el festival, los no reclamados van a la Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"FAQ oficial",faqLink:"Ver preguntas frecuentes oficiales",
-    navSchedule:"Horario",navMap:"Mapa",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
+    navHome:"Inicio",navSchedule:"Horario",navMap:"Mapa",navFavs:"Guardados",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"terminados",hidePast:"Ocultar pasados",more:"más",collapse:"colapsar",
     disclaimer:"Sitio no oficial creado por fans.<br>Sin afiliación con Primavera Sound S.L.<br>Todas las marcas pertenecen a sus respectivos propietarios.<br>Información orientativa; consulta la <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">web oficial</a>.<br>Sugerencias o correcciones:",
   },
@@ -128,7 +128,7 @@ var LANGS={
     lostH:"Objectes perduts",
     lostBody:"Els objectes trobats es porten al punt d'informació exterior. Ves a qualsevol punt d'informació o omple el formulari. Després del festival, els no reclamats van a la Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"Preguntes freqüents oficials",faqLink:"Veure les preguntes freqüents oficials",
-    navSchedule:"Horari",navMap:"Mapa",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
+    navHome:"Inici",navSchedule:"Horari",navMap:"Mapa",navFavs:"Preferits",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"acabats",hidePast:"Amaga els acabats",more:"més",collapse:"replegar",
     disclaimer:"Guia no oficial creada per fans.<br>Sense afiliació amb Primavera Sound S.L.<br>Totes les marques pertanyen als seus respectius propietaris.<br>Informació orientativa; consulta el <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">lloc web oficial</a>.<br>Comentaris o correccions:",
   },
@@ -172,7 +172,7 @@ var LANGS={
     lostH:"Lost & found",
     lostBody:"Found items are taken to the external info point. Visit any info point or fill in the lost & found form. After the festival, unclaimed items go to Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"Official FAQ",faqLink:"View the full official FAQ",
-    navSchedule:"Schedule",navMap:"Map",navInfo:"Info",navTheme:"Theme",navLang:"Language",
+    navHome:"Home",navSchedule:"Schedule",navMap:"Map",navFavs:"Saved",navInfo:"Info",navTheme:"Theme",navLang:"Language",
     showPast:"ended",hidePast:"Hide ended",more:"more",collapse:"collapse",
     disclaimer:"Unofficial fan-made guide.<br>Not affiliated with Primavera Sound S.L.<br>All trademarks belong to their respective owners.<br>Information for reference only; check the <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">official site</a>.<br>Feedback or corrections:",
   }
@@ -189,7 +189,7 @@ function setLang(l){
   updateNowPlaying();
 }
 function applyLang(){
-  document.querySelectorAll(".lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
+  document.querySelectorAll(".lang-btn,.home-lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
   document.getElementById("lbl-city").textContent=t("city");
   document.getElementById("lbl-mapHint").textContent=t("mapHint");
   document.getElementById("lbl-reset").textContent=t("reset");
