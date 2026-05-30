@@ -18,7 +18,7 @@ var LANGS={
     banItems:["玻璃容器","专业相机/摄像机（单反等；胶片/卡片机除外）","自拍杆","无人机","宠物（导盲犬除外）"],
     allowItems:["食物（非玻璃容器）","塑料瓶装水（≤50cl，无盖）","自带塑料杯（≤40cl）","胶片/卡片/一次性相机","小型手提包（A4 大小以内）","雨衣/防晒霜","处方药（携带证明）"],
     banLabel:"禁止携带",allowLabel:"允许携带",
-    weatherH:"天气预报（巴塞罗那六月初）",
+    weatherH:"天气预报",
     weatherNote:"六月初巴塞罗那通常晴朗，日间 25–30°C，夜间 18–22°C。建议携带防晒霜和轻便外套（凌晨场较凉）。",
     tipsH:"实用小贴士",
     tips:["AccessTicket 手环需在入口激活，请留出排队时间","现金充值点分布在场地各处（仅 AccessTicket 消费）","免费饮水站全场分布，自带空瓶可节省开支","Nobody Is Normal 安全站提供紧急援助","免费水点高峰时段排队较长。建议换舞台时顺手补满水瓶，不要等口渴了再去"],
@@ -40,7 +40,7 @@ var LANGS={
     lostH:"失物招领",
     lostBody:"节日期间失物统一送至外部信息点，可就近前往或填写失物表格。节日结束后未认领物品移交至 Guàrdia Urbana de Poblenou（Carrer d'Espronceda, 148）。",
     faqH:"官方常见问题",faqLink:"查看完整官方 FAQ",
-    navSchedule:"演出表",navMap:"地图",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
+    navHome:"首页",navSchedule:"演出表",navMap:"地图",navFavs:"收藏",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
     showPast:"场已结束",hidePast:"隐藏已结束",more:"更多",collapse:"收起",
     disclaimer:"本站为乐迷自制的非官方指南，与 Primavera Sound S.L. 无任何关联。<br>所有商标归各自所有者所有。<br>演出信息仅供参考，请以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方网站</a>为准。<br>反馈或纠错请联系：",
   },
@@ -62,7 +62,7 @@ var LANGS={
     banItems:["Recipientes de vidrio","Cámara profesional/de vídeo (DSLR; no las compactas/analógicas)","Palos selfie","Drones","Mascotas (excepto perros guía)"],
     allowItems:["Comida (no en envases de vidrio)","Agua en botella de plástico ≤50cl sin tapón","Vaso de plástico propio ≤40cl","Cámara analógica, compacta o desechable","Bolso pequeño (tamaño A4)","Chubasquero / protector solar","Medicación con receta (con justificante)"],
     banLabel:"Prohibido",allowLabel:"Permitido",
-    weatherH:"Previsión meteorológica (Barcelona, junio)",
+    weatherH:"Previsión meteorológica",
     weatherNote:"Principios de junio en Barcelona suele ser soleado, 25–30°C de día, 18–22°C de noche. Lleva protector solar y una chaqueta ligera para las sesiones de madrugada.",
     tipsH:"Consejos prácticos",
     tips:["La pulsera AccessTicket debe activarse en la entrada; deja tiempo para la cola","Puntos de recarga de efectivo distribuidos por el recinto (solo pago con AccessTicket)","Fuentes de agua gratuitas en todo el recinto","El punto Nobody Is Normal ofrece asistencia de emergencia","Las fuentes de agua hacen cola en horas punta. Rellena la botella cuando cambies de escenario, no cuando tengas sed"],
@@ -84,7 +84,7 @@ var LANGS={
     lostH:"Objetos perdidos",
     lostBody:"Los objetos encontrados se llevan al punto de información exterior. Ve a cualquier punto de info o rellena el formulario. Tras el festival, los no reclamados van a la Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"FAQ oficial",faqLink:"Ver preguntas frecuentes oficiales",
-    navSchedule:"Horario",navMap:"Mapa",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
+    navHome:"Inicio",navSchedule:"Horario",navMap:"Mapa",navFavs:"Guardados",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"terminados",hidePast:"Ocultar pasados",more:"más",collapse:"colapsar",
     disclaimer:"Sitio no oficial creado por fans.<br>Sin afiliación con Primavera Sound S.L.<br>Todas las marcas pertenecen a sus respectivos propietarios.<br>Información orientativa; consulta la <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">web oficial</a>.<br>Sugerencias o correcciones:",
   },
@@ -106,7 +106,7 @@ var LANGS={
     banItems:["Recipients de vidre","Càmera professional/de vídeo (DSLR; compactes i analògiques OK)","Pals selfie","Drons","Mascotes (excepte gossos d'assistència)"],
     allowItems:["Menjar (no en recipients de vidre)","Aigua en ampolla de plàstic ≤ 50 cl (sense tap a l'entrada)","Got de plàstic propi ≤ 40 cl","Càmera analògica, compacta o d'un sol ús","Bossa petita (fins a mida A4)","Impermeable / protector solar","Medicació amb recepta (amb documentació)"],
     banLabel:"No permès",allowLabel:"Permès",
-    weatherH:"Previsió meteorològica (Barcelona, primers de juny)",
+    weatherH:"Previsió meteorològica",
     weatherNote:"Els primers de juny a Barcelona sol fer sol, 25–30°C durant el dia i 18–22°C de nit. Porta protector solar i una jaqueta lleugera per als concerts de matinada.",
     tipsH:"Consells pràctics",
     tips:["La polsera AccessTicket s'ha d'activar a l'entrada — deixa temps per fer cua","Punts de recàrrega en efectiu distribuïts pel recinte (pagament AccessTicket)","Fonts d'aigua gratuïtes per tot el recinte","El punt Nobody Is Normal ofereix assistència d'emergència","Tot i que hi ha fonts d'aigua, fan llargues cues durant les hores punta. Omple l'ampolla quan canvies d'escenari, no quan tinguis set"],
@@ -128,7 +128,7 @@ var LANGS={
     lostH:"Objectes perduts",
     lostBody:"Els objectes trobats es porten al punt d'informació exterior. Ves a qualsevol punt d'informació o omple el formulari. Després del festival, els no reclamats van a la Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"Preguntes freqüents oficials",faqLink:"Veure les preguntes freqüents oficials",
-    navSchedule:"Horari",navMap:"Mapa",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
+    navHome:"Inici",navSchedule:"Horari",navMap:"Mapa",navFavs:"Preferits",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"acabats",hidePast:"Amaga els acabats",more:"més",collapse:"replegar",
     disclaimer:"Guia no oficial creada per fans.<br>Sense afiliació amb Primavera Sound S.L.<br>Totes les marques pertanyen als seus respectius propietaris.<br>Informació orientativa; consulta el <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">lloc web oficial</a>.<br>Comentaris o correccions:",
   },
@@ -150,7 +150,7 @@ var LANGS={
     banItems:["Glass containers","Professional/video cameras (DSLR; compact & analogue OK)","Selfie sticks","Drones","Pets (except assistance dogs)"],
     allowItems:["Food (not in glass containers)","Water in plastic bottle ≤50cl (cap removed at gate)","Your own plastic cup ≤40cl","Analogue, compact or disposable cameras","Small bag (up to A4 size)","Raincoat / sunscreen","Prescription medication (with documentation)"],
     banLabel:"Not allowed",allowLabel:"Allowed",
-    weatherH:"Weather forecast (Barcelona, early June)",
+    weatherH:"Weather forecast",
     weatherNote:"Early June in Barcelona is typically sunny, 25–30°C during the day and 18–22°C at night. Bring sunscreen and a light jacket for late-night sets.",
     tipsH:"Practical tips",
     tips:["Your AccessTicket wristband must be activated at the entrance — allow time to queue","Cash reload points are scattered around the venue (AccessTicket payment only)","Free water points throughout the venue","Nobody Is Normal safe space provides emergency assistance","Free water points get long queues at peak hours. Top up your bottle when moving between stages, not when you're already thirsty"],
@@ -172,13 +172,21 @@ var LANGS={
     lostH:"Lost & found",
     lostBody:"Found items are taken to the external info point. Visit any info point or fill in the lost & found form. After the festival, unclaimed items go to Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"Official FAQ",faqLink:"View the full official FAQ",
-    navSchedule:"Schedule",navMap:"Map",navInfo:"Info",navTheme:"Theme",navLang:"Language",
+    navHome:"Home",navSchedule:"Schedule",navMap:"Map",navFavs:"Saved",navInfo:"Info",navTheme:"Theme",navLang:"Language",
     showPast:"ended",hidePast:"Hide ended",more:"more",collapse:"collapse",
     disclaimer:"Unofficial fan-made guide.<br>Not affiliated with Primavera Sound S.L.<br>All trademarks belong to their respective owners.<br>Information for reference only; check the <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">official site</a>.<br>Feedback or corrections:",
   }
 };
 
-var curLang=localStorage.getItem("ps26_lang")||"en";
+var curLang=localStorage.getItem("ps26_lang")||(function(){
+  var ls=navigator.languages||[navigator.language||"en"];
+  for(var i=0;i<ls.length;i++){var l=ls[i].toLowerCase();
+    if(l==="ca"||l.startsWith("ca-"))return"ca";
+    if(l==="zh"||l.startsWith("zh-"))return"zh";
+    if(l==="es"||l.startsWith("es-"))return"es";
+  }
+  return"en";
+})();
 function t(k){return LANGS[curLang][k]||LANGS.zh[k]||k;}
 function setLang(l){
   curLang=l;localStorage.setItem("ps26_lang",l);
@@ -187,9 +195,10 @@ function setLang(l){
   renderDayTabs();
   render();
   updateNowPlaying();
+  if(typeof updateThemeToggleUI==='function')updateThemeToggleUI();
 }
 function applyLang(){
-  document.querySelectorAll(".lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
+  document.querySelectorAll(".lang-btn,.home-lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
   document.getElementById("lbl-city").textContent=t("city");
   document.getElementById("lbl-mapHint").textContent=t("mapHint");
   document.getElementById("lbl-reset").textContent=t("reset");

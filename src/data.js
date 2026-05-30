@@ -1,13 +1,13 @@
 // ── STAGE DATA ──
 var ST={
-  "Estrella Damm":{color:"#F5C842",bg:"#1a1400cc",e:"🌟",s:"Estrella"},
+  "Estrella Damm":{color:"#C4900A",bg:"#1a1400cc",e:"🌟",s:"Estrella"},
   "Revolut":{color:"#FF5722",bg:"#1a0800cc",e:"🔥",s:"Revolut"},
   "Occident":{color:"#7DCE82",bg:"#0a1a0acc",e:"🎸",s:"Occident"},
   "CUPRA":{color:"#60AAEE",bg:"#00112acc",e:"🌊",s:"CUPRA"},
   "CUPRA PULSE":{color:"#3A8FDD",bg:"#001020cc",e:"⚡",s:"Pulse"},
-  "Schwarzkopf":{color:"#CC88EE",bg:"#1a001acc",e:"☀️",s:"Schwarz."},
+  "Schwarzkopf":{color:"#CC88EE",bg:"#1a001acc",e:"☀️",s:"Schwarz"},
   "Port":{color:"#F4A261",bg:"#1a0e00cc",e:"⚓",s:"Port"},
-  "Plenitude":{color:"#00CFCF",bg:"#001a1acc",e:"🎛️",s:"Pleni."},
+  "Plenitude":{color:"#00CFCF",bg:"#001a1acc",e:"🎛️",s:"Pleni"},
   "The Levi's Warehouse":{color:"#C9B070",bg:"#12100ecc",e:"🏚️",s:"Levi's"},
   "Auditori Rockdelux":{color:"#FF8FAB",bg:"#1a0010cc",e:"🪑",s:"Auditori"},
   "Parc Del Forum":{color:"#4ADE80",bg:"#001a0acc",e:"🎪",s:"Forum"},
@@ -16,7 +16,7 @@ var ST={
 var HOTSPOTS={
   "Port":[1.5,42.0,11,13],"Schwarzkopf":[10.6,56.3,22,11],
   "CUPRA":[29.0,40.1,13,10],"The Levi's Warehouse":[19.9,61.5,17,12],
-  "Occident":[30.1,70.2,17,11],"Plenitude":[52.4,33.8,13,10],
+  "Occident":[30.1,70.2,17,11],"Plenitude":[65.0,35.0,13,10],
   "Estrella Damm":[64.3,9.4,19,22],"Revolut":[75.2,12.0,15,22],
   "Auditori Rockdelux":[61.5,68.4,22,19],
 };
