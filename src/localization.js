@@ -178,7 +178,15 @@ var LANGS={
   }
 };
 
-var curLang=localStorage.getItem("ps26_lang")||"en";
+var curLang=localStorage.getItem("ps26_lang")||(function(){
+  var ls=navigator.languages||[navigator.language||"en"];
+  for(var i=0;i<ls.length;i++){var l=ls[i].toLowerCase();
+    if(l==="ca"||l.startsWith("ca-"))return"ca";
+    if(l==="zh"||l.startsWith("zh-"))return"zh";
+    if(l==="es"||l.startsWith("es-"))return"es";
+  }
+  return"en";
+})();
 function t(k){return LANGS[curLang][k]||LANGS.zh[k]||k;}
 function setLang(l){
   curLang=l;localStorage.setItem("ps26_lang",l);
