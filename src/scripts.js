@@ -190,6 +190,21 @@ var curTab=parseInt(localStorage.getItem("sh.tab")||"0");
 var TAB_VIEWS=["home","schedule","map","my","info"];
 
 // ── HOME SCREEN ──
+var _langMenuOpen=false;
+function toggleLangMenu(e){
+  e.stopPropagation();
+  _langMenuOpen=!_langMenuOpen;
+  var d=document.getElementById("lang-dd");
+  if(d)d.classList.toggle("open",_langMenuOpen);
+  var a=document.getElementById("lang-dd-arrow");
+  if(a)a.textContent=_langMenuOpen?"▴":"▾";
+  if(_langMenuOpen)setTimeout(function(){document.addEventListener("click",closeLangMenu,{once:true});},0);
+}
+function closeLangMenu(){
+  _langMenuOpen=false;
+  var d=document.getElementById("lang-dd");if(d)d.classList.remove("open");
+  var a=document.getElementById("lang-dd-arrow");if(a)a.textContent="▾";
+}
 function renderHome(){
   var body=document.getElementById("home-body");
   if(!body)return;
@@ -215,17 +230,28 @@ function renderHome(){
     [curLang==="zh"?"实用信息":curLang==="es"?"Info práctica":curLang==="ca"?"Info pràctica":"Practical info",
      curLang==="zh"?"交通 · 禁带 · 实用贴士":curLang==="es"?"Transporte, normas y consejos":curLang==="ca"?"Transport, normes i consells":"Know before you go",4]
   ];
-  var langs=[["中","zh"],["ES","es"],["CA","ca"],["EN","en"]];
+  var langs=[["中文","zh"],["Español","es"],["Català","ca"],["English","en"]];
+  var langShort={zh:"中",es:"ES",ca:"CA",en:"EN"};
   body.innerHTML=
     '<div class="home-top">'+
       '<div class="home-brand-label mono">春日之声 · Unofficial</div>'+
-      '<span class="home-lang-row">'+
-      langs.map(function(l,i){
-        var isOn=curLang===l[1];
-        return (i?'<span class="home-lang-sep">·</span>':'')+
-          '<button class="home-lang-btn'+(isOn?" on":"")+'" onclick="setLang(\''+l[1]+'\')">'+l[0]+'</button>';
-      }).join("")+
-      '</span>'+
+      '<div class="home-top-controls">'+
+        '<button class="theme-toggle" onclick="toggleTheme(event)">'+
+          '<span class="theme-toggle-icon">'+toggleIcon+'</span>'+
+          '<span class="theme-toggle-lbl">'+toggleLbl+'</span>'+
+        '</button>'+
+        '<div class="lang-menu" onclick="event.stopPropagation()">'+
+          '<button class="lang-menu-btn" onclick="toggleLangMenu(event)">'+
+            langShort[curLang]+
+            ' <span class="lang-menu-arrow" id="lang-dd-arrow">▾</span>'+
+          '</button>'+
+          '<div class="lang-menu-dd" id="lang-dd">'+
+            langs.map(function(l){
+              return '<button class="lang-menu-item'+(curLang===l[1]?" on":"")+'" onclick="closeLangMenu();setLang(\''+l[1]+'\')">'+l[0]+'</button>';
+            }).join("")+
+          '</div>'+
+        '</div>'+
+      '</div>'+
     '</div>'+
     '<div class="home-wordmark syne">stage<br>hop<span class="dot" style="width:12px;height:12px;vertical-align:middle;margin-left:2px;display:inline-block"></span></div>'+
     '<div class="home-ps-title syne">PRIMAVERA SOUND 2026</div>'+
@@ -248,13 +274,7 @@ function renderHome(){
       '</div>';
     }).join("")+
     '</div>'+
-    '<div class="home-spacer"></div>'+
-    '<div class="home-footer">'+
-      '<button class="theme-toggle" onclick="toggleTheme(event)">'+
-        '<span class="theme-toggle-icon">'+toggleIcon+'</span>'+
-        '<span class="theme-toggle-lbl">'+toggleLbl+'</span>'+
-      '</button>'+
-    '</div>';
+    '<div class="home-spacer"></div>';
 }
 
 // ── TAB NAVIGATION ──
@@ -289,7 +309,7 @@ function setTab(n){
   // render view
   if(v==="home")renderHome();
   else if(v==="schedule"){renderDayTabs();renderSchedule();}
-  else if(v==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(v==="map"){renderDayTabs();renderMap();setTimeout(initMapGestures,200);}
   else if(v==="my"){renderMyLineup();updateFavHead();}
   else if(v==="info")renderInfo();
 }
@@ -310,21 +330,22 @@ function setView(v){
   if(v==="schedule")renderSchedule();
   else if(v==="my")renderMyLineup();
   else if(v==="info")renderInfo();
-  else if(v==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(v==="map"){renderDayTabs();renderMap();setTimeout(initMapGestures,200);}
 }
 
 // ── RENDER ──
 function renderDayTabs(){
-  var dtabs=document.getElementById("dtabs");
-  if(!dtabs)return;
-  dtabs.innerHTML=DAYS.map(function(d){
+  var html=DAYS.map(function(d){
     var on=d.key===curDay;
-    // Show short day label for capsule style
-    var shortLabel=d.label.split(" ")[0]; // "Thu", "Fri", etc.
+    var shortLabel=d.label.split(" ")[0];
     return '<button class="dtab'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')">' +
       '<div class="dl">'+shortLabel+'</div>'+
     '</button>';
   }).join("");
+  ["dtabs","dtabs-map"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.innerHTML=html;
+  });
 }
 
 function renderSchedule(){
@@ -550,8 +571,11 @@ function renderMap(){
       el.dataset.stage=stage;
       el.style.left=l+"%";el.style.top=top+"%";
       el.style.width=sw+"%";el.style.height=sh+"%";
+      var fs=getFitScale();
+      var bpx=Math.max(1,Math.round(2/fs));
       el.style.background=hasShows?si.color+"22":"rgba(0,0,0,0)";
-      var bv=(hasShows?"2px":"1px")+" solid "+(hasShows?si.color+(hasLive?"ff":"77"):"rgba(255,255,255,0.1)");
+      el.style.borderRadius=Math.round(6/fs)+"px";
+      var bv=bpx+"px solid "+(hasShows?si.color+(hasLive?"ff":"77"):"rgba(255,255,255,0.1)");
       el.style.border=bv;
       el.dataset.border=bv;
       if(hasLive){el.style.setProperty("--gc",si.color);el.style.animation="hsglow 2s ease-in-out infinite";}
@@ -559,6 +583,9 @@ function renderMap(){
       lbl.className="hs-label";
       lbl.style.color=hasShows?si.color:"rgba(255,255,255,0.2)";
       lbl.textContent=si.e+" "+si.s;
+      lbl.style.fontSize=Math.round(11/fs)+"px";
+      lbl.style.padding=Math.round(2/fs)+"px "+Math.round(6/fs)+"px";
+      lbl.style.borderRadius=Math.round(3/fs)+"px";
       el.appendChild(lbl);
       if(hasShows){el.addEventListener("click",function(e){e.stopPropagation();openStagePop(stage);});}
       inner.appendChild(el);
@@ -568,6 +595,7 @@ function renderMap(){
   if(img.complete&&img.naturalWidth){place();}else{img.onload=place;}
   var pop=document.getElementById("stagepop");
   pop.style.display="none";pop.classList.remove("visible");
+  mapReset();
 }
 
 function openStagePop(stage){
@@ -633,10 +661,14 @@ function closePop(){
 // ── PINCH-ZOOM ──
 var mapState={scale:1,x:0,y:0};
 var gesture={active:false,startDist:0,startScale:1,startMidX:0,startMidY:0,startPanX:0,startPanY:0,dragging:false,dragStartX:0,dragStartY:0};
+var MAP_W=2000,MAP_H=1345;
+function getFitScale(){var wrap=document.getElementById("mapwrap");return wrap?wrap.offsetWidth/MAP_W:0.18;}
 function applyMapTransform(){
-  mapState.scale=Math.min(5,Math.max(0.8,mapState.scale));
-  var inner=document.getElementById("mapinner"),wrap=document.getElementById("mapwrap");
-  var iw=inner.offsetWidth*mapState.scale,ih=inner.offsetHeight*mapState.scale;
+  var wrap=document.getElementById("mapwrap"),inner=document.getElementById("mapinner");
+  if(!wrap||!inner)return;
+  var fit=getFitScale();
+  mapState.scale=Math.min(5,Math.max(fit,mapState.scale));
+  var iw=MAP_W*mapState.scale,ih=MAP_H*mapState.scale;
   var ww=wrap.offsetWidth,wh=wrap.offsetHeight;
   mapState.x=Math.min(0,Math.max(Math.min(0,ww-iw),mapState.x));
   mapState.y=Math.min(0,Math.max(Math.min(0,wh-ih),mapState.y));
@@ -644,7 +676,7 @@ function applyMapTransform(){
   inner.style.transform="translate("+mapState.x+"px,"+mapState.y+"px) scale("+mapState.scale+")";
 }
 function mapZoom(f){var wrap=document.getElementById("mapwrap");var cx=wrap.offsetWidth/2,cy=wrap.offsetHeight/2;mapState.x=cx-(cx-mapState.x)*f;mapState.y=cy-(cy-mapState.y)*f;mapState.scale*=f;applyMapTransform();}
-function mapReset(){mapState={scale:1,x:0,y:0};var inner=document.getElementById("mapinner");inner.style.transform="";}
+function mapReset(){mapState={scale:getFitScale(),x:0,y:0};applyMapTransform();}
 function initMapGestures(){
   var wrap=document.getElementById("mapwrap");
   if(!wrap||wrap._gi)return;wrap._gi=true;
@@ -653,7 +685,7 @@ function initMapGestures(){
     else if(e.touches.length===1&&!gesture.active){gesture.dragging=true;gesture.dragStartX=e.touches[0].clientX-mapState.x;gesture.dragStartY=e.touches[0].clientY-mapState.y;}
   },{passive:false});
   wrap.addEventListener("touchmove",function(e){
-    if(e.touches.length===2&&gesture.active){e.preventDefault();var dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);var ns=gesture.startScale*(dist/gesture.startDist);var midX=(e.touches[0].clientX+e.touches[1].clientX)/2,midY=(e.touches[0].clientY+e.touches[1].clientY)/2;var rect=wrap.getBoundingClientRect();var ox=midX-rect.left,oy=midY-rect.top;mapState.x=ox-(ox-gesture.startPanX)*(ns/gesture.startScale)+(midX-gesture.startMidX);mapState.y=oy-(oy-gesture.startPanY)*(ns/gesture.startScale)+(midY-gesture.startMidY);mapState.scale=ns;applyMapTransform();}
+    if(e.touches.length===2&&gesture.active){e.preventDefault();var dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);var ns=Math.min(5,Math.max(getFitScale(),gesture.startScale*(dist/gesture.startDist)));var midX=(e.touches[0].clientX+e.touches[1].clientX)/2,midY=(e.touches[0].clientY+e.touches[1].clientY)/2;var rect=wrap.getBoundingClientRect();var ox=midX-rect.left,oy=midY-rect.top;mapState.x=ox-(ox-gesture.startPanX)*(ns/gesture.startScale)+(midX-gesture.startMidX);mapState.y=oy-(oy-gesture.startPanY)*(ns/gesture.startScale)+(midY-gesture.startMidY);mapState.scale=ns;applyMapTransform();}
     else if(e.touches.length===1&&gesture.dragging){e.preventDefault();mapState.x=e.touches[0].clientX-gesture.dragStartX;mapState.y=e.touches[0].clientY-gesture.dragStartY;applyMapTransform();}
   },{passive:false});
   wrap.addEventListener("touchend",function(e){if(e.touches.length<2)gesture.active=false;if(e.touches.length===0)gesture.dragging=false;});
@@ -744,7 +776,7 @@ function updateThemeToggleUI(){
   // Render the starting view
   if(startView==="home")renderHome();
   else if(startView==="schedule"){renderDayTabs();renderSchedule();}
-  else if(startView==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(startView==="map"){renderDayTabs();renderMap();setTimeout(initMapGestures,200);}
   else if(startView==="my"){renderMyLineup();updateFavHead();}
   else if(startView==="info")renderInfo();
 
