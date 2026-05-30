@@ -187,6 +187,7 @@ function setLang(l){
   renderDayTabs();
   render();
   updateNowPlaying();
+  if(typeof updateThemeToggleUI==='function')updateThemeToggleUI();
 }
 function applyLang(){
   document.querySelectorAll(".lang-btn,.home-lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});

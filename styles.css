@@ -7,6 +7,7 @@ body{
   --text:#1A1A1A;--dim:#6B6657;--faint:#9A9078;
   --hair:rgba(26,26,26,.13);--hair-strong:rgba(26,26,26,.22);
   --accent:#2b2fb8;--accent-text:#2b2fb8;--accent-soft:rgba(43,47,184,.12);
+  --conflict:#9a1f0e;--conflict-soft:rgba(154,31,14,.12);
   --tab-off:#a39a82;--heart:#2b2fb8;--heart-off:#c3b896;
   --grain-op:.10;--grain-blend:multiply;
   --grain-img:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch' seed='7'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.15  0 0 0 0 0.1  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
@@ -18,6 +19,7 @@ body[data-theme="dark"]{
   --text:#E8E0CC;--dim:#7C8190;--faint:#565b6a;
   --hair:rgba(232,224,204,.10);--hair-strong:rgba(232,224,204,.18);
   --accent:#6a6ef0;--accent-text:#a9adff;--accent-soft:rgba(80,84,234,.16);
+  --conflict:#e06040;--conflict-soft:rgba(200,64,48,.16);
   --tab-off:#565b6a;--heart:#6a6ef0;--heart-off:#3a3f4d;
   --grain-op:.05;--grain-blend:screen;
   --grain-img:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
@@ -185,6 +187,18 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   font-family:"Space Mono",monospace;font-size:10px;
   text-align:right;line-height:1.7;color:var(--dim);
 }
+.home-upnext-card{
+  margin-top:26px;border-radius:16px;border:1px solid var(--hair);
+  background:var(--surface);padding-bottom:10px;
+}
+.home-upnext-hdr{
+  font-family:"Space Mono",monospace;font-size:8px;
+  letter-spacing:.18em;color:var(--accent-text);
+  padding:10px 14px 4px;
+}
+.home-upnext-card .np-row{padding:6px 14px 6px 14px;}
+.home-upnext-card .np-name{font-size:14px;}
+.home-upnext-card .np-time{font-size:13px;padding:0 0 0 8px;}
 .home-nav{margin-top:22px}
 .home-nav-item{
   display:flex;justify-content:space-between;align-items:center;
@@ -231,9 +245,9 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 .lang-menu-item.on{color:var(--accent-text);font-weight:700}
 .lang-menu-item:active{background:var(--surface-2)}
 
-/* ===== NOW PLAYING (inside schedule view) ===== */
+/* ===== NOW PLAYING (global bar above tab bar) ===== */
 #now-playing{
-  display:none;
+  display:none;flex-shrink:0;
   background:var(--surface);
   border:1px solid var(--accent-soft);
   border-radius:12px;
@@ -381,7 +395,12 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 .hllabel{display:none}
 .conflict-badge{
   font-family:"Space Mono",monospace;font-size:8px;
-  color:var(--accent-text);margin-top:2px;display:inline-block;
+  color:var(--conflict);margin-top:2px;display:inline-block;
+}
+.hl-badge{
+  font-family:"Space Mono",monospace;font-size:9px;
+  color:var(--accent-text);font-weight:400;letter-spacing:.03em;
+  vertical-align:middle;opacity:.9;
 }
 
 /* legacy fav-star fallback */
@@ -549,13 +568,13 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   border-radius:16px;background:var(--surface);border:1px solid var(--hair);
 }
 .my-item.conflict{
-  border-color:var(--accent-soft);
-  box-shadow:inset 3px 0 0 var(--accent);
+  border-color:var(--conflict-soft);
+  box-shadow:inset 3px 0 0 var(--conflict);
 }
 .my-item.current-set{border-color:var(--accent-soft)}
 .my-conflict-label{
   font-family:"Space Mono",monospace;font-size:8px;
-  color:var(--accent-text);margin-top:2px;
+  color:var(--conflict);margin-top:2px;
 }
 .my-empty{padding:70px 24px;text-align:center}
 .my-empty-heart{font-size:34px;color:var(--heart-off)}
@@ -605,6 +624,7 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 .footer-link,.footer-mail{color:var(--accent-text);text-decoration:underline;text-underline-offset:2px}
 #app-footer{display:none}
 .info-footer{padding:20px 18px 32px;border-top:1px solid var(--hair);margin-top:8px;text-align:center}
+#vhome .info-footer{padding-left:0;padding-right:0}
 .info-footer p{margin:0 0 10px}
 .info-disclaimer{font-family:"Space Mono",monospace;font-size:9px;color:var(--dim);line-height:1.8}
 .info-made{font-family:"Space Mono",monospace;font-size:10px;color:var(--dim)}

@@ -1,5 +1,6 @@
 // ── UTILS ──
 function toMins(t){var p=t.split(":");return parseInt(p[0])<8?parseInt(p[0])*60+parseInt(p[1])+1440:parseInt(p[0])*60+parseInt(p[1]);}
+
 function getNow(){var n=new Date(),h=n.getHours(),m=n.getMinutes();return h*60+m+(h<8?1440:0);}
 function getDay(){var d=new Date(),ds=d.toISOString().slice(0,10);return DAYS.find(function(day){return day.date===ds;})||null;}
 function isLive(show){var n=getNow();return n>=toMins(show.time)&&n<toMins(show.end);}
@@ -68,7 +69,7 @@ var _npExpanded=false,_npToShow=[];
 function updateNowPlaying(){
   var today=getDay(),np=document.getElementById("now-playing");
   if(!np)return;
-  if(!today||!favs.size){np.style.display="none";refreshMapGlow();return;}
+  if(curView==="home"||!today||!favs.size){np.style.display="none";refreshMapGlow();return;}
   var nowM=getNow();
   var upFavs=today.shows
     .filter(function(s){return favs.has(s.artist)&&toMins(s.time)>=nowM;})
@@ -215,11 +216,53 @@ function renderHome(){
   var daysUnit=curLang==="zh"?" 天":curLang==="es"?" días":curLang==="ca"?" dies":" days";
   var isDark=document.body.getAttribute("data-theme")==="dark";
   var toggleIcon=isDark?"☾":"☀";
-  var toggleLbl=isDark
-    ?(curLang==="zh"?"暗色":curLang==="es"?"Oscuro":curLang==="ca"?"Fosc":"Dark")
-    :(curLang==="zh"?"浅色":curLang==="es"?"Claro":curLang==="ca"?"Clar":"Light");
+  var toggleLbl=getThemeLbl(isDark);
   var festDateRange=curLang==="zh"?"6月 3—7 日":curLang==="es"?"3—7 JUN":curLang==="ca"?"3—7 JUN":"JUN 3—7";
   var festDuration=curLang==="zh"?"5 天":curLang==="es"?"5 días":curLang==="ca"?"5 dies":"5 days";
+  // Festival day: build "Up Next" card; pre-festival: countdown
+  var todayFest=getDay();
+  var homeCard;
+  if(todayFest){
+    var nowMH=getNow(),upFestShows=[];
+    if(favs.size){
+      var upFavsH=todayFest.shows
+        .filter(function(s){return favs.has(s.artist)&&toMins(s.time)>=nowMH;})
+        .sort(function(a,b){return toMins(a.time)-toMins(b.time);});
+      if(upFavsH.length){
+        var pivH=upFavsH[0];
+        upFestShows=upFavsH.filter(function(s){return toMins(pivH.time)<toMins(s.end)&&toMins(s.time)<toMins(pivH.end);});
+      }
+    }
+    if(!upFestShows.length){
+      upFestShows=todayFest.shows
+        .filter(function(s){return s.hl&&toMins(s.time)>=nowMH;})
+        .sort(function(a,b){return toMins(a.time)-toMins(b.time);})
+        .slice(0,1);
+    }
+    if(upFestShows.length){
+      var minsH=toMins(upFestShows[0].time)-nowMH;
+      var ctH=minsH<=0?"NOW":minsH<60?minsH+"m":Math.floor(minsH/60)+"h"+(minsH%60<10?"0":"")+minsH%60;
+      homeCard='<div class="home-upnext-card">'+
+        '<div class="home-upnext-hdr">UP NEXT · '+todayFest.label.toUpperCase()+'</div>'+
+        upFestShows.map(function(s){
+          var si2=ST[s.stage]||{color:"#888",e:"🎵",s:"?"};
+          return '<div class="np-row">'+
+            '<div class="spill" style="background:'+si2.color+'22;border-color:'+si2.color+'44;color:'+si2.color+'">'+si2.e+" "+si2.s+'</div>'+
+            '<div class="np-name">'+s.artist+'</div>'+
+            '<div class="np-time" style="color:var(--dim);font-size:12px;font-weight:400">'+ctH+'</div>'+
+            '</div>';
+        }).join("")+
+        '</div>';
+    }else{homeCard='';}
+  }else{
+    homeCard='<div class="countdown-card">'+
+      '<div>'+
+        '<div class="countdown-label mono">COUNTDOWN</div>'+
+        '<div class="countdown-days syne">'+daysStr+'<span class="countdown-days-unit dim">'+daysUnit+'</span></div>'+
+      '</div>'+
+      '<div class="countdown-dates mono">'+festDateRange+'<br>'+festDuration+'</div>'+
+      '</div>';
+  }
   var navItemsData=[
     [curLang==="zh"?"排班 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
      curLang==="zh"?"5天 · 11舞台 · 撞车检测":curLang==="es"?"5 días · 11 escenarios · solapamientos":curLang==="ca"?"5 dies · 11 escenaris · solapaments":"5 days · 11 stages · clash detection",1],
@@ -256,13 +299,7 @@ function renderHome(){
     '<div class="home-wordmark syne">stage<br>hop<span class="dot" style="width:12px;height:12px;vertical-align:middle;margin-left:2px;display:inline-block"></span></div>'+
     '<div class="home-ps-title syne">PRIMAVERA SOUND 2026</div>'+
     '<div class="home-location mono">Barcelona · Parc del Fòrum</div>'+
-    '<div class="countdown-card">'+
-      '<div>'+
-        '<div class="countdown-label mono">COUNTDOWN</div>'+
-        '<div class="countdown-days syne">'+daysStr+'<span class="countdown-days-unit dim">'+daysUnit+'</span></div>'+
-      '</div>'+
-      '<div class="countdown-dates mono">'+festDateRange+'<br>'+festDuration+'</div>'+
-    '</div>'+
+    homeCard+
     '<div class="home-nav">'+
     navItemsData.map(function(item,i){
       return '<div class="home-nav-item" onclick="setTab('+item[2]+')">'+
@@ -274,7 +311,8 @@ function renderHome(){
       '</div>';
     }).join("")+
     '</div>'+
-    '<div class="home-spacer"></div>';
+    '<div class="home-spacer"></div>'+
+    sharedFooterHtml();
 }
 
 // ── TAB NAVIGATION ──
@@ -307,11 +345,11 @@ function setTab(n){
   curStage=null;
   vaTrack("view_tab",{tab:n,view:v});
   // render view
-  if(v==="home")renderHome();
-  else if(v==="schedule"){renderDayTabs();renderSchedule();}
-  else if(v==="map"){renderDayTabs();renderMap();setTimeout(initMapGestures,200);}
-  else if(v==="my"){renderMyLineup();updateFavHead();}
-  else if(v==="info")renderInfo();
+  if(v==="home"){renderHome();updateNowPlaying();}
+  else if(v==="schedule"){renderDayTabs();renderSchedule();updateNowPlaying();}
+  else if(v==="map"){renderDayTabs();renderMap();setTimeout(initMapGestures,200);updateNowPlaying();}
+  else if(v==="my"){renderMyLineup();updateFavHead();updateNowPlaying();}
+  else if(v==="info"){renderInfo();updateNowPlaying();}
 }
 
 // Legacy setView kept for internal callers (setDay, render, etc.)
@@ -387,9 +425,9 @@ function renderSchedule(){
     var faved=favs.has(show.artist);
     var conflict=conflicts.has(show.artist)&&faved;
     var pop=_heartPop.has(show.artist);
-    var timeColor=conflict||live?"var(--accent-text)":"var(--text)";
+    var timeColor=conflict?"var(--conflict)":live?"var(--accent-text)":"var(--text)";
     var cardBorder=live?"border-color:var(--accent-soft);box-shadow:inset 3px 0 0 "+si.color
-      :conflict?"border-color:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)":"";
+      :conflict?"border-color:var(--conflict-soft);box-shadow:inset 3px 0 0 var(--conflict)":"";
     return '<div class="si'+(live?" current-set":"")+(faved?" faved":"")+(isPast?" past":"")+'" style="'+cardBorder+'" >'+
       '<div class="stime">'+
         '<div class="tstart mono" style="color:'+(isPast?"var(--dim)":timeColor)+'">'+show.time+'</div>'+
@@ -397,8 +435,8 @@ function renderSchedule(){
         (live?'<div class="scur mono">LIVE</div>':"")+
       '</div>'+
       '<div class="sartist">'+
-        '<div class="aname" style="color:'+(isPast?"var(--dim)":live?si.color:"var(--text)")+'">'+show.artist+'</div>'+
-        '<div class="sc-stage-lbl mono">'+si.e+" "+si.s+(conflict?' <span style="color:var(--accent-text)">· '+t("conflict")+'</span>':"")+
+        '<div class="aname" style="color:'+(isPast?"var(--dim)":live?si.color:"var(--text)")+'">'+show.artist+(show.hl?' <span class="hl-badge">Headliner</span>':'')+' </div>'+
+        '<div class="sc-stage-lbl mono" style="color:'+(isPast?"var(--dim)":si.color)+'">'+si.e+" "+si.s+(conflict?' <span style="color:var(--conflict)">· '+t("conflict")+'</span>':"")+
         '</div>'+
       '</div>'+
       '<button class="heart-btn'+(faved?" on":"")+(pop?" pop":"")+'" onclick="toggleFavAnim(\''+show.artist.replace(/'/g,"\\'")+'\',this)">'+
@@ -445,7 +483,7 @@ function renderMyLineup(){
       var pop=_heartPop.has(show.artist);
       html+='<div class="my-item'+(conflict?" conflict":"")+(live?" current-set":"")+'">' +
         '<div class="stime">'+
-          '<div class="tstart mono" style="color:'+(live?si.color:conflict?"var(--accent-text)":"var(--text)")+'">'+show.time+'</div>'+
+          '<div class="tstart mono" style="color:'+(live?si.color:conflict?"var(--conflict)":"var(--text)")+'">'+show.time+'</div>'+
           (live?'<div class="scur mono">LIVE</div>':"")+
         '</div>'+
         '<div class="sartist">'+
@@ -460,6 +498,14 @@ function renderMyLineup(){
     });
   });
   container.innerHTML=html;
+}
+
+// ── SHARED FOOTER ──
+function sharedFooterHtml(){
+  return '<div class="info-footer">'+
+    '<p class="info-disclaimer">'+t("disclaimer")+' <a class="footer-mail" href="mailto:maxx7770101@gmail.com">maxx7770101@gmail.com</a></p>'+
+    '<p class="info-made">Made by Max777 · <span class="info-ig" onclick="window.open(\'https://www.instagram.com/max7770101\',\'_blank\')">IG @max7770101</span></p>'+
+    '</div>';
 }
 
 // ── INFO ──
@@ -595,6 +641,8 @@ function renderMap(){
   if(img.complete&&img.naturalWidth){place();}else{img.onload=place;}
   var pop=document.getElementById("stagepop");
   pop.style.display="none";pop.classList.remove("visible");
+  var disc=document.getElementById("map-disc");
+  if(disc)disc.innerHTML=sharedFooterHtml();
   mapReset();
 }
 
@@ -632,7 +680,7 @@ function openStagePop(stage){
     html+='<div class="pop-show'+(live?" live-row":"")+'">'+
       '<div class="pop-time" style="color:'+(live?si.color:"var(--dim)")+'">'+s.time+'</div>'+
       '<div class="pop-artist'+(s.hl?" hl":"")+'" style="color:'+(s.hl?si.color:"var(--text)")+'">'+s.artist+(live?'<span class="pop-cur">● LIVE</span>':"")+
-      (conflicts.has(s.artist)&&faved?' <span style="color:var(--accent-text)">⚠</span>':"")+
+      (conflicts.has(s.artist)&&faved?' <span style="color:var(--conflict)">⚠</span>':"")+
       '</div>'+
       '<div class="pop-fav'+(faved?" on":"")+'" onclick="toggleFav(\''+s.artist.replace(/'/g,"\\'")+'\')">'+(faved?"♥":"♡")+'</div>'+
     '</div>';
@@ -733,12 +781,17 @@ function toggleTheme(e){
   if(vt.finished)vt.finished.catch(function(){});
 }
 
+var THEME_LABELS={
+  zh:{light:"日间",dark:"夜间"},
+  en:{light:"Light",dark:"Dark"},
+  es:{light:"Claro",dark:"Oscuro"},
+  ca:{light:"Clar",dark:"Fosc"},
+};
+function getThemeLbl(isDark){var m=THEME_LABELS[curLang]||THEME_LABELS.en;return isDark?m.dark:m.light;}
 function updateThemeToggleUI(){
   var isDark=document.body.getAttribute("data-theme")==="dark";
   var icon=isDark?"☾":"☀";
-  var lbl=isDark
-    ?(curLang==="zh"?"暗色":curLang==="es"?"Oscuro":curLang==="ca"?"Fosc":"Dark")
-    :(curLang==="zh"?"浅色":curLang==="es"?"Claro":curLang==="ca"?"Clar":"Light");
+  var lbl=getThemeLbl(isDark);
   document.querySelectorAll(".theme-toggle-icon").forEach(function(el){el.textContent=icon;});
   document.querySelectorAll(".theme-toggle-lbl").forEach(function(el){el.textContent=lbl;});
 }

@@ -1,6 +1,6 @@
 // ── STAGE DATA ──
 var ST={
-  "Estrella Damm":{color:"#F5C842",bg:"#1a1400cc",e:"🌟",s:"Estrella"},
+  "Estrella Damm":{color:"#C4900A",bg:"#1a1400cc",e:"🌟",s:"Estrella"},
   "Revolut":{color:"#FF5722",bg:"#1a0800cc",e:"🔥",s:"Revolut"},
   "Occident":{color:"#7DCE82",bg:"#0a1a0acc",e:"🎸",s:"Occident"},
   "CUPRA":{color:"#60AAEE",bg:"#00112acc",e:"🌊",s:"CUPRA"},
@@ -9,7 +9,7 @@ var ST={
   "Port":{color:"#F4A261",bg:"#1a0e00cc",e:"⚓",s:"Port"},
   "Plenitude":{color:"#00CFCF",bg:"#001a1acc",e:"🎛️",s:"Pleni"},
   "The Levi's Warehouse":{color:"#C9B070",bg:"#12100ecc",e:"🏚️",s:"Levi's"},
-  "Auditori Rockdelux":{color:"#FF8FAB",bg:"#1a0010cc",e:"🪑",s:"Aud"},
+  "Auditori Rockdelux":{color:"#FF8FAB",bg:"#1a0010cc",e:"🪑",s:"Auditori"},
   "Parc Del Forum":{color:"#4ADE80",bg:"#001a0acc",e:"🎪",s:"Forum"},
 };
 
