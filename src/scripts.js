@@ -597,8 +597,6 @@ function renderInfo(){
 var _selStage=null;
 function renderMap(){
   var day=DAYS.find(function(d){return d.key===curDay;});
-  var mf=document.getElementById("mapfoot");
-  if(mf)mf.textContent=day.label+" · "+t("mapHint");
   var inner=document.getElementById("mapinner");
   inner.querySelectorAll(".hs").forEach(function(e){e.remove();});
   _selStage=null;
@@ -617,6 +615,7 @@ function renderMap(){
       el.dataset.stage=stage;
       el.style.left=l+"%";el.style.top=top+"%";
       el.style.width=sw+"%";el.style.height=sh+"%";
+      el.style.transformOrigin="center center";
       var fs=getFitScale();
       var bpx=Math.max(1,Math.round(2/fs));
       el.style.background=hasShows?si.color+"22":"rgba(0,0,0,0)";
@@ -722,6 +721,8 @@ function applyMapTransform(){
   mapState.y=Math.min(0,Math.max(Math.min(0,wh-ih),mapState.y));
   inner.style.transformOrigin="0 0";
   inner.style.transform="translate("+mapState.x+"px,"+mapState.y+"px) scale("+mapState.scale+")";
+  var invScale=fit/mapState.scale;
+  inner.querySelectorAll(".hs").forEach(function(el){el.style.transform="scale("+invScale+")";});
 }
 function mapZoom(f){var wrap=document.getElementById("mapwrap");var cx=wrap.offsetWidth/2,cy=wrap.offsetHeight/2;mapState.x=cx-(cx-mapState.x)*f;mapState.y=cy-(cy-mapState.y)*f;mapState.scale*=f;applyMapTransform();}
 function mapReset(){mapState={scale:getFitScale(),x:0,y:0};applyMapTransform();}

@@ -552,7 +552,8 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 .map-official-btn{
   display:block;font-family:"Space Mono",monospace;font-size:10px;
   color:var(--accent-text);letter-spacing:.04em;
-  text-decoration:none;padding:10px 4px 4px;
+  text-decoration:none;padding:8px 4px 4px;
+  text-align:center;
 }
 
 /* ===== FAVORITES SCREEN ===== */
