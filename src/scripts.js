@@ -264,7 +264,7 @@ function renderHome(){
       '</div>';
   }
   var navItemsData=[
-    [curLang==="zh"?"排班 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
+    [curLang==="zh"?"演出 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
      curLang==="zh"?"5天 · 11舞台 · 撞车检测":curLang==="es"?"5 días · 11 escenarios · solapamientos":curLang==="ca"?"5 dies · 11 escenaris · solapaments":"5 days · 11 stages · clash detection",1],
     [curLang==="zh"?"场地地图":curLang==="es"?"Mapa del recinto":curLang==="ca"?"Mapa del recinte":"Venue map",
      curLang==="zh"?"场地热图 · 舞台位置":curLang==="es"?"Plano del recinto y escenarios":curLang==="ca"?"Plànol del recinte i escenaris":"Stage locations & venue",2],
