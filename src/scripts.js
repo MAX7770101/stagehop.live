@@ -771,11 +771,11 @@ function toggleTheme(e){
   document.documentElement.style.setProperty("--vt-x",x+"px");
   document.documentElement.style.setProperty("--vt-y",y+"px");
   var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var tc=document.querySelector("meta[name='theme-color']");
+  if(tc)tc.setAttribute("content",next==="dark"?"#0E1017":"#EDE5D0");
   var apply=function(){
     body.setAttribute("data-theme",next);
     localStorage.setItem("ps26_theme",next);
-    var tc=document.querySelector("meta[name='theme-color']");
-    if(tc)tc.setAttribute("content",next==="dark"?"#0E1017":"#EDE5D0");
     updateThemeToggleUI();
     if(curView==="home")renderHome();
   };
