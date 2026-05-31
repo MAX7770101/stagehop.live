@@ -774,6 +774,8 @@ function toggleTheme(e){
   var apply=function(){
     body.setAttribute("data-theme",next);
     localStorage.setItem("ps26_theme",next);
+    var tc=document.querySelector("meta[name='theme-color']");
+    if(tc)tc.setAttribute("content",next==="dark"?"#0E1017":"#EDE5D0");
     updateThemeToggleUI();
     if(curView==="home")renderHome();
   };
@@ -803,6 +805,8 @@ function updateThemeToggleUI(){
   // Restore theme
   var savedTheme=localStorage.getItem("ps26_theme")||(window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
   document.body.setAttribute("data-theme",savedTheme);
+  var tcMeta=document.querySelector("meta[name='theme-color']");
+  if(tcMeta)tcMeta.setAttribute("content",savedTheme==="dark"?"#0E1017":"#EDE5D0");
 
   // Restore saved tab
   var savedTab=parseInt(localStorage.getItem("sh.tab")||"0");
