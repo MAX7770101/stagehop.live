@@ -17,7 +17,7 @@ var HOTSPOTS={
   "Port":[1.5,42.0,11,13],"Schwarzkopf":[10.6,56.3,22,11],
   "CUPRA":[29.0,40.1,13,10],"The Levi's Warehouse":[19.9,61.5,17,12],
   "Occident":[30.1,70.2,17,11],"Plenitude":[65.0,35.0,13,10],
-  "Estrella Damm":[64.3,9.4,19,22],"Revolut":[75.2,12.0,15,22],
+  "Estrella Damm":[61.0,9.4,16,20],"Revolut":[79.0,12.0,13,20],
   "Auditori Rockdelux":[61.5,68.4,22,19],
 };
 
