@@ -800,7 +800,7 @@ function updateThemeToggleUI(){
 // ── INIT ──
 (function(){
   // Restore theme
-  var savedTheme=localStorage.getItem("ps26_theme")||"light";
+  var savedTheme=localStorage.getItem("ps26_theme")||(window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
   document.body.setAttribute("data-theme",savedTheme);
 
   // Restore saved tab
