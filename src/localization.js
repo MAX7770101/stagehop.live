@@ -43,6 +43,7 @@ var LANGS={
     navHome:"首页",navSchedule:"演出表",navMap:"地图",navFavs:"收藏",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
     showPast:"场已结束",hidePast:"隐藏已结束",more:"更多",collapse:"收起",
     disclaimer:"本站为乐迷自制的非官方指南，与 Primavera Sound S.L. 无任何关联。<br>所有商标归各自所有者所有。<br>演出信息仅供参考，请以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方网站</a>为准。<br>反馈或纠错请联系：",
+    madeBy:"由 Max777 制作于巴塞罗那",kofi:"🍺 打赏一杯",
   },
   es:{
     city:"Barcelona · Parc del Fòrum · Junio 2026",
@@ -87,6 +88,7 @@ var LANGS={
     navHome:"Inicio",navSchedule:"Horario",navMap:"Mapa",navFavs:"Guardados",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"terminados",hidePast:"Ocultar pasados",more:"más",collapse:"colapsar",
     disclaimer:"Sitio no oficial creado por fans.<br>Sin afiliación con Primavera Sound S.L.<br>Todas las marcas pertenecen a sus respectivos propietarios.<br>Información orientativa; consulta la <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">web oficial</a>.<br>Sugerencias o correcciones:",
+    madeBy:"Hecho por Max777 en Barcelona",kofi:"🍺 fondo de cervezas",
   },
   ca:{
     city:"Barcelona · Parc del Fòrum · Juny 2026",
@@ -131,6 +133,7 @@ var LANGS={
     navHome:"Inici",navSchedule:"Horari",navMap:"Mapa",navFavs:"Preferits",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"acabats",hidePast:"Amaga els acabats",more:"més",collapse:"replegar",
     disclaimer:"Guia no oficial creada per fans.<br>Sense afiliació amb Primavera Sound S.L.<br>Totes les marques pertanyen als seus respectius propietaris.<br>Informació orientativa; consulta el <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">lloc web oficial</a>.<br>Comentaris o correccions:",
+    madeBy:"Fet per Max777 a Barcelona",kofi:"🍺 fons de cerveses",
   },
   en:{
     city:"Barcelona · Parc del Fòrum · June 2026",
@@ -175,6 +178,7 @@ var LANGS={
     navHome:"Home",navSchedule:"Schedule",navMap:"Map",navFavs:"Saved",navInfo:"Info",navTheme:"Theme",navLang:"Language",
     showPast:"ended",hidePast:"Hide ended",more:"more",collapse:"collapse",
     disclaimer:"Unofficial fan-made guide.<br>Not affiliated with Primavera Sound S.L.<br>All trademarks belong to their respective owners.<br>Information for reference only; check the <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">official site</a>.<br>Feedback or corrections:",
+    madeBy:"Made by Max777 in Barcelona",kofi:"🍺 beer fund",
   }
 };
 
