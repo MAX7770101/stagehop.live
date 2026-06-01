@@ -213,12 +213,13 @@ function renderHome(){
   var today=new Date();today.setHours(0,0,0,0);
   var days=Math.ceil((festStart-today)/86400000);
   var daysStr=days>0?(days<10?"0"+days:String(days)):"0";
-  var daysUnit=curLang==="zh"?" 天":curLang==="es"?" días":curLang==="ca"?" dies":" days";
+  var isZh=curLang==="zh"||curLang==="zht";
+  var daysUnit=isZh?" 天":curLang==="es"?" días":curLang==="ca"?" dies":" days";
   var isDark=document.body.getAttribute("data-theme")==="dark";
   var toggleIcon=isDark?"☾":"☀";
   var toggleLbl=getThemeLbl(isDark);
-  var festDateRange=curLang==="zh"?"6月 3—7 日":curLang==="es"?"3—7 JUN":curLang==="ca"?"3—7 JUN":"JUN 3—7";
-  var festDuration=curLang==="zh"?"5 天":curLang==="es"?"5 días":curLang==="ca"?"5 dies":"5 days";
+  var festDateRange=curLang==="zht"?"6月 3—7 日":isZh?"6月 3—7 日":curLang==="es"?"3—7 JUN":curLang==="ca"?"3—7 JUN":"JUN 3—7";
+  var festDuration=isZh?"5 天":curLang==="es"?"5 días":curLang==="ca"?"5 dies":"5 days";
   // Festival day: build "Up Next" card; pre-festival: countdown
   var todayFest=getDay();
   var homeCard;
@@ -264,17 +265,17 @@ function renderHome(){
       '</div>';
   }
   var navItemsData=[
-    [curLang==="zh"?"演出 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
-     curLang==="zh"?"5天 · 11舞台 · 撞车检测":curLang==="es"?"5 días · 11 escenarios · solapamientos":curLang==="ca"?"5 dies · 11 escenaris · solapaments":"5 days · 11 stages · clash detection",1],
-    [curLang==="zh"?"场地地图":curLang==="es"?"Mapa del recinto":curLang==="ca"?"Mapa del recinte":"Venue map",
-     curLang==="zh"?"场地热图 · 舞台位置":curLang==="es"?"Plano del recinto y escenarios":curLang==="ca"?"Plànol del recinte i escenaris":"Stage locations & venue",2],
-    [curLang==="zh"?"我的收藏":curLang==="es"?"Mis favoritos":curLang==="ca"?"Els meus favorits":"My Favorites",
-     curLang==="zh"?"收藏艺人 · 查看我的行程":curLang==="es"?"Artistas guardados · tu agenda personal":curLang==="ca"?"Artistes desats · la teva agenda":"Saved artists & your itinerary",3],
-    [curLang==="zh"?"实用信息":curLang==="es"?"Info práctica":curLang==="ca"?"Info pràctica":"Practical info",
-     curLang==="zh"?"交通 · 禁带 · 实用贴士":curLang==="es"?"Transporte, normas y consejos":curLang==="ca"?"Transport, normes i consells":"Know before you go",4]
+    [curLang==="zht"?"演出 & 撞期":isZh?"演出 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
+     curLang==="zht"?"5日 · 11舞台 · 撞期":isZh?"5天 · 11舞台 · 撞车检测":curLang==="es"?"5 días · 11 escenarios · solapamientos":curLang==="ca"?"5 dies · 11 escenaris · solapaments":"5 days · 11 stages · clash detection",1],
+    [curLang==="zht"?"場地地圖":isZh?"场地地图":curLang==="es"?"Mapa del recinto":curLang==="ca"?"Mapa del recinte":"Venue map",
+     curLang==="zht"?"場地熱圖 · 舞台位置":isZh?"场地热图 · 舞台位置":curLang==="es"?"Plano del recinto y escenarios":curLang==="ca"?"Plànol del recinte i escenaris":"Stage locations & venue",2],
+    [curLang==="zht"?"我嘅最愛":isZh?"我的收藏":curLang==="es"?"Mis favoritos":curLang==="ca"?"Els meus favorits":"My Favorites",
+     curLang==="zht"?"收藏藝人 · 睇我嘅行程":isZh?"收藏艺人 · 查看我的行程":curLang==="es"?"Artistas guardados · tu agenda personal":curLang==="ca"?"Artistes desats · la teva agenda":"Saved artists & your itinerary",3],
+    [curLang==="zht"?"實用資訊":isZh?"实用信息":curLang==="es"?"Info práctica":curLang==="ca"?"Info pràctica":"Practical info",
+     curLang==="zht"?"交通 · 禁帶 · 實用貼士":isZh?"交通 · 禁带 · 实用贴士":curLang==="es"?"Transporte, normas y consejos":curLang==="ca"?"Transport, normes i consells":"Know before you go",4]
   ];
-  var langs=[["中文","zh"],["Español","es"],["Català","ca"],["English","en"]];
-  var langShort={zh:"中",es:"ES",ca:"CA",en:"EN"};
+  var langs=[["简中","zh"],["繁中","zht"],["Español","es"],["Català","ca"],["English","en"]];
+  var langShort={zh:"中",zht:"繁",es:"ES",ca:"CA",en:"EN"};
   body.innerHTML=
     '<div class="home-top">'+
       '<div class="home-brand-label mono">春日之声 · Unofficial</div>'+
@@ -400,7 +401,7 @@ function renderSchedule(){
   var conflicts=getConflicts(day.shows);
 
   // Filter bar
-  var allLbl=curLang==="zh"?"全部":curLang==="es"?"Todo":curLang==="ca"?"Tot":"All";
+  var allLbl=(curLang==="zh"||curLang==="zht")?"全部":curLang==="es"?"Todo":curLang==="ca"?"Tot":"All";
   document.getElementById("fbar").innerHTML=
     '<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)">'+allLbl+'</button>'+
     stages.map(function(s){var si=ST[s];if(!si)return"";var on=curStage===s;
@@ -787,6 +788,7 @@ function toggleTheme(e){
 
 var THEME_LABELS={
   zh:{light:"日间",dark:"夜间"},
+  zht:{light:"日間",dark:"夜間"},
   en:{light:"Light",dark:"Dark"},
   es:{light:"Claro",dark:"Oscuro"},
   ca:{light:"Clar",dark:"Fosc"},

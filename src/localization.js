@@ -45,6 +45,51 @@ var LANGS={
     disclaimer:"本站为乐迷自制的非官方指南，与 Primavera Sound S.L. 无任何关联。<br>所有商标归各自所有者所有。<br>演出信息仅供参考，请以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方网站</a>为准。<br>反馈或纠错请联系：",
     madeBy:"由 Max777 制作于巴塞罗那",kofi:"🍺 打赏一杯",
   },
+  zht:{
+    city:"Barcelona · Parc del Fòrum · 2026年6月",
+    now:"▶ 緊演緊",next:"⏭ 下一場",remaining:"剩餘",startsIn:"後開始",
+    sort:"排序",byTime:"時間",byName:"名稱",
+    favs:"💖 我嘅最愛",noFavs:"未有收藏嘅藝人",
+    headliner:"HEADLINER",live:"● LIVE",
+    mapHint:"雙指縮放 · 撳舞台睇演出",reset:"復位",noShows:"今日暫無演出",mapOfficial:"睇官網高清地圖",
+    myEmpty:"💖 收藏藝人後\n喺呢度睇你嘅專屬行程",myTitle:"我嘅行程",conflict:"clash",
+    opening:"開幕日",day1:"第一日",day2:"第二日",day3:"第三日",bits:"Bits",free:"免費",
+    infoTitle:"實用資訊",
+    doorsH:"開門時間",doorsBody:"主場地 Parc del Fòrum 每日約 16:00 開門，演出持續至翌日 05:00–06:00。週三開幕日（6/3）為免費活動，約 17:00 起。",
+    transitH:"交通",metroLine:"地鐵 L4（黃線）",metroStop:"El Maresme | Fòrum 站",
+    nightbus:"夜巴 N6",nightbusDesc:"凌晨收班後運行，約 15 分鐘一班，可達市中心（Pl. Catalunya）",
+    bikeDesc:"場地內有免費單車停放區",metroHours:"週一至四 05:00–00:00 · 週五 05:00–02:00 · 週六 24小時連續運行",tramLine:"電車 T4 線",tramStop:"Fòrum 站 · 節日期間增加班次",daybus:"日間巴士 H16 / H14 / 143 / 7 / 36",daybusDesc:"由市中心各區直達，運行時間 06:30–23:15",shuttle:"官方接駁車",shuttleDesc:"午夜至早晨約€2，Passeig Taulat → Plaça Catalunya，AccessTicket App 可預約",walkDesc:"由市中心沿海濱步行約60分鐘，地中海美景相伴",
+    banH:"禁帶物品",
+    banItems:["玻璃容器","專業相機／攝錄機（單反等；菲林／卡片機除外）","自拍棍","無人機","寵物（導盲犬除外）"],
+    allowItems:["食物（非玻璃容器）","膠樽裝水（≤50cl，無蓋）","自備膠杯（≤40cl）","菲林／卡片／即棄相機","細手袋（A4 大小以內）","雨褸／防曬霜","處方藥（攜帶證明）"],
+    banLabel:"禁止攜帶",allowLabel:"允許攜帶",
+    weatherH:"天氣預報",
+    weatherNote:"六月初巴塞隆拿通常晴朗，日間 25–30°C，夜間 18–22°C。建議攜帶防曬霜同輕便外套（凌晨場較涼）。",
+    tipsH:"實用小貼士",
+    tips:["AccessTicket 手帶需喺入口激活，請留出排隊時間","現金充值點分布喺場地各處（僅 AccessTicket 消費）","免費飲水站全場分布，自備空樽可慳開支","Nobody Is Normal 安全站提供緊急援助","免費水點高峰時段排隊較長。建議換舞台時順手補滿水樽，唔好等口渴先去"],
+    emergH:"緊急援助",
+    emergItems:["緊急電話：112","安全站：主入口及各主舞台兩側均設有援助點","與同伴走失時：喺主舞台正前方集合"],
+    ticketsH:"門票",
+    ticketSalesBody:"官方購票渠道：Fever App（iOS/Android）同 AccessTicket（支援分期付款）。門票可喺 AccessTicket 中轉讓（未使用且未關聯活動預約）。唔需要打印——直接用 AccessTicket App 掃碼驗票。",
+    ticketTypesBody:"Parc del Fòrum 僅提供三日通票同單日票，冇單場演出票。",
+    ticketQRBody:"二維碼僅允許入場一次，請妥善保管。唔好截圖俾他人，唔好喺社交媒體發布。",
+    minorsH:"未成年人",
+    minor12:"12歲及以下（含）：免票，需喺 Fever 領取免費票，由父母或法定監護人陪同（攜帶證件及本人門票）。",
+    minor1315:"13–15歲：需購買未成年人票，必須由父母或法定監護人陪同（不含兄弟姐妹或其他親屬）。",
+    minor1617:"16–17歲：購買青少年票後可獨立入場（無需陪同）。部分場館演出需年滿18歲。",
+    accessH:"無障礙服務（PRM）",
+    accessBody:"行動不便及有特殊需求人士可經快速通道入場（可攜帶一名陪伴者）。各主要舞台均設專屬觀看區及無障礙廁所。",
+    accessEmail:"accessibility@primaverasound.com",
+    payH:"場內付款方式",
+    payBody:"支援信用／借記卡（Visa 及 Mastercard；不接受美國運通）同 AccessTicket 錢包。",
+    lostH:"失物招領",
+    lostBody:"節日期間失物統一送至外部資訊點，可就近前往或填寫失物表格。節日結束後未認領物品移交至 Guàrdia Urbana de Poblenou（Carrer d'Espronceda, 148）。",
+    faqH:"官方常見問題",faqLink:"睇完整官方 FAQ",
+    navHome:"主頁",navSchedule:"演出表",navMap:"地圖",navFavs:"最愛",navInfo:"實用資訊",navTheme:"主題",navLang:"語言",
+    showPast:"場已完",hidePast:"隱藏已完",more:"更多",collapse:"收起",
+    disclaimer:"本站為樂迷自製嘅非官方指南，與 Primavera Sound S.L. 無任何關聯。<br>所有商標歸各自所有者所有。<br>演出資訊僅供參考，請以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方網站</a>為準。<br>反饋或糾錯請聯絡：",
+    madeBy:"由 Max777 製作於巴塞隆拿",kofi:"🍺 打賞一杯",
+  },
   es:{
     city:"Barcelona · Parc del Fòrum · Junio 2026",
     now:"▶ EN ESCENA",next:"⏭ PRÓXIMO",remaining:"restante",startsIn:"para empezar",
@@ -186,12 +231,14 @@ var curLang=localStorage.getItem("ps26_lang")||(function(){
   var ls=navigator.languages||[navigator.language||"en"];
   for(var i=0;i<ls.length;i++){var l=ls[i].toLowerCase();
     if(l==="ca"||l.startsWith("ca-"))return"ca";
+    if(l==="yue"||l.startsWith("yue-"))return"zht";
+    if(l==="zh-hk"||l==="zh-tw"||l==="zh-mo"||l==="zh-hant"||l.startsWith("zh-hant-"))return"zht";
     if(l==="zh"||l.startsWith("zh-"))return"zh";
     if(l==="es"||l.startsWith("es-"))return"es";
   }
   return"en";
 })();
-function t(k){return LANGS[curLang][k]||LANGS.zh[k]||k;}
+function t(k){return (LANGS[curLang]&&LANGS[curLang][k])||LANGS.zh[k]||k;}
 function setLang(l){
   curLang=l;localStorage.setItem("ps26_lang",l);
   if(typeof vaTrack==='function')vaTrack('switch_language',{lang:l});
