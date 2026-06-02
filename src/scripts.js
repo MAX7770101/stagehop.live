@@ -532,8 +532,9 @@ function renderInfo(){
       '<div class="info-row"><div class="info-icon">🚋</div><div class="info-text"><strong>'+L.tramLine+'</strong><br>'+L.tramStop+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🚌</div><div class="info-text"><strong>'+L.daybus+'</strong><br>'+L.daybusDesc+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🌙</div><div class="info-text"><strong>'+L.nightbus+'</strong><br>'+L.nightbusDesc+'</div></div>'+
-      '<div class="info-row"><div class="info-icon">🚌</div><div class="info-text"><strong>'+L.shuttle+'</strong><br>'+L.shuttleDesc+'</div></div>'+
-      '<div class="info-row"><div class="info-icon">🚲</div><div class="info-text">'+L.bikeDesc+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">🚲</div><div class="info-text"><strong>'+L.bicing+'</strong><br>'+L.bicingDesc+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">🅿️</div><div class="info-text"><strong>'+L.bikeH+'</strong><br>'+L.bikeDesc.replace(/\n/g,"<br>")+'</div></div>'+
+      '<div class="info-row"><div class="info-icon">🚕</div><div class="info-text"><strong>'+L.taxi+'</strong><br>'+L.taxiDesc+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🚶</div><div class="info-text">'+L.walkDesc+'</div></div>'+
     '</div>'+
     '<div class="info-section">'+
