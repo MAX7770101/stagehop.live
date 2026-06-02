@@ -505,7 +505,7 @@ function renderMyLineup(){
 function sharedFooterHtml(){
   return '<div class="info-footer">'+
     '<p class="info-disclaimer">'+t("disclaimer")+' <a class="footer-mail" href="mailto:maxx7770101@gmail.com">maxx7770101@gmail.com</a></p>'+
-    '<p class="info-made">'+t("madeBy")+' · <span class="info-ig" onclick="window.open(\'https://www.instagram.com/max7770101\',\'_blank\')">IG @max7770101</span></p>'+
+    '<p class="info-made">'+t("madeBy")+'</p>'+
     '<p class="info-made"><a class="footer-link" href="https://ko-fi.com/max7770101" target="_blank" rel="noopener">'+t("kofi")+'</a></p>'+
     '</div>';
 }
@@ -584,7 +584,7 @@ function renderInfo(){
     '<div style="font-family:\'Space Mono\',monospace;font-size:8px;letter-spacing:.06em;color:var(--dim);padding:8px 0 4px;text-align:center">OFFLINE-READY PWA · DATA STORED LOCALLY</div>'+
     '<div class="info-footer">'+
       '<p class="info-disclaimer">'+t("disclaimer")+' <a class="footer-mail" href="mailto:maxx7770101@gmail.com">maxx7770101@gmail.com</a></p>'+
-      '<p class="info-made">'+t("madeBy")+' · <span class="info-ig" onclick="window.open(\'https://www.instagram.com/max7770101\',\'_blank\')">IG @max7770101</span></p>'+
+      '<p class="info-made">'+t("madeBy")+'</p>'+
       '<p class="info-made"><a class="footer-link" href="https://ko-fi.com/max7770101" target="_blank" rel="noopener">'+t("kofi")+'</a></p>'+
       '<p class="info-privacy">This site uses Vercel Web Analytics to collect anonymous visitor metrics. Favorites and preferences are stored locally on your device only.</p>'+
     '</div>';
