@@ -69,16 +69,27 @@ var _npExpanded=false,_npToShow=[];
 function updateNowPlaying(){
   var today=getDay(),np=document.getElementById("now-playing");
   if(!np)return;
-  if(curView==="home"||!today||!favs.size){np.style.display="none";refreshMapGlow();return;}
+  if(curView==="home"||!today){np.style.display="none";refreshMapGlow();return;}
   var nowM=getNow();
-  var upFavs=today.shows
-    .filter(function(s){return favs.has(s.artist)&&toMins(s.time)>=nowM;})
-    .sort(function(a,b){return toMins(a.time)-toMins(b.time)||a.artist.localeCompare(b.artist);});
-  if(!upFavs.length){np.style.display="none";refreshMapGlow();return;}
-  var pivot=upFavs[0];
-  var newToShow=upFavs.filter(function(s){
-    return toMins(pivot.time)<toMins(s.end)&&toMins(s.time)<toMins(pivot.end);
-  });
+  var newToShow;
+  if(favs.size){
+    var upFavs=today.shows
+      .filter(function(s){return favs.has(s.artist)&&toMins(s.time)>=nowM;})
+      .sort(function(a,b){return toMins(a.time)-toMins(b.time)||a.artist.localeCompare(b.artist);});
+    if(!upFavs.length){np.style.display="none";refreshMapGlow();return;}
+    var pivot=upFavs[0];
+    newToShow=upFavs.filter(function(s){
+      return toMins(pivot.time)<toMins(s.end)&&toMins(s.time)<toMins(pivot.end);
+    });
+  }else{
+    var upAll=today.shows
+      .filter(function(s){return toMins(s.time)>=nowM;})
+      .sort(function(a,b){return toMins(a.time)-toMins(b.time)||a.artist.localeCompare(b.artist);});
+    if(!upAll.length){np.style.display="none";refreshMapGlow();return;}
+    var pivot=upAll[0];
+    if(toMins(pivot.time)-nowM>60){np.style.display="none";refreshMapGlow();return;}
+    newToShow=upAll.filter(function(s){return toMins(s.time)===toMins(pivot.time);});
+  }
   var changed=newToShow.length!==_npToShow.length||newToShow.some(function(s,i){return s.artist!==(_npToShow[i]&&_npToShow[i].artist);});
   if(changed)_npExpanded=false;
   _npToShow=newToShow;
@@ -88,6 +99,7 @@ function updateNowPlaying(){
 }
 function npToggleExpand(){_npExpanded=!_npExpanded;renderNpRows();}
 function renderNpRows(){
+  var today=getDay();
   var nowM=getNow();
   var visible=_npExpanded?_npToShow:_npToShow.slice(0,3);
   var groups=[];
@@ -95,23 +107,24 @@ function renderNpRows(){
     var last=groups[groups.length-1];
     if(last&&last[0].time===s.time){last.push(s);}else{groups.push([s]);}
   });
-  document.getElementById("np-rows").innerHTML=groups.map(function(group){
+  var dateLabel=today&&_wxDateLabel[today.date]?_wxDateLabel[today.date].toUpperCase():"";
+  var hdr='<div class="np-header">UP NEXT · '+dateLabel+'</div>';
+  document.getElementById("np-rows").innerHTML=hdr+groups.map(function(group){
     var mins=toMins(group[0].time)-nowM;
     var isNow=mins<=0;
     var ct=isNow?"NOW":mins<60?mins+"m":Math.floor(mins/60)+"h"+(mins%60<10?"0":"")+mins%60;
-    var tc=isNow?"var(--accent-text)":mins<=5?"var(--accent-text)":mins<=30?"var(--accent-text)":"var(--dim)";
-    var fw=mins<=15?700:400;
+    var tc=isNow?"var(--accent-text)":"var(--dim)";
     return '<div class="np-group">'+
       '<div class="np-group-artists">'+
       group.map(function(s){
         var si=ST[s.stage]||{color:"#888",e:"🎵",s:"?"};
         return '<div class="np-row">'+
           '<div class="spill" style="background:'+si.color+'22;border-color:'+si.color+'44;color:'+si.color+'">'+si.e+" "+si.s+'</div>'+
-          '<div class="np-name" style="color:'+si.color+'">'+s.artist+'</div>'+
+          '<div class="np-name">'+s.artist+'</div>'+
           '</div>';
       }).join("")+
       '</div>'+
-      '<div class="np-time" style="font-size:14px;font-weight:'+fw+';color:'+tc+'">'+ct+'</div>'+
+      '<div class="np-time" style="color:'+tc+';font-weight:400">'+ct+'</div>'+
       '</div>';
   }).join("");
   var more=document.getElementById("np-more");

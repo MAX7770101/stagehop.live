@@ -196,9 +196,6 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   letter-spacing:.18em;color:var(--accent-text);
   padding:10px 14px 4px;
 }
-.home-upnext-card .np-row{padding:6px 14px 6px 14px;}
-.home-upnext-card .np-name{font-size:14px;}
-.home-upnext-card .np-time{font-size:13px;padding:0 0 0 8px;}
 .home-nav{margin-top:22px}
 .home-nav-item{
   display:flex;justify-content:space-between;align-items:center;
@@ -249,36 +246,32 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 #now-playing{
   display:none;flex-shrink:0;
   background:var(--surface);
-  border:1px solid var(--accent-soft);
-  border-radius:12px;
-  margin:12px 24px 0;
+  border:1px solid var(--hair);
+  border-radius:16px;
+  margin:8px 16px 0;
   overflow:hidden;
-  flex-shrink:0;
   position:relative;
-}
-#now-playing::before{
-  content:"";display:block;height:2px;
-  background:linear-gradient(90deg,var(--accent),transparent);
+  padding-bottom:10px;
 }
 .np-header{
   font-family:"Space Mono",monospace;font-size:8px;
-  letter-spacing:.2em;color:var(--accent-text);
-  text-transform:uppercase;padding:6px 14px 2px;
+  letter-spacing:.18em;color:var(--accent-text);
+  text-transform:uppercase;padding:10px 14px 4px;
 }
 .np-group{display:flex;align-items:center}
 .np-group-artists{flex:1;min-width:0}
 .np-row{
   display:flex;align-items:center;gap:8px;
-  padding:3px 0 3px 14px;
+  padding:6px 14px;
 }
 .np-name{
   flex:1;min-width:0;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap;font-size:12px;
+  text-overflow:ellipsis;white-space:nowrap;font-size:14px;
 }
 .np-time{
   font-family:"Space Mono",monospace;
   font-variant-numeric:tabular-nums;white-space:nowrap;
-  min-width:40px;text-align:right;padding:0 14px 0 8px;
+  min-width:40px;text-align:right;padding:0 14px 0 8px;font-size:13px;
 }
 .np-more-link{
   display:block;font-family:"Space Mono",monospace;font-size:10px;
