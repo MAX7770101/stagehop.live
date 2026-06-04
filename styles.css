@@ -395,6 +395,13 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   color:var(--accent-text);font-weight:400;letter-spacing:.03em;
   vertical-align:middle;opacity:.9;
 }
+.cancelled-badge{
+  font-family:"Space Mono",monospace;font-size:9px;
+  color:var(--dim);font-weight:400;letter-spacing:.04em;
+  vertical-align:middle;
+}
+.si.cancelled,.my-item.cancelled{opacity:0.55;}
+.orig-time{text-decoration:line-through;opacity:0.5;font-weight:400;}
 
 /* legacy fav-star fallback */
 .fav-star{

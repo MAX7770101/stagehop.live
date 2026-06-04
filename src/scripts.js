@@ -56,7 +56,7 @@ function toggleFavBar(){/* replaced by tab-based favorites view */}
 
 // ── CONFLICT DETECTION ──
 function getConflicts(shows){
-  var c=new Set(),fs=shows.filter(function(s){return favs.has(s.artist);});
+  var c=new Set(),fs=shows.filter(function(s){return favs.has(s.artist)&&!s.cancelled;});
   for(var i=0;i<fs.length;i++)for(var j=i+1;j<fs.length;j++){
     var a=fs[i],b=fs[j];
     if(toMins(a.time)<toMins(b.end)&&toMins(a.end)>toMins(b.time)){c.add(a.artist);c.add(b.artist);}
@@ -74,7 +74,7 @@ function updateNowPlaying(){
   var newToShow;
   if(favs.size){
     var upFavs=today.shows
-      .filter(function(s){return favs.has(s.artist)&&toMins(s.time)>=nowM;})
+      .filter(function(s){return favs.has(s.artist)&&!s.cancelled&&toMins(s.time)>=nowM;})
       .sort(function(a,b){return toMins(a.time)-toMins(b.time)||a.artist.localeCompare(b.artist);});
     if(!upFavs.length){np.style.display="none";refreshMapGlow();return;}
     var pivot=upFavs[0];
@@ -83,7 +83,7 @@ function updateNowPlaying(){
     });
   }else{
     var upAll=today.shows
-      .filter(function(s){return toMins(s.time)>=nowM;})
+      .filter(function(s){return !s.cancelled&&toMins(s.time)>=nowM;})
       .sort(function(a,b){return toMins(a.time)-toMins(b.time)||a.artist.localeCompare(b.artist);});
     if(!upAll.length){np.style.display="none";refreshMapGlow();return;}
     var pivot=upAll[0];
@@ -240,7 +240,7 @@ function renderHome(){
     var nowMH=getNow(),upFestShows=[];
     if(favs.size){
       var upFavsH=todayFest.shows
-        .filter(function(s){return favs.has(s.artist)&&toMins(s.time)>=nowMH;})
+        .filter(function(s){return favs.has(s.artist)&&!s.cancelled&&toMins(s.time)>=nowMH;})
         .sort(function(a,b){return toMins(a.time)-toMins(b.time);});
       if(upFavsH.length){
         var pivH=upFavsH[0];
@@ -249,7 +249,7 @@ function renderHome(){
     }
     if(!upFestShows.length){
       upFestShows=todayFest.shows
-        .filter(function(s){return s.hl&&toMins(s.time)>=nowMH;})
+        .filter(function(s){return s.hl&&!s.cancelled&&toMins(s.time)>=nowMH;})
         .sort(function(a,b){return toMins(a.time)-toMins(b.time);})
         .slice(0,1);
     }
@@ -435,27 +435,33 @@ function renderSchedule(){
 
   var cardHtml=function(show,isPast){
     var si=ST[show.stage]||{color:"#888",e:"🎵",s:"?"};
-    var live=isToday&&!isPast&&isLive(show);
+    var isCancelled=show.cancelled===true;
+    var isRescheduled=!!show.origTime;
+    var live=isToday&&!isPast&&!isCancelled&&isLive(show);
     var faved=favs.has(show.artist);
-    var conflict=conflicts.has(show.artist)&&faved;
+    var conflict=conflicts.has(show.artist)&&faved&&!isCancelled;
     var pop=_heartPop.has(show.artist);
+    var dim=isPast||isCancelled;
     var timeColor=conflict?"var(--conflict)":live?"var(--accent-text)":"var(--text)";
     var cardBorder=live?"border-color:var(--accent-soft);box-shadow:inset 3px 0 0 "+si.color
       :conflict?"border-color:var(--conflict-soft);box-shadow:inset 3px 0 0 var(--conflict)":"";
-    return '<div class="si'+(live?" current-set":"")+(faved?" faved":"")+(isPast?" past":"")+'" style="'+cardBorder+'" >'+
+    var startHtml=isRescheduled?'<s class="orig-time">'+show.origTime+'</s><br><b>'+show.time+'</b>':show.time;
+    var endHtml=isRescheduled?'<s class="orig-time">'+show.origEnd+'</s><br><b>'+show.end+'</b>':show.end;
+    return '<div class="si'+(live?" current-set":"")+(faved?" faved":"")+(isPast?" past":"")+(isCancelled?" cancelled":"")+'" style="'+cardBorder+'" >'+
       '<div class="stime">'+
-        '<div class="tstart mono" style="color:'+(isPast?"var(--dim)":timeColor)+'">'+show.time+'</div>'+
-        '<div class="tend">'+show.end+'</div>'+
+        '<div class="tstart mono" style="color:'+(dim?"var(--dim)":timeColor)+'">'+startHtml+'</div>'+
+        '<div class="tend">'+endHtml+'</div>'+
         (live?'<div class="scur mono">LIVE</div>':"")+
       '</div>'+
       '<div class="sartist">'+
-        '<div class="aname" style="color:'+(isPast?"var(--dim)":live?si.color:"var(--text)")+'">'+show.artist+(show.hl?' <span class="hl-badge">Headliner</span>':'')+' </div>'+
-        '<div class="sc-stage-lbl mono" style="color:'+(isPast?"var(--dim)":si.color)+'">'+si.e+" "+si.s+(conflict?' <span style="color:var(--conflict)">· '+t("conflict")+'</span>':"")+
+        '<div class="aname" style="color:'+(dim?"var(--dim)":live?si.color:"var(--text)")+'">'+show.artist+(show.hl&&!isCancelled?' <span class="hl-badge">Headliner</span>':'')+(isCancelled?' <span class="cancelled-badge">cancelled</span>':'')+' </div>'+
+        '<div class="sc-stage-lbl mono" style="color:'+(dim?"var(--dim)":si.color)+'">'+si.e+" "+si.s+(conflict?' <span style="color:var(--conflict)">· '+t("conflict")+'</span>':"")+
         '</div>'+
       '</div>'+
+      (isCancelled?'<div class="heart-btn" style="opacity:0.25;pointer-events:none"><span class="glyph">♡</span></div>':
       '<button class="heart-btn'+(faved?" on":"")+(pop?" pop":"")+'" onclick="toggleFavAnim(\''+show.artist.replace(/'/g,"\\'")+'\',this)">'+
         '<span class="ring"></span><span class="glyph">'+(faved?"♥":"♡")+'</span>'+
-      '</button>'+
+      '</button>')+
     '</div>';
   };
 
@@ -492,22 +498,26 @@ function renderMyLineup(){
     html+='<div class="my-day-header">'+day.label+'</div>';
     sorted.forEach(function(show){
       var si=ST[show.stage]||{color:"#888",e:"🎵",s:"?"};
-      var live=isToday&&isLive(show);
-      var conflict=conflicts.has(show.artist);
+      var isCancelled=show.cancelled===true;
+      var isRescheduled=!!show.origTime;
+      var live=isToday&&!isCancelled&&isLive(show);
+      var conflict=conflicts.has(show.artist)&&!isCancelled;
       var pop=_heartPop.has(show.artist);
-      html+='<div class="my-item'+(conflict?" conflict":"")+(live?" current-set":"")+'">' +
+      var startHtml=isRescheduled?'<s class="orig-time">'+show.origTime+'</s><br><b>'+show.time+'</b>':show.time;
+      html+='<div class="my-item'+(conflict?" conflict":"")+(live?" current-set":"")+(isCancelled?" cancelled":"")+'">' +
         '<div class="stime">'+
-          '<div class="tstart mono" style="color:'+(live?si.color:conflict?"var(--conflict)":"var(--text)")+'">'+show.time+'</div>'+
+          '<div class="tstart mono" style="color:'+(isCancelled?"var(--dim)":live?si.color:conflict?"var(--conflict)":"var(--text)")+'">'+startHtml+'</div>'+
           (live?'<div class="scur mono">LIVE</div>':"")+
         '</div>'+
         '<div class="sartist">'+
-          '<div class="aname" style="color:'+(live?si.color:"var(--text)")+'">'+show.artist+'</div>'+
-          '<div class="sc-stage-lbl mono">'+si.e+" "+si.s+'</div>'+
+          '<div class="aname" style="color:'+(isCancelled?"var(--dim)":live?si.color:"var(--text)")+'">'+show.artist+(isCancelled?' <span class="cancelled-badge">cancelled</span>':'')+' </div>'+
+          '<div class="sc-stage-lbl mono" style="color:'+(isCancelled?"var(--dim)":"")+'">'+si.e+" "+si.s+'</div>'+
           (conflict?'<div class="my-conflict-label">⚠ '+t("conflict")+'</div>':"")+
         '</div>'+
+        (isCancelled?'<div class="heart-btn on" style="opacity:0.25;pointer-events:none"><span class="glyph">♥</span></div>':
         '<button class="heart-btn on'+(pop?" pop":"")+'" onclick="toggleFavAnim(\''+show.artist.replace(/'/g,"\\'")+'\',this)">'+
           '<span class="ring"></span><span class="glyph">♥</span>'+
-        '</button>'+
+        '</button>')+
       '</div>';
     });
   });
