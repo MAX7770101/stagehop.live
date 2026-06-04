@@ -205,6 +205,8 @@ var TAB_VIEWS=["home","schedule","map","my","info"];
 
 // ── HOME SCREEN ──
 var _langMenuOpen=false;
+var _homeNpExpanded=false;
+function toggleHomeNp(){_homeNpExpanded=!_homeNpExpanded;renderHome();}
 function toggleLangMenu(e){
   e.stopPropagation();
   _langMenuOpen=!_langMenuOpen;
@@ -237,7 +239,7 @@ function renderHome(){
   var todayFest=getDay();
   var homeCard;
   if(todayFest){
-    var nowMH=getNow(),upFestShows=[];
+    var nowMH=getNow(),upFestShows=[],upHdr="UP NEXT";
     if(favs.size){
       var upFavsH=todayFest.shows
         .filter(function(s){return favs.has(s.artist)&&!s.cancelled&&toMins(s.time)>=nowMH;})
@@ -248,17 +250,27 @@ function renderHome(){
       }
     }
     if(!upFestShows.length){
-      upFestShows=todayFest.shows
-        .filter(function(s){return s.hl&&!s.cancelled&&toMins(s.time)>=nowMH;})
-        .sort(function(a,b){return toMins(a.time)-toMins(b.time);})
-        .slice(0,1);
+      var liveH=todayFest.shows
+        .filter(function(s){return !s.cancelled&&isLive(s);})
+        .sort(function(a,b){return toMins(a.time)-toMins(b.time);});
+      if(liveH.length){
+        upFestShows=liveH;
+        upHdr="NOW PLAYING";
+      } else {
+        upFestShows=todayFest.shows
+          .filter(function(s){return s.hl&&!s.cancelled&&toMins(s.time)>=nowMH;})
+          .sort(function(a,b){return toMins(a.time)-toMins(b.time);})
+          .slice(0,1);
+      }
     }
     if(upFestShows.length){
       var minsH=toMins(upFestShows[0].time)-nowMH;
       var ctH=minsH<=0?"NOW":minsH<60?minsH+"m":Math.floor(minsH/60)+"h"+(minsH%60<10?"0":"")+minsH%60;
+      var visH=_homeNpExpanded?upFestShows:upFestShows.slice(0,3);
+      var extraH=upFestShows.length-3;
       homeCard='<div class="home-upnext-card">'+
-        '<div class="home-upnext-hdr">UP NEXT · '+todayFest.label.toUpperCase()+'</div>'+
-        upFestShows.map(function(s){
+        '<div class="home-upnext-hdr">'+upHdr+' · '+todayFest.label.toUpperCase()+'</div>'+
+        visH.map(function(s){
           var si2=ST[s.stage]||{color:"#888",e:"🎵",s:"?"};
           return '<div class="np-row">'+
             '<div class="spill" style="background:'+si2.color+'22;border-color:'+si2.color+'44;color:'+si2.color+'">'+si2.e+" "+si2.s+'</div>'+
@@ -266,6 +278,8 @@ function renderHome(){
             '<div class="np-time" style="color:var(--dim);font-size:12px;font-weight:400">'+ctH+'</div>'+
             '</div>';
         }).join("")+
+        (!_homeNpExpanded&&extraH>0?'<span class="np-more-link" onclick="toggleHomeNp()">+ '+extraH+' '+t("more")+' ▾</span>':"")+
+        (_homeNpExpanded&&upFestShows.length>3?'<span class="np-more-link" onclick="toggleHomeNp()">'+t("collapse")+' ▴</span>':"")+
         '</div>';
     }else{homeCard='';}
   }else{
@@ -279,7 +293,7 @@ function renderHome(){
   }
   var navItemsData=[
     [curLang==="zht"?"演出 & 撞期":isZh?"演出 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
-     curLang==="zht"?"5日 · 11舞台 · 撞期":isZh?"5天 · 11舞台 · 撞车检测":curLang==="es"?"5 días · 11 escenarios · solapamientos":curLang==="ca"?"5 dies · 11 escenaris · solapaments":"5 days · 11 stages · clash detection",1],
+     curLang==="zht"?"5日 · 19舞台 · 撞期":isZh?"5天 · 19舞台 · 撞车检测":curLang==="es"?"5 días · 19 escenarios · solapamientos":curLang==="ca"?"5 dies · 19 escenaris · solapaments":"5 days · 19 stages · clash detection",1],
     [curLang==="zht"?"場地地圖":isZh?"场地地图":curLang==="es"?"Mapa del recinto":curLang==="ca"?"Mapa del recinte":"Venue map",
      curLang==="zht"?"場地熱圖 · 舞台位置":isZh?"场地热图 · 舞台位置":curLang==="es"?"Plano del recinto y escenarios":curLang==="ca"?"Plànol del recinte i escenaris":"Stage locations & venue",2],
     [curLang==="zht"?"我嘅最愛":isZh?"我的收藏":curLang==="es"?"Mis favoritos":curLang==="ca"?"Els meus favorits":"My Favorites",
