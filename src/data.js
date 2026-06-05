@@ -200,7 +200,7 @@ var DAYS=[
     {stage:"CUPRA",time:"21:15",end:"22:15",artist:"rusowsky"},
     {stage:"Port",time:"20:55",end:"21:55",artist:"Smerz"},
     {stage:"Occident",time:"20:15",end:"21:10",artist:"Ashnikko"},
-    {stage:"Auditori Rockdelux",time:"21:00",end:"22:00",artist:"Anna von Hausswolff"},
+    {stage:"Auditori Rockdelux",time:"21:00",end:"22:00",artist:"Anna von Hausswolff",cancelled:true},
     {stage:"Plenitude",time:"21:35",end:"22:30",artist:"Safety Trance Live AV"},
     {stage:"Estrella Damm",time:"22:05",end:"23:20",artist:"My Bloody Valentine",hl:1},
     {stage:"Schwarzkopf",time:"22:00",end:"23:00",artist:"Touch\u00e9 Amor\u00e9"},
