@@ -66,7 +66,7 @@ var DAYS=[
     {stage:"Auditori Rockdelux",time:"22:00",end:"23:00",artist:"Panda Bear"},
     {stage:"CUPRA PULSE",time:"22:00",end:"23:00",artist:"DJ Playero"},
     {stage:"The Levi's Warehouse",time:"22:00",end:"23:00",artist:"Malibu"},
-    {stage:"Estrella Damm",time:"00:30",end:"02:00",artist:"Massive Attack",hl:1,origTime:"22:05",origEnd:"23:20"},
+    {stage:"Estrella Damm",time:"00:30",end:"02:00",artist:"Massive Attack",hl:1,cancelled:true,origTime:"22:05",origEnd:"23:20"},
     {stage:"CUPRA",time:"23:00",end:"00:20",artist:"Father John Misty",hl:1},
     {stage:"Port",time:"23:00",end:"00:00",artist:"Florence Road"},
     {stage:"Revolut",time:"23:35",end:"01:15",artist:"Doja Cat",hl:1,cancelled:true},
