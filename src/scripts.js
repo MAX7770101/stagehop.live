@@ -2,8 +2,9 @@
 function toMins(t){var p=t.split(":");return parseInt(p[0])<8?parseInt(p[0])*60+parseInt(p[1])+1440:parseInt(p[0])*60+parseInt(p[1]);}
 
 function _localDs(d){var p=function(n){return n<10?"0"+n:String(n);};return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());}
+function _effectiveDate(){var d=new Date();if(d.getHours()<8){d=new Date(d.getTime()-864e5);}return d;}
 function getNow(){var n=new Date(),h=n.getHours(),m=n.getMinutes();return h*60+m+(h<8?1440:0);}
-function getDay(){var d=new Date(),ds=_localDs(d);return DAYS.find(function(day){return day.date===ds;})||null;}
+function getDay(){return DAYS.find(function(day){return day.date===_localDs(_effectiveDate());})||null;}
 function isLive(show){var n=getNow();return n>=toMins(show.time)&&n<toMins(show.end);}
 
 // ── ANALYTICS ──
@@ -427,7 +428,7 @@ function renderSchedule(){
   var shows=curStage?day.shows.filter(function(s){return s.stage===curStage;}):day.shows;
   if(curFavFilter)shows=shows.filter(function(s){return favs.has(s.artist);});
   var sorted=[...shows].sort(function(a,b){return curSort==="az"?a.artist.localeCompare(b.artist):toMins(a.time)-toMins(b.time);});
-  var todayDs=_localDs(new Date());
+  var todayDs=_localDs(_effectiveDate());
   var isPastDay=day.date<todayDs;
   var isToday=!isPastDay&&getDay()&&getDay().key===curDay;
   var conflicts=getConflicts(day.shows);
