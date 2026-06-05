@@ -111,7 +111,7 @@ var DAYS=[
     {stage:"Port",time:"19:00",end:"19:45",artist:"\u00d3sserp"},
     {stage:"Auditori Rockdelux",time:"18:00",end:"19:00",artist:"mark william lewis"},
     {stage:"CUPRA PULSE",time:"19:00",end:"20:00",artist:"Dj Khalipha"},
-    {stage:"Estrella Damm",time:"19:45",end:"20:45",artist:"Ethel Cain"},
+    {stage:"Estrella Damm",time:"19:45",end:"20:45",artist:"Ethel Cain",hl:1},
     {stage:"Occident",time:"19:50",end:"20:50",artist:"Rilo Kiley",hl:1},
     {stage:"Schwarzkopf",time:"19:50",end:"20:50",artist:"Texas Is The Reason"},
     {stage:"Plenitude",time:"19:30",end:"21:00",artist:"Powder"},
