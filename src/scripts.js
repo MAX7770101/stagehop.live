@@ -330,6 +330,7 @@ function renderHome(){
     '<div class="home-ps-title syne">PRIMAVERA SOUND 2026</div>'+
     '<div class="home-location mono">Barcelona · Parc del Fòrum</div>'+
     homeCard+
+    (function(){var m={"en":"💜 Surprise — Olivia Rodrigo is playing at Occident tonight, 22:25. Run. 💜","es":"💜 ¡Sorpresa! Olivia Rodrigo actúa esta noche en Occident a las 22:25. Corred. 💜","ca":"💜 Sorpresa! Olivia Rodrigo actua aquesta nit a Occident a les 22:25. Correu. 💜","zh":"💜 彩蛋！Olivia Rodrigo 今晚 22:25 在 Occident 舞台演出，快去！💜","zht":"💜 彩蛋！Olivia Rodrigo 今晚 22:25 喺 Occident 舞台演出，快啲去！💜"};return'<div class="home-banner" style="color:#a855f7;border-color:#a855f750;background:#a855f712">'+(m[curLang]||m.en)+'</div>';})()+
     '<div class="home-nav">'+
     navItemsData.map(function(item,i){
       return '<div class="home-nav-item" onclick="setTab('+item[2]+')">'+

@@ -209,6 +209,7 @@ var DAYS=[
     {stage:"Revolut",time:"23:40",end:"00:55",artist:"The xx",hl:1},
     {stage:"CUPRA",time:"23:20",end:"00:20",artist:"Dijon"},
     {stage:"Port",time:"23:10",end:"00:05",artist:"Lambrini Girls"},
+    {stage:"Occident",time:"22:25",end:"23:40",artist:"Olivia Rodrigo",hl:1},
     {stage:"Occident",time:"00:40",end:"01:40",artist:"Marina"},
     {stage:"Schwarzkopf",time:"00:25",end:"01:25",artist:"Joey Valence & Brae"},
     {stage:"The Levi's Warehouse",time:"23:10",end:"00:35",artist:"DJ Marcelle"},
