@@ -274,7 +274,7 @@ function applyLang(){
   var _lm=document.getElementById("lbl-mapHint");if(_lm)_lm.textContent=t("mapHint");
   var _lr=document.getElementById("lbl-reset");if(_lr)_lr.textContent=t("reset");
   var _lf=document.getElementById("lbl-favs");if(_lf)_lf.textContent=t("favs");
-  document.getElementById("lbl-sort").textContent=t("sort");
+  var _ls=document.getElementById("lbl-sort");if(_ls)_ls.textContent=t("sort");
   document.querySelectorAll("[data-i]").forEach(function(el){el.textContent=t(el.dataset.i);});
   var footer=document.getElementById("app-footer");
   if(footer)footer.innerHTML=t("disclaimer")+' <a class="footer-mail" href="mailto:maxx7770101@gmail.com">maxx7770101@gmail.com</a>';
