@@ -1,199 +1,179 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#F4F1EB">
-  <title>春声 2026 · Primavera Sound</title>
-  <!-- Primary Meta Tags -->
-  <meta name="description" content="Unofficial fan-made guide to Primavera Sound 2026 in Barcelona. Lineup, schedule, clash detection, venue map. Multilingual (EN/ES/中文), offline-ready PWA.">
-  <meta name="keywords" content="Primavera Sound 2026, Barcelona, music festival, lineup, schedule, clashfinder">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Stage Hop · Barcelona 2026</title>
+  <meta name="description" content="Unofficial fan-made festival companion for Primavera Sound 2026 and Sónar 2026 in Barcelona. Schedule, clash detection, venue map. Multilingual.">
+  <meta name="keywords" content="Primavera Sound 2026, Sónar 2026, Barcelona, music festival, lineup, schedule">
   <link rel="canonical" href="https://stagehop.live/">
-  <!-- Open Graph / Facebook / WhatsApp / Discord -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://stagehop.live/">
-  <meta property="og:title" content="Stage Hop · 春日之声 — Primavera Sound 2026 Fan Guide">
-  <meta property="og:description" content="Unofficial multilingual schedule, clash detector, and offline-ready guide for Primavera Sound 2026.">
+  <meta property="og:title" content="Stage Hop · Barcelona 2026 Festival Companion">
+  <meta property="og:description" content="Unofficial fan guides for Primavera Sound 2026 and Sónar 2026 in Barcelona.">
   <meta property="og:image" content="https://stagehop.live/assets/og-image.png">
-  <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://stagehop.live/">
-  <meta property="twitter:title" content="Stage Hop · Primavera Sound 2026 Fan Guide">
-  <meta property="twitter:description" content="Unofficial multilingual schedule, clash detector, and offline-ready guide for Primavera Sound 2026.">
+  <meta property="twitter:title" content="Stage Hop · Barcelona 2026 Festival Companion">
+  <meta property="twitter:description" content="Unofficial fan guides for Primavera Sound 2026 and Sónar 2026 in Barcelona.">
   <meta property="twitter:image" content="https://stagehop.live/assets/og-image.png">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="assets/apple-touch-icon-167.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="assets/apple-touch-icon-152.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="assets/apple-touch-icon-120.png">
-  <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300&family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Mono:wght@400;500&display=optional"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
     as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;300&family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Mono:wght@400;500&display=optional"></noscript>
-  <link rel="preload" href="src/localization.js" as="script">
-  <link rel="preload" href="src/data.js" as="script">
-  <link rel="preload" href="src/scripts.js" as="script">
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"></noscript>
   <link rel="stylesheet" href="styles.css">
-
+  <style>
+    /* hub-page overrides — minimal, on top of styles.css */
+    html,body{height:auto;overflow-y:auto}
+    #hub-body{padding:26px 24px 20px;display:flex;flex-direction:column;min-height:100svh}
+    a.home-nav-item{text-decoration:none;color:inherit;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-top:1px solid var(--hair);cursor:pointer}
+    a.home-nav-item:first-child{border-top:none}
+    a.home-nav-item:hover{opacity:.8}
+  </style>
 </head>
 
 <body>
+<!-- apply saved theme before first paint to avoid flash -->
+<script>(function(){var t=localStorage.getItem('ps26_theme')||'dark';document.body.setAttribute('data-theme',t);}());</script>
 
+<div class="grain" aria-hidden="true"></div>
 
-  <header id="hdr">
-    <!-- row 1: title + nav buttons -->
-    <div class="brand">
-      <div class="brand-left">
-        <div class="brand-title">
-          <div class="title-line">
-            <span class="title-zh">春日之声</span><span class="title-stagehop">Stage Hop</span>
-          </div>
-          <div class="title-line">
-            <span class="title-en">PRIMAVERA SOUND</span>
-          </div>
-        </div>
-        <div class="ey" id="lbl-city">Barcelona · Parc del Fòrum · Junio 2026</div>
-      </div>
-      <div class="nav-col">
-        <button class="hamburger-btn" id="hamburger-btn" onclick="toggleNavMenu()" aria-label="Menu">
-          <span></span><span></span><span></span>
+<div id="hub-body">
+
+  <div class="home-top">
+    <div class="home-brand-label mono">Unofficial</div>
+    <div class="home-top-controls">
+      <button class="theme-toggle" onclick="hubToggleTheme(event)">
+        <span class="theme-toggle-icon" id="hub-th-ic">☾</span>
+        <span class="theme-toggle-lbl" id="hub-th-lbl">Dark</span>
+      </button>
+      <div class="lang-menu" onclick="event.stopPropagation()">
+        <button class="lang-menu-btn" onclick="hubToggleLangMenu(event)">
+          <span id="hub-lang-cur">中</span>
+          <span class="lang-menu-arrow" id="hub-lang-arrow">▾</span>
         </button>
-        <div class="nav-row-btns">
-          <button class="vt on" onclick="setView('schedule',this)"><span data-i="navSchedule">排班</span></button>
-          <button class="vt" onclick="setView('map',this)"><span data-i="navMap">地图</span></button>
-          <button class="vt" onclick="setView('info',this)"><span data-i="navInfo">实用信息</span></button>
-        </div>
-        <div class="lang-theme-row">
-          <button class="theme-btn" id="theme-btn" onclick="toggleTheme()"><span data-i="navTheme">主题</span></button>
-          <div class="lang-grp-inline">
-            <button class="lang-btn on" onclick="setLang('zh')" data-lang="zh">中</button>
-            <span class="lang-sep">·</span>
-            <button class="lang-btn" onclick="setLang('es')" data-lang="es">ES</button>
-            <span class="lang-sep">·</span>
-            <button class="lang-btn" onclick="setLang('ca')" data-lang="ca">CA</button>
-            <span class="lang-sep">·</span>
-            <button class="lang-btn" onclick="setLang('en')" data-lang="en">EN</button>
-          </div>
+        <div class="lang-menu-dd" id="hub-lang-dd">
+          <button class="lang-menu-item" data-lang="zh"  onclick="hubCloseLangMenu();hubSetLang('zh')">简中</button>
+          <button class="lang-menu-item" data-lang="zht" onclick="hubCloseLangMenu();hubSetLang('zht')">繁中</button>
+          <button class="lang-menu-item" data-lang="es"  onclick="hubCloseLangMenu();hubSetLang('es')">Español</button>
+          <button class="lang-menu-item" data-lang="ca"  onclick="hubCloseLangMenu();hubSetLang('ca')">Català</button>
+          <button class="lang-menu-item" data-lang="en"  onclick="hubCloseLangMenu();hubSetLang('en')">English</button>
         </div>
       </div>
     </div>
-    <!-- row 2: day tabs -->
-    <div id="dtabs"></div>
-  </header>
+  </div>
 
-  <div id="nav-backdrop" onclick="closeNavMenu()"></div>
-  <div id="nav-menu" aria-hidden="true">
-    <div class="nm-nav-row">
-      <button class="nm-nav-item on" data-view="schedule" onclick="setView('schedule');closeNavMenu()"><span data-i="navSchedule">排班</span></button>
-      <button class="nm-nav-item" data-view="map" onclick="setView('map');closeNavMenu()"><span data-i="navMap">地图</span></button>
-      <button class="nm-nav-item" data-view="info" onclick="setView('info');closeNavMenu()"><span data-i="navInfo">实用信息</span></button>
-    </div>
-    <div class="nm-settings-row">
-      <span class="nm-setting-lbl" data-i="navTheme">主题</span>
-      <button class="theme-icon-btn" onclick="toggleTheme()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-    </div>
-    <div class="nm-settings-row">
-      <span class="nm-setting-lbl" data-i="navLang">语言</span>
-      <div class="lang-grp-inline">
-        <button class="lang-btn on" onclick="setLang('zh')" data-lang="zh">中</button>
-        <span class="lang-sep">·</span>
-        <button class="lang-btn" onclick="setLang('es')" data-lang="es">ES</button>
-        <span class="lang-sep">·</span>
-        <button class="lang-btn" onclick="setLang('ca')" data-lang="ca">CA</button>
-        <span class="lang-sep">·</span>
-        <button class="lang-btn" onclick="setLang('en')" data-lang="en">EN</button>
+  <div class="home-wordmark syne">stage<br>hop<span class="dot" style="width:12px;height:12px;vertical-align:middle;margin-left:2px;display:inline-block"></span></div>
+  <div class="home-ps-title syne">BARCELONA 2026</div>
+  <div class="home-location mono">stagehop.live</div>
+
+  <div class="home-nav">
+    <a class="home-nav-item" href="/ps/">
+      <div>
+        <div class="home-nav-title">PRIMAVERA SOUND 2026</div>
+        <div class="home-nav-sub mono" id="hub-ps-sub">Barcelona · Parc del Fòrum · JUN 3–7 · Ended</div>
       </div>
-    </div>
-  </div>
-
-  <main>
-
-  <div id="now-playing">
-    <div id="np-header" class="np-header"></div>
-    <div id="np-rows"></div>
-    <div id="np-more"></div>
-  </div>
-
-  <!-- SCHEDULE -->
-  <div id="vschedule" class="view on">
-    <div id="fbar"></div>
-    <div id="sort-bar">
-      <span class="slbl" id="lbl-sort">排序</span>
-      <button class="srt on" id="srt-time" onclick="setSort('time')">⏱ <span data-i="byTime">时间</span></button>
-      <button class="srt" id="srt-az" onclick="setSort('az')">🔤 <span data-i="byName">名称</span></button>
-      <button class="srt srt-fav" id="srt-fav" onclick="toggleFavFilter()">💖</button>
-    </div>
-    <div id="slist"></div>
-  </div>
-
-  <!-- MY LINEUP -->
-  <div id="vmy" class="view">
-    <div id="mylist"></div>
-  </div>
-
-  <!-- MAP -->
-  <div id="vmap" class="view">
-    <div id="mapview">
-      <div class="map-hint-bar">
-        <span id="lbl-mapHint">双指缩放 · 点击舞台查看演出</span>
-        <span style="display:flex;gap:6px">
-          <button class="zbtn" onclick="mapZoom(1.5)">＋</button>
-          <button class="zbtn" onclick="mapZoom(0.67)">－</button>
-          <button class="rbtn" id="lbl-reset" onclick="mapReset()">复位</button>
-        </span>
-      </div>
-      <div class="map-wrap" id="mapwrap">
-        <div class="map-inner" id="mapinner">
-          <img id="mapimg" src="assets/map.jfif" alt="venue map" width="2000" height="1345">
-        </div>
-      </div>
-      <div id="stagepop"></div>
-      <div class="foot" id="mapfoot"></div>
-      <a class="map-official-btn" href="https://www.primaverasound.com/barcelona/map" target="_blank" rel="noopener"><span data-i="mapOfficial">点击查看官网高清地图</span> ↗</a>
-    </div>
-  </div>
-
-  <!-- INFO -->
-  <div id="vinfo" class="view"></div>
-
-  </main>
-
-  <!-- FAV SHEET -->
-  <div id="fav-bar">
-    <button class="fav-close-btn" onclick="toggleFavBar()">×</button>
-    <div class="fav-title" id="lbl-favs">💖 我的收藏</div>
-    <div id="fav-list"></div>
-  </div>
-
-  <footer id="app-footer"></footer>
-
-  <div class="watermark" style="background:var(--bg)">
-    <div class="watermark-text">Made by Max777</div>
-    <a class="ig-link" href="https://www.instagram.com/max7770101?igsh=NHBlMThmbWdhZXJo&utm_source=qr"
-      target="_blank" rel="noopener">
-      <svg class="ig-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-      </svg>
-      @max7770101
+      <span class="home-nav-arrow dim">›</span>
     </a>
-    <p class="privacy-note">This site uses Vercel Web Analytics to collect anonymous visitor metrics. Favorites and preferences are stored locally on your device only.</p>
+    <a class="home-nav-item" href="/sonar/">
+      <div>
+        <div class="home-nav-title">SÓNAR 2026</div>
+        <div class="home-nav-sub mono" id="hub-sonar-sub">Barcelona · Fira Gran Via · JUN 18–20 · Upcoming</div>
+      </div>
+      <span class="home-nav-arrow dim">›</span>
+    </a>
   </div>
 
-  <script type="text/javascript" src="src/localization.js"></script>
-  <script type="text/javascript" src="src/data.js"></script>
-  <script type="text/javascript" src="src/scripts.js"></script>
-  <script defer src="/_vercel/insights/script.js"></script>
+  <div class="home-spacer"></div>
+
+  <div class="home-footer">
+    <div class="home-made-by mono" id="hub-footer">Unofficial · Not affiliated with any festival organizer</div>
+  </div>
+
+</div><!-- #hub-body -->
+
+<script>
+  var _LKEY='ps26_lang', _TKEY='ps26_theme';
+  var _HS={
+    zh: {psSub:'巴塞罗那 · Parc del Fòrum · 6月3–7日 · 已结束',sonarSub:'巴塞罗那 · Fira Gran Via · 6月18–20日 · 即将开幕',footer:'非官方 · 与任何主办方无关联',thL:'日间',thD:'夜间',lShort:'中'},
+    zht:{psSub:'巴塞隆拿 · Parc del Fòrum · 6月3–7日 · 已結束',sonarSub:'巴塞隆拿 · Fira Gran Via · 6月18–20日 · 即將開幕',footer:'非官方 · 與任何主辦方無關聯',thL:'日間',thD:'夜間',lShort:'繁'},
+    es: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN · Terminado',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN · Próximo',footer:'No oficial · Sin afiliación con los organizadores',thL:'Día',thD:'Noche',lShort:'ES'},
+    ca: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN · Acabat',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN · Pròxim',footer:'No oficial · Sense afiliació amb cap organitzador',thL:'Dia',thD:'Nit',lShort:'CA'},
+    en: {psSub:'Barcelona · Parc del Fòrum · JUN 3–7 · Ended',sonarSub:'Barcelona · Fira Gran Via · JUN 18–20 · Upcoming',footer:'Unofficial · Not affiliated with any festival organizer',thL:'Light',thD:'Dark',lShort:'EN'},
+  };
+
+  var _curLang=localStorage.getItem(_LKEY)||'zh';
+  var _curTheme=document.body.getAttribute('data-theme')||'dark';
+
+  function hubSetLang(lang){
+    _curLang=lang;
+    localStorage.setItem(_LKEY,lang);
+    var S=_HS[lang]||_HS.en;
+    document.getElementById('hub-ps-sub').textContent=S.psSub;
+    document.getElementById('hub-sonar-sub').textContent=S.sonarSub;
+    document.getElementById('hub-footer').textContent=S.footer;
+    document.getElementById('hub-lang-cur').textContent=S.lShort;
+    document.getElementById('hub-th-lbl').textContent=_curTheme==='dark'?S.thD:S.thL;
+    document.querySelectorAll('#hub-lang-dd .lang-menu-item').forEach(function(btn){
+      btn.classList.toggle('on',btn.dataset.lang===lang);
+    });
+  }
+
+  function hubToggleTheme(e){
+    var next=_curTheme==='dark'?'light':'dark';
+    var x=(e&&e.clientX)||window.innerWidth/2;
+    var y=(e&&e.clientY)||70;
+    document.documentElement.style.setProperty('--vt-x',x+'px');
+    document.documentElement.style.setProperty('--vt-y',y+'px');
+    var tc=document.querySelector("meta[name='theme-color']");
+    if(tc)tc.setAttribute('content',next==='dark'?'#0E1017':'#EDE5D0');
+    var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var apply=function(){
+      _curTheme=next;
+      localStorage.setItem(_TKEY,next);
+      document.body.setAttribute('data-theme',next);
+      var S=_HS[_curLang]||_HS.en;
+      document.getElementById('hub-th-ic').textContent=next==='dark'?'☾':'☀';
+      document.getElementById('hub-th-lbl').textContent=next==='dark'?S.thD:S.thL;
+    };
+    if(!document.startViewTransition||reduce){apply();return;}
+    var vt=document.startViewTransition(apply);
+    if(vt.ready)vt.ready.catch(function(){});
+    if(vt.finished)vt.finished.catch(function(){});
+  }
+
+  function hubToggleLangMenu(e){
+    e.stopPropagation();
+    var dd=document.getElementById('hub-lang-dd');
+    var open=dd.classList.toggle('open');
+    document.getElementById('hub-lang-arrow').textContent=open?'▴':'▾';
+  }
+  function hubCloseLangMenu(){
+    document.getElementById('hub-lang-dd').classList.remove('open');
+    document.getElementById('hub-lang-arrow').textContent='▾';
+  }
+  document.addEventListener('click',hubCloseLangMenu);
+
+  // init
+  var _S0=_HS[_curLang]||_HS.en;
+  document.getElementById('hub-th-ic').textContent=_curTheme==='dark'?'☾':'☀';
+  document.getElementById('hub-th-lbl').textContent=_curTheme==='dark'?_S0.thD:_S0.thL;
+  hubSetLang(_curLang);
+</script>
+
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 
 </html>

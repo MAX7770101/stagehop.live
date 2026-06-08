@@ -11,15 +11,19 @@ var LANGS={
     opening:"开幕日",day1:"第一天",day2:"第二天",day3:"第三天",bits:"Bits",free:"免费",
     infoTitle:"实用信息",
     doorsH:"开门时间",doorsBody:"主场地 Parc del Fòrum 每天约 16:00 开门，演出持续至次日 05:00–06:00。周三开幕日（6/3）为免费活动，约 17:00 起。",
-    transitH:"交通",metroLine:"地铁 L4（黄线）",metroStop:"El Maresme | Fòrum 站",
-    nightbus:"夜巴士 N6",nightbusDesc:"凌晨收班后运营，约 15 分钟一班，可达市中心（Pl. Catalunya）",
-    bikeDesc:"场地内有免费单车停放区",metroHours:"周一至四 05:00–00:00 · 周五 05:00–02:00 · 周六 24小时连续运营",tramLine:"电车 T4 线",tramStop:"Fòrum 站 · 节日期间增加班次",daybus:"日间公交 H16 / H14 / 143 / 7 / 36",daybusDesc:"从市中心各区直达，运营时间 06:30–23:15",shuttle:"官方摆渡车",shuttleDesc:"午夜至早晨约€2，Passeig Taulat → Plaça Catalunya，AccessTicket App 可预约",walkDesc:"从市中心沿海滨步行约60分钟，地中海美景相伴",
+    transitH:"交通",metroLine:"地铁 L4（黄线）",metroStop:"El Maresme–Fòrum（步行至 Rambla Prim 约1分钟）· Selva de Mar（步行至 Carrer de Pujades 约12分钟）",
+    nightbus:"夜巴士 N6 / N7 / N28",nightbusDesc:"23:00–06:00，可达市中心（Pl. Catalunya）",
+    shuttle:"摆渡车（返程）",shuttleDesc:"Parc del Fòrum → Plaça Catalunya · 持通票或单日票可乘 · AccessTicket App 预约（€3/程）\n→ Taulat：周四 00:00–05:00 · 周五 02:00–06:00 · 周六 03:00–06:00\n→ Plataforma Marina：周四至六 01:00–04:00",
+    bikeH:"免费单车停车场",bikeDesc:"Plaça de Leonardo da Vinci（Fòrum）· 免费，有限容量\n周三 15:30–00:00 · 周四 14:30–07:00 · 周五六 15:00–07:00 · 周日 13:30–00:00",
+    bicing:"Bicing 共享单车",bicingDesc:"场地周边站点：Avda. Eduard Maristany 1 · Rambla Prim 19 · Pssg. Garcia Fària 85 · Selva de Mar/Pssg. Taulat 等",
+    taxi:"的士（返程）",taxiDesc:"C/ Josep Pla 2, 4, 6 · Pssg. Taulat / Pl. de Llevant（至凌晨 01:00）",
+    metroHours:"周一至四 05:00–00:00 · 周五 05:00–02:00 · 周六 24小时不停",tramLine:"电车 T4 线",tramStop:"Fòrum 站 · 周三末班 00:00 · 周四至日通宵不停",daybus:"日间公交 H16 / 7 / 136 / V33 / V31 / V29 / H14 / B20 / B23",daybusDesc:"06:30–23:15",walkDesc:"从市中心沿海滨步行约60分钟，地中海美景相伴",
     banH:"禁带物品",
     banItems:["玻璃容器","专业相机/摄像机（单反等；胶片/卡片机除外）","自拍杆","无人机","宠物（导盲犬除外）"],
     allowItems:["食物（非玻璃容器）","塑料瓶装水（≤50cl，无盖）","自带塑料杯（≤40cl）","胶片/卡片/一次性相机","小型手提包（A4 大小以内）","雨衣/防晒霜","处方药（携带证明）"],
     banLabel:"禁止携带",allowLabel:"允许携带",
-    weatherH:"天气预报（巴塞罗那六月初）",
-    weatherNote:"六月初巴塞罗那通常晴朗，日间 25–30°C，夜间 18–22°C。建议携带防晒霜和轻便外套（凌晨场较凉）。",
+    weatherH:"天气预报",
+    weatherNote:"六月初的巴塞罗那天气多变——暴雨过后，气温已降至约 21°C。建议携带防水外套或雨披，以及额外一件外套应对凌晨场。场地内有防晒霜取用站。出门前记得查看天气预报。",
     tipsH:"实用小贴士",
     tips:["AccessTicket 手环需在入口激活，请留出排队时间","现金充值点分布在场地各处（仅 AccessTicket 消费）","免费饮水站全场分布，自带空瓶可节省开支","Nobody Is Normal 安全站提供紧急援助","免费水点高峰时段排队较长。建议换舞台时顺手补满水瓶，不要等口渴了再去"],
     emergH:"紧急援助",
@@ -40,9 +44,59 @@ var LANGS={
     lostH:"失物招领",
     lostBody:"节日期间失物统一送至外部信息点，可就近前往或填写失物表格。节日结束后未认领物品移交至 Guàrdia Urbana de Poblenou（Carrer d'Espronceda, 148）。",
     faqH:"官方常见问题",faqLink:"查看完整官方 FAQ",
-    navSchedule:"演出表",navMap:"地图",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
+    navHome:"首页",navSchedule:"演出表",navMap:"地图",navFavs:"收藏",navInfo:"实用信息",navTheme:"主题",navLang:"语言",
     showPast:"场已结束",hidePast:"隐藏已结束",more:"更多",collapse:"收起",
     disclaimer:"本站为乐迷自制的非官方指南，与 Primavera Sound S.L. 无任何关联。<br>所有商标归各自所有者所有。<br>演出信息仅供参考，请以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方网站</a>为准。<br>反馈或纠错请联系：",
+    madeBy:"由 Max777 制作于巴塞罗那",kofi:"🍺 打赏一杯",
+  },
+  zht:{
+    city:"Barcelona · Parc del Fòrum · 2026年6月",
+    now:"▶ 緊演緊",next:"⏭ 下一場",remaining:"剩餘",startsIn:"後開始",
+    sort:"排序",byTime:"時間",byName:"名稱",
+    favs:"💖 我嘅最愛",noFavs:"未有收藏嘅藝人",
+    headliner:"HEADLINER",live:"● LIVE",
+    mapHint:"雙指縮放 · 撳舞台睇演出",reset:"復位",noShows:"今日暫無演出",mapOfficial:"睇官網高清地圖",
+    myEmpty:"💖 收藏藝人後\n喺呢度睇你嘅專屬行程",myTitle:"我嘅行程",conflict:"clash",
+    opening:"開幕日",day1:"第一日",day2:"第二日",day3:"第三日",bits:"Bits",free:"免費",
+    infoTitle:"實用資訊",
+    doorsH:"開門時間",doorsBody:"主場地 Parc del Fòrum 每日約 16:00 開門，演出持續至翌日 05:00–06:00。週三開幕日（6/3）為免費活動，約 17:00 起。",
+    transitH:"交通",metroLine:"地鐵 L4（黃線）",metroStop:"El Maresme–Fòrum（步行至 Rambla Prim 約1分鐘）· Selva de Mar（步行至 Carrer de Pujades 約12分鐘）",
+    nightbus:"夜巴 N6 / N7 / N28",nightbusDesc:"23:00–06:00，可達市中心（Pl. Catalunya）",
+    shuttle:"接駁車（返程）",shuttleDesc:"Parc del Fòrum → Plaça Catalunya · 持通票或單日票可乘 · AccessTicket App 預約（€3/程）\n→ Taulat：週四 00:00–05:00 · 週五 02:00–06:00 · 週六 03:00–06:00\n→ Plataforma Marina：週四至六 01:00–04:00",
+    bikeH:"免費單車停車場",bikeDesc:"Plaça de Leonardo da Vinci（Fòrum）· 免費，有限容量\n週三 15:30–00:00 · 週四 14:30–07:00 · 週五六 15:00–07:00 · 週日 13:30–00:00",
+    bicing:"Bicing 共享單車",bicingDesc:"場地周邊站點：Avda. Eduard Maristany 1 · Rambla Prim 19 · Pssg. Garcia Fària 85 · Selva de Mar/Pssg. Taulat 等",
+    taxi:"的士（返程）",taxiDesc:"C/ Josep Pla 2, 4, 6 · Pssg. Taulat / Pl. de Llevant（至凌晨 01:00）",
+    metroHours:"週一至四 05:00–00:00 · 週五 05:00–02:00 · 週六 24小時不停",tramLine:"電車 T4 線",tramStop:"Fòrum 站 · 週三末班 00:00 · 週四至日通宵不停",daybus:"日間巴士 H16 / 7 / 136 / V33 / V31 / V29 / H14 / B20 / B23",daybusDesc:"06:30–23:15",walkDesc:"由市中心沿海濱步行約60分鐘，地中海美景相伴",
+    banH:"禁帶物品",
+    banItems:["玻璃容器","專業相機／攝錄機（單反等；菲林／卡片機除外）","自拍棍","無人機","寵物（導盲犬除外）"],
+    allowItems:["食物（非玻璃容器）","膠樽裝水（≤50cl，無蓋）","自備膠杯（≤40cl）","菲林／卡片／即棄相機","細手袋（A4 大小以內）","雨褸／防曬霜","處方藥（攜帶證明）"],
+    banLabel:"禁止攜帶",allowLabel:"允許攜帶",
+    weatherH:"天氣預報",
+    weatherNote:"六月初嘅巴塞隆拿天氣多變——暴雨過後，氣溫已降至約 21°C。建議攜帶防水外套或雨披，同埋一件額外外套應對凌晨場。場地內有防曬霜取用站。出門前記得查睇天氣預報。",
+    tipsH:"實用小貼士",
+    tips:["AccessTicket 手帶需喺入口激活，請留出排隊時間","現金充值點分布喺場地各處（僅 AccessTicket 消費）","免費飲水站全場分布，自備空樽可慳開支","Nobody Is Normal 安全站提供緊急援助","免費水點高峰時段排隊較長。建議換舞台時順手補滿水樽，唔好等口渴先去"],
+    emergH:"緊急援助",
+    emergItems:["緊急電話：112","安全站：主入口及各主舞台兩側均設有援助點","與同伴走失時：喺主舞台正前方集合"],
+    ticketsH:"門票",
+    ticketSalesBody:"官方購票渠道：Fever App（iOS/Android）同 AccessTicket（支援分期付款）。門票可喺 AccessTicket 中轉讓（未使用且未關聯活動預約）。唔需要打印——直接用 AccessTicket App 掃碼驗票。",
+    ticketTypesBody:"Parc del Fòrum 僅提供三日通票同單日票，冇單場演出票。",
+    ticketQRBody:"二維碼僅允許入場一次，請妥善保管。唔好截圖俾他人，唔好喺社交媒體發布。",
+    minorsH:"未成年人",
+    minor12:"12歲及以下（含）：免票，需喺 Fever 領取免費票，由父母或法定監護人陪同（攜帶證件及本人門票）。",
+    minor1315:"13–15歲：需購買未成年人票，必須由父母或法定監護人陪同（不含兄弟姐妹或其他親屬）。",
+    minor1617:"16–17歲：購買青少年票後可獨立入場（無需陪同）。部分場館演出需年滿18歲。",
+    accessH:"無障礙服務（PRM）",
+    accessBody:"行動不便及有特殊需求人士可經快速通道入場（可攜帶一名陪伴者）。各主要舞台均設專屬觀看區及無障礙廁所。",
+    accessEmail:"accessibility@primaverasound.com",
+    payH:"場內付款方式",
+    payBody:"支援信用／借記卡（Visa 及 Mastercard；不接受美國運通）同 AccessTicket 錢包。",
+    lostH:"失物招領",
+    lostBody:"節日期間失物統一送至外部資訊點，可就近前往或填寫失物表格。節日結束後未認領物品移交至 Guàrdia Urbana de Poblenou（Carrer d'Espronceda, 148）。",
+    faqH:"官方常見問題",faqLink:"睇完整官方 FAQ",
+    navHome:"主頁",navSchedule:"演出表",navMap:"地圖",navFavs:"最愛",navInfo:"實用資訊",navTheme:"主題",navLang:"語言",
+    showPast:"場已完",hidePast:"隱藏已完",more:"更多",collapse:"收起",
+    disclaimer:"本站為樂迷自製嘅非官方指南，與 Primavera Sound S.L. 無任何關聯。<br>所有商標歸各自所有者所有。<br>演出資訊僅供參考，請以<a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">官方網站</a>為準。<br>反饋或糾錯請聯絡：",
+    madeBy:"由 Max777 製作於巴塞隆拿",kofi:"🍺 打賞一杯",
   },
   es:{
     city:"Barcelona · Parc del Fòrum · Junio 2026",
@@ -55,15 +109,19 @@ var LANGS={
     opening:"Apertura",day1:"Día 1",day2:"Día 2",day3:"Día 3",bits:"Bits",free:"Gratis",
     infoTitle:"Info práctica",
     doorsH:"Horarios de apertura",doorsBody:"El Parc del Fòrum abre cada día sobre las 16:00, los conciertos siguen hasta las 05:00–06:00. El miércoles de apertura (3/6) es gratuito desde las ~17:00.",
-    transitH:"Transporte",metroLine:"Metro L4 (línea amarilla)",metroStop:"Parada El Maresme | Fòrum",
-    nightbus:"Autobús nocturno N6",nightbusDesc:"Servicio nocturno tras el cierre del metro, cada ~15 min hasta el centro (Pl. Catalunya)",
-    bikeDesc:"Aparcamiento de bicicletas gratuito en el recinto",metroHours:"L-J 05:00–00:00 · V 05:00–02:00 · S servicio continuo 24h",tramLine:"Tranvía T4",tramStop:"Parada Fòrum · Servicio reforzado durante el festival",daybus:"Autobús diurno H16 / H14 / 143 / 7 / 36",daybusDesc:"Desde distintas zonas del centro, 06:30–23:15",shuttle:"Bus lanzadera oficial",shuttleDesc:"~€2 por trayecto de medianoche al amanecer, Passeig Taulat → Plaça Catalunya. Reserva en AccessTicket app",walkDesc:"Paseo de ~60 min desde el centro por el Passeig Marítim con vistas al Mediterráneo",
+    transitH:"Transporte",metroLine:"Metro L4 (línea amarilla)",metroStop:"El Maresme–Fòrum (→ Rambla Prim, 1 min a pie) · Selva de Mar (→ Carrer de Pujades, 12 min a pie)",
+    nightbus:"Autobús nocturno N6 / N7 / N28",nightbusDesc:"23:00–06:00 al centro (Pl. Catalunya)",
+    shuttle:"Lanzaderas (regreso)",shuttleDesc:"Parc del Fòrum → Plaça Catalunya · Poseedores de abono y entrada de día · Reserva en AccessTicket App (€3/trayecto)\n→ Taulat: Jue 00:00–05:00 · Vie 02:00–06:00 · Sáb 03:00–06:00\n→ Plataforma Marina: Jue–Sáb 01:00–04:00",
+    bikeH:"Aparcamiento de bicicletas",bikeDesc:"Plaça de Leonardo da Vinci (Fòrum) · Gratis, aforo limitado\nMié 15:30–00:00 · Jue 14:30–07:00 · Vie–Sáb 15:00–07:00 · Dom 13:30–00:00",
+    bicing:"Bicing (bici compartida)",bicingDesc:"Estaciones próximas: Avda. Eduard Maristany 1 · Rambla Prim 19 · Pssg. Garcia Fària 85 · Selva de Mar/Pssg. Taulat",
+    taxi:"Taxi (regreso)",taxiDesc:"C/ Josep Pla 2, 4, 6 · Pssg. Taulat / Pl. de Llevant (hasta las 01:00)",
+    metroHours:"L–J 05:00–00:00 · V 05:00–02:00 · S servicio continuo 24h",tramLine:"Tranvía T4",tramStop:"Fòrum · Miércoles hasta 00:00 · Jueves–Domingo servicio continuo",daybus:"Autobús diurno H16 / 7 / 136 / V33 / V31 / V29 / H14 / B20 / B23",daybusDesc:"06:30–23:15",walkDesc:"Paseo de ~60 min desde el centro por el Passeig Marítim con vistas al Mediterráneo",
     banH:"Objetos prohibidos",
     banItems:["Recipientes de vidrio","Cámara profesional/de vídeo (DSLR; no las compactas/analógicas)","Palos selfie","Drones","Mascotas (excepto perros guía)"],
     allowItems:["Comida (no en envases de vidrio)","Agua en botella de plástico ≤50cl sin tapón","Vaso de plástico propio ≤40cl","Cámara analógica, compacta o desechable","Bolso pequeño (tamaño A4)","Chubasquero / protector solar","Medicación con receta (con justificante)"],
     banLabel:"Prohibido",allowLabel:"Permitido",
-    weatherH:"Previsión meteorológica (Barcelona, junio)",
-    weatherNote:"Principios de junio en Barcelona suele ser soleado, 25–30°C de día, 18–22°C de noche. Lleva protector solar y una chaqueta ligera para las sesiones de madrugada.",
+    weatherH:"Previsión meteorológica",
+    weatherNote:"Los primeros días de junio en Barcelona pueden ser impredecibles — tras la tormenta, las temperaturas han bajado a unos 21°C. Lleva un chubasquero o poncho y una capa extra para los conciertos de madrugada. Hay estaciones de protector solar en el recinto. Consulta la previsión antes de salir de casa.",
     tipsH:"Consejos prácticos",
     tips:["La pulsera AccessTicket debe activarse en la entrada; deja tiempo para la cola","Puntos de recarga de efectivo distribuidos por el recinto (solo pago con AccessTicket)","Fuentes de agua gratuitas en todo el recinto","El punto Nobody Is Normal ofrece asistencia de emergencia","Las fuentes de agua hacen cola en horas punta. Rellena la botella cuando cambies de escenario, no cuando tengas sed"],
     emergH:"Emergencias / Punto de ayuda",
@@ -84,9 +142,10 @@ var LANGS={
     lostH:"Objetos perdidos",
     lostBody:"Los objetos encontrados se llevan al punto de información exterior. Ve a cualquier punto de info o rellena el formulario. Tras el festival, los no reclamados van a la Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"FAQ oficial",faqLink:"Ver preguntas frecuentes oficiales",
-    navSchedule:"Horario",navMap:"Mapa",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
+    navHome:"Inicio",navSchedule:"Horario",navMap:"Mapa",navFavs:"Guardados",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"terminados",hidePast:"Ocultar pasados",more:"más",collapse:"colapsar",
     disclaimer:"Sitio no oficial creado por fans.<br>Sin afiliación con Primavera Sound S.L.<br>Todas las marcas pertenecen a sus respectivos propietarios.<br>Información orientativa; consulta la <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">web oficial</a>.<br>Sugerencias o correcciones:",
+    madeBy:"Hecho por Max777 en Barcelona",kofi:"🍺 fondo de cervezas",
   },
   ca:{
     city:"Barcelona · Parc del Fòrum · Juny 2026",
@@ -99,15 +158,19 @@ var LANGS={
     opening:"Obertura",day1:"Dia 1",day2:"Dia 2",day3:"Dia 3",bits:"Bits",free:"Gratis",
     infoTitle:"Informació pràctica",
     doorsH:"Horaris d'obertura",doorsBody:"El Parc del Fòrum obre cada dia cap a les 16:00, els concerts continuen fins a les 05:00–06:00. El dimecres d'obertura (3/6) és gratuït des de les ~17:00.",
-    transitH:"Com arribar-hi",metroLine:"Metro L4 (línia groga)",metroStop:"Parada El Maresme | Fòrum",
-    nightbus:"Autobús nocturn N6",nightbusDesc:"Servei nocturn fins al centre (Pl. Catalunya) cada ~15 min, un cop tancat el metro",
-    bikeDesc:"Aparcament de bicicletes gratuït al recinte",metroHours:"Dl–Dj 05:00–00:00 · Dv 05:00–02:00 · Ds servei continuat 24h",tramLine:"Tramvia T4 (Trambesòs)",tramStop:"Parada Fòrum · Servei reforçat durant el festival",daybus:"Autobusos diürns H16 / H14 / 143 / 7 / 36",daybusDesc:"Des de diverses zones del centre, 06:30–23:15",shuttle:"Bus llançadora oficial",shuttleDesc:"~2€ per trajecte de mitjanit a l'alba, Passeig Taulat → Plaça Catalunya. Reserva a l'app AccessTicket",walkDesc:"~60 min a peu des del centre per la rambla del mar amb vistes al Mediterrani",
+    transitH:"Com arribar-hi",metroLine:"Metro L4 (línia groga)",metroStop:"El Maresme–Fòrum (→ Rambla Prim, 1 min a peu) · Selva de Mar (→ Carrer de Pujades, 12 min a peu)",
+    nightbus:"Autobús nocturn N6 / N7 / N28",nightbusDesc:"23:00–06:00 al centre (Pl. Catalunya)",
+    shuttle:"Llançadores (tornada)",shuttleDesc:"Parc del Fòrum → Plaça Catalunya · Posseïdors d'abonament i entrada de dia · Reserva a AccessTicket App (€3/trajecte)\n→ Taulat: Dj 00:00–05:00 · Dv 02:00–06:00 · Ds 03:00–06:00\n→ Plataforma Marina: Dj–Ds 01:00–04:00",
+    bikeH:"Aparcament de bicicletes",bikeDesc:"Plaça de Leonardo da Vinci (Fòrum) · Gratuït, aforament limitat\nDc 15:30–00:00 · Dj 14:30–07:00 · Dv–Ds 15:00–07:00 · Dg 13:30–00:00",
+    bicing:"Bicing (bici compartida)",bicingDesc:"Estacions properes: Avda. Eduard Maristany 1 · Rambla Prim 19 · Pssg. Garcia Fària 85 · Selva de Mar/Pssg. Taulat",
+    taxi:"Taxi (tornada)",taxiDesc:"C/ Josep Pla 2, 4, 6 · Pssg. Taulat / Pl. de Llevant (fins a les 01:00)",
+    metroHours:"Dl–Dj 05:00–00:00 · Dv 05:00–02:00 · Ds servei continu 24h",tramLine:"Tramvia T4",tramStop:"Fòrum · Dimecres fins a 00:00 · Dijous–Diumenge servei continu",daybus:"Autobusos diürns H16 / 7 / 136 / V33 / V31 / V29 / H14 / B20 / B23",daybusDesc:"06:30–23:15",walkDesc:"~60 min a peu des del centre per la rambla del mar amb vistes al Mediterrani",
     banH:"Objectes prohibits",
     banItems:["Recipients de vidre","Càmera professional/de vídeo (DSLR; compactes i analògiques OK)","Pals selfie","Drons","Mascotes (excepte gossos d'assistència)"],
     allowItems:["Menjar (no en recipients de vidre)","Aigua en ampolla de plàstic ≤ 50 cl (sense tap a l'entrada)","Got de plàstic propi ≤ 40 cl","Càmera analògica, compacta o d'un sol ús","Bossa petita (fins a mida A4)","Impermeable / protector solar","Medicació amb recepta (amb documentació)"],
     banLabel:"No permès",allowLabel:"Permès",
-    weatherH:"Previsió meteorològica (Barcelona, primers de juny)",
-    weatherNote:"Els primers de juny a Barcelona sol fer sol, 25–30°C durant el dia i 18–22°C de nit. Porta protector solar i una jaqueta lleugera per als concerts de matinada.",
+    weatherH:"Previsió meteorològica",
+    weatherNote:"Els primers dies de juny a Barcelona poden ser imprevisibles — després de la tempesta, les temperatures han baixat fins a uns 21°C. Porta un impermeable o ponxo i una capa extra per als concerts de matinada. Hi ha estacions de protector solar al recinte. Consulta la previsió abans de sortir de casa.",
     tipsH:"Consells pràctics",
     tips:["La polsera AccessTicket s'ha d'activar a l'entrada — deixa temps per fer cua","Punts de recàrrega en efectiu distribuïts pel recinte (pagament AccessTicket)","Fonts d'aigua gratuïtes per tot el recinte","El punt Nobody Is Normal ofereix assistència d'emergència","Tot i que hi ha fonts d'aigua, fan llargues cues durant les hores punta. Omple l'ampolla quan canvies d'escenari, no quan tinguis set"],
     emergH:"Emergències / Punt d'ajuda",
@@ -128,9 +191,10 @@ var LANGS={
     lostH:"Objectes perduts",
     lostBody:"Els objectes trobats es porten al punt d'informació exterior. Ves a qualsevol punt d'informació o omple el formulari. Després del festival, els no reclamats van a la Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"Preguntes freqüents oficials",faqLink:"Veure les preguntes freqüents oficials",
-    navSchedule:"Horari",navMap:"Mapa",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
+    navHome:"Inici",navSchedule:"Horari",navMap:"Mapa",navFavs:"Preferits",navInfo:"Info",navTheme:"Tema",navLang:"Idioma",
     showPast:"acabats",hidePast:"Amaga els acabats",more:"més",collapse:"replegar",
     disclaimer:"Guia no oficial creada per fans.<br>Sense afiliació amb Primavera Sound S.L.<br>Totes les marques pertanyen als seus respectius propietaris.<br>Informació orientativa; consulta el <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">lloc web oficial</a>.<br>Comentaris o correccions:",
+    madeBy:"Fet per Max777 a Barcelona",kofi:"🍺 fons de cerveses",
   },
   en:{
     city:"Barcelona · Parc del Fòrum · June 2026",
@@ -143,15 +207,19 @@ var LANGS={
     opening:"Opening",day1:"Day 1",day2:"Day 2",day3:"Day 3",bits:"Bits",free:"Free",
     infoTitle:"Practical Info",
     doorsH:"Opening hours",doorsBody:"Parc del Fòrum opens daily around 16:00, with sets running until 05:00–06:00. Wednesday opening day (3 June) is free from ~17:00.",
-    transitH:"Getting there",metroLine:"Metro L4 (Yellow line)",metroStop:"El Maresme | Fòrum stop",
-    nightbus:"Night bus N6",nightbusDesc:"Runs after metro closes, every ~15 min to city centre (Pl. Catalunya)",
-    bikeDesc:"Free bike parking inside the venue",metroHours:"Mon–Thu 05:00–00:00 · Fri 05:00–02:00 · Sat 24h continuous",tramLine:"Tram T4",tramStop:"Fòrum stop · Extra services during festival days",daybus:"Day buses H16 / H14 / 143 / 7 / 36",daybusDesc:"From various city districts, 06:30–23:15",shuttle:"Official shuttle bus",shuttleDesc:"~€2/trip midnight to dawn, Passeig Taulat → Plaça Catalunya. Book via AccessTicket app",walkDesc:"~60 min walk from city centre along the beach promenade with sea views",
+    transitH:"Getting there",metroLine:"Metro L4 (Yellow line)",metroStop:"El Maresme–Fòrum (→ Rambla Prim, 1 min walk) · Selva de Mar (→ Carrer de Pujades, 12 min walk)",
+    nightbus:"Night buses N6 / N7 / N28",nightbusDesc:"23:00–06:00 to city centre (Pl. Catalunya)",
+    shuttle:"Shuttle buses (return)",shuttleDesc:"Parc del Fòrum → Plaça Catalunya · Full festival & day ticket holders · Book via AccessTicket App (€3/trip)\n→ Taulat: Thu 00:00–05:00 · Fri 02:00–06:00 · Sat 03:00–06:00\n→ Plataforma Marina: Thu–Sat 01:00–04:00",
+    bikeH:"Free bike parking",bikeDesc:"Plaça de Leonardo da Vinci (Fòrum) · Free, limited capacity\nWed 15:30–00:00 · Thu 14:30–07:00 · Fri–Sat 15:00–07:00 · Sun 13:30–00:00",
+    bicing:"Bicing (shared bikes)",bicingDesc:"Nearby stations: Avda. Eduard Maristany 1 · Rambla Prim 19 · Pssg. Garcia Fària 85 · Selva de Mar/Pssg. Taulat",
+    taxi:"Taxi (return)",taxiDesc:"C/ Josep Pla 2, 4, 6 · Pssg. Taulat / Pl. de Llevant (until 01:00)",
+    metroHours:"Mon–Thu 05:00–00:00 · Fri 05:00–02:00 · Sat 24h non-stop",tramLine:"Tram T4",tramStop:"Fòrum · Wed until 00:00 · Thu–Sun non-stop service",daybus:"Day buses H16 / 7 / 136 / V33 / V31 / V29 / H14 / B20 / B23",daybusDesc:"06:30–23:15",walkDesc:"~60 min walk from city centre along the beach promenade with sea views",
     banH:"Prohibited items",
     banItems:["Glass containers","Professional/video cameras (DSLR; compact & analogue OK)","Selfie sticks","Drones","Pets (except assistance dogs)"],
     allowItems:["Food (not in glass containers)","Water in plastic bottle ≤50cl (cap removed at gate)","Your own plastic cup ≤40cl","Analogue, compact or disposable cameras","Small bag (up to A4 size)","Raincoat / sunscreen","Prescription medication (with documentation)"],
     banLabel:"Not allowed",allowLabel:"Allowed",
-    weatherH:"Weather forecast (Barcelona, early June)",
-    weatherNote:"Early June in Barcelona is typically sunny, 25–30°C during the day and 18–22°C at night. Bring sunscreen and a light jacket for late-night sets.",
+    weatherH:"Weather forecast",
+    weatherNote:"Early June in Barcelona can be unpredictable — after the storm, temperatures have dropped to around 21°C. Bring a waterproof jacket or poncho and an extra layer for late-night sets. Sunscreen stations are available on-site. Check the forecast before you leave home.",
     tipsH:"Practical tips",
     tips:["Your AccessTicket wristband must be activated at the entrance — allow time to queue","Cash reload points are scattered around the venue (AccessTicket payment only)","Free water points throughout the venue","Nobody Is Normal safe space provides emergency assistance","Free water points get long queues at peak hours. Top up your bottle when moving between stages, not when you're already thirsty"],
     emergH:"Emergency / Help point",
@@ -172,14 +240,25 @@ var LANGS={
     lostH:"Lost & found",
     lostBody:"Found items are taken to the external info point. Visit any info point or fill in the lost & found form. After the festival, unclaimed items go to Guàrdia Urbana de Poblenou (Carrer d'Espronceda, 148).",
     faqH:"Official FAQ",faqLink:"View the full official FAQ",
-    navSchedule:"Schedule",navMap:"Map",navInfo:"Info",navTheme:"Theme",navLang:"Language",
+    navHome:"Home",navSchedule:"Schedule",navMap:"Map",navFavs:"Saved",navInfo:"Info",navTheme:"Theme",navLang:"Language",
     showPast:"ended",hidePast:"Hide ended",more:"more",collapse:"collapse",
     disclaimer:"Unofficial fan-made guide.<br>Not affiliated with Primavera Sound S.L.<br>All trademarks belong to their respective owners.<br>Information for reference only; check the <a class=\"footer-link\" href=\"https://www.primaverasound.com/es/barcelona\" target=\"_blank\" rel=\"noopener\">official site</a>.<br>Feedback or corrections:",
+    madeBy:"Made by Max777 in Barcelona",kofi:"🍺 beer fund",
   }
 };
 
-var curLang=localStorage.getItem("ps26_lang")||"en";
-function t(k){return LANGS[curLang][k]||LANGS.zh[k]||k;}
+var curLang=localStorage.getItem("ps26_lang")||(function(){
+  var ls=navigator.languages||[navigator.language||"en"];
+  for(var i=0;i<ls.length;i++){var l=ls[i].toLowerCase();
+    if(l==="ca"||l.startsWith("ca-"))return"ca";
+    if(l==="yue"||l.startsWith("yue-"))return"zht";
+    if(l==="zh-hk"||l==="zh-tw"||l==="zh-mo"||l==="zh-hant"||l.startsWith("zh-hant-"))return"zht";
+    if(l==="zh"||l.startsWith("zh-"))return"zh";
+    if(l==="es"||l.startsWith("es-"))return"es";
+  }
+  return"en";
+})();
+function t(k){return (LANGS[curLang]&&LANGS[curLang][k])||LANGS.zh[k]||k;}
 function setLang(l){
   curLang=l;localStorage.setItem("ps26_lang",l);
   if(typeof vaTrack==='function')vaTrack('switch_language',{lang:l});
@@ -187,14 +266,15 @@ function setLang(l){
   renderDayTabs();
   render();
   updateNowPlaying();
+  if(typeof updateThemeToggleUI==='function')updateThemeToggleUI();
 }
 function applyLang(){
-  document.querySelectorAll(".lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
-  document.getElementById("lbl-city").textContent=t("city");
-  document.getElementById("lbl-mapHint").textContent=t("mapHint");
-  document.getElementById("lbl-reset").textContent=t("reset");
-  document.getElementById("lbl-favs").textContent=t("favs");
-  document.getElementById("lbl-sort").textContent=t("sort");
+  document.querySelectorAll(".lang-btn,.home-lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
+  var _lc=document.getElementById("lbl-city");if(_lc)_lc.textContent=t("city");
+  var _lm=document.getElementById("lbl-mapHint");if(_lm)_lm.textContent=t("mapHint");
+  var _lr=document.getElementById("lbl-reset");if(_lr)_lr.textContent=t("reset");
+  var _lf=document.getElementById("lbl-favs");if(_lf)_lf.textContent=t("favs");
+  var _ls=document.getElementById("lbl-sort");if(_ls)_ls.textContent=t("sort");
   document.querySelectorAll("[data-i]").forEach(function(el){el.textContent=t(el.dataset.i);});
   var footer=document.getElementById("app-footer");
   if(footer)footer.innerHTML=t("disclaimer")+' <a class="footer-mail" href="mailto:maxx7770101@gmail.com">maxx7770101@gmail.com</a>';

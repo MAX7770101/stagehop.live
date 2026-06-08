@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#EDE5D0">
+  <title>春声 2026 · Primavera Sound</title>
+  <!-- Primary Meta Tags -->
+  <meta name="description" content="Unofficial fan-made guide to Primavera Sound 2026 in Barcelona. Lineup, schedule, clash detection, venue map. Multilingual (EN/ES/中文), offline-ready PWA.">
+  <meta name="keywords" content="Primavera Sound 2026, Barcelona, music festival, lineup, schedule, clashfinder">
+  <link rel="canonical" href="https://stagehop.live/ps/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stagehop.live/ps/">
+  <meta property="og:title" content="Stage Hop · Primavera Sound 2026 Fan Guide">
+  <meta property="og:description" content="Unofficial multilingual schedule, clash detector, and offline-ready guide for Primavera Sound 2026.">
+  <meta property="og:image" content="https://stagehop.live/assets/og-image.png">
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://stagehop.live/ps/">
+  <meta property="twitter:title" content="Stage Hop · Primavera Sound 2026 Fan Guide">
+  <meta property="twitter:description" content="Unofficial multilingual schedule, clash detector, and offline-ready guide for Primavera Sound 2026.">
+  <meta property="twitter:image" content="https://stagehop.live/assets/og-image.png">
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="../assets/apple-touch-icon-167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../assets/apple-touch-icon-152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../assets/apple-touch-icon-120.png">
+  <link rel="manifest" href="../manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"></noscript>
+  <link rel="preload" href="../src/localization.js" as="script">
+  <link rel="preload" href="../src/data.js" as="script">
+  <link rel="preload" href="../src/scripts.js" as="script">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body data-theme="light">
+
+  <!-- grain texture overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <div id="app-root">
+
+    <main id="main-content">
+
+      <!-- TAB 0: HOME -->
+      <div id="vhome" class="view on">
+        <div class="scr-body" id="home-body"></div>
+      </div>
+
+      <!-- TAB 1: SCHEDULE -->
+      <div id="vschedule" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" data-i="navSchedule">排班</div>
+            <div class="scr-sub" id="sched-sub"></div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-sched">☀</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-sched">Light</span>
+          </button>
+        </div>
+          <div id="dtabs"></div>
+        <div id="fbar"></div>
+        <div id="sort-bar">
+          <span class="slbl" id="lbl-sort">排序</span>
+          <button class="srt on" id="srt-time" onclick="setSort('time')">⏱ <span data-i="byTime">时间</span></button>
+          <button class="srt" id="srt-az" onclick="setSort('az')">🔤 <span data-i="byName">名称</span></button>
+          <button class="srt srt-fav" id="srt-fav" onclick="toggleFavFilter()">💖</button>
+        </div>
+        <div id="slist" class="scr-body"></div>
+      </div>
+
+      <!-- TAB 2: MAP -->
+      <div id="vmap" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" data-i="navMap">地图</div>
+            <div class="scr-sub">PARC DEL FÒRUM · 41.41°N</div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-map">☀</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-map">Light</span>
+          </button>
+        </div>
+        <div class="scr-body" id="map-scr-body">
+          <div id="mapview">
+            <div id="dtabs-map"></div>
+            <div class="map-hint-bar">
+              <span id="lbl-mapHint">双指缩放 · 点击舞台查看演出</span>
+              <span style="display:flex;gap:6px">
+                <button class="zbtn" onclick="mapZoom(1.5)">＋</button>
+                <button class="zbtn" onclick="mapZoom(0.67)">－</button>
+                <button class="rbtn" id="lbl-reset" onclick="mapReset()">复位</button>
+              </span>
+            </div>
+            <div class="map-wrap" id="mapwrap">
+              <div class="map-inner" id="mapinner">
+                <img id="mapimg" src="../assets/map.webp" alt="venue map" width="2000" height="1345">
+              </div>
+            </div>
+            <a class="map-official-btn" href="https://www.primaverasound.com/barcelona/map" target="_blank" rel="noopener"><span data-i="mapOfficial">点击查看官网高清地图</span> ↗</a>
+            <div id="stagepop"></div>
+            <div id="map-disc"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: FAVORITES -->
+      <div id="vmy" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" id="lbl-fav-title">我的收藏</div>
+            <div class="scr-sub" id="lbl-fav-count"></div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-fav">☀</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-fav">Light</span>
+          </button>
+        </div>
+        <div id="mylist" class="scr-body"></div>
+      </div>
+
+      <!-- TAB 4: INFO -->
+      <div id="vinfo" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" data-i="infoTitle">实用信息</div>
+            <div class="scr-sub">KNOW BEFORE YOU GO</div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-info">☀</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-info">Light</span>
+          </button>
+        </div>
+        <div id="info-body" class="scr-body"></div>
+      </div>
+
+    </main>
+
+    <!-- GLOBAL UP NEXT BAR -->
+    <div id="now-playing">
+      <div id="np-rows"></div>
+      <div id="np-more"></div>
+    </div>
+
+    <!-- BOTTOM TAB BAR -->
+    <nav id="tabbar">
+      <div class="tab-row">
+        <span class="tab-ind" id="tab-ind"></span>
+        <button class="tab-btn on" onclick="setTab(0)">
+          <span class="tab-ic"><span class="dot" style="width:13px;height:13px;vertical-align:middle"></span></span>
+          <span class="tab-lbl" data-i="navHome">首页</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(1)">
+          <span class="tab-ic">☰</span>
+          <span class="tab-lbl" data-i="navSchedule">排班</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(2)">
+          <span class="tab-ic">◎</span>
+          <span class="tab-lbl" data-i="navMap">地图</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(3)">
+          <span class="tab-ic" id="fav-tab-ic">♥</span>
+          <span class="tab-lbl" data-i="navFavs">收藏</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(4)">
+          <span class="tab-ic">ⓘ</span>
+          <span class="tab-lbl" data-i="navInfo">信息</span>
+        </button>
+      </div>
+    </nav>
+
+  </div><!-- #app-root -->
+
+  <!-- hidden compat elements that applyLang() may reference -->
+  <div id="app-footer" style="display:none"></div>
+  <div id="lbl-city" style="display:none"></div>
+  <div id="lbl-favs" style="display:none"></div>
+
+  <script type="text/javascript" src="../src/localization.js"></script>
+  <script type="text/javascript" src="../src/data.js"></script>
+  <script type="text/javascript" src="../src/scripts.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+
+</html>

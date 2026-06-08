@@ -1,8 +1,8 @@
 {
-  "name": "春日之声 · Stage Hop",
+  "name": "Stage Hop · Barcelona 2026",
   "short_name": "Stage Hop",
-  "description": "Unofficial fan guide to Primavera Sound 2026",
-  "start_url": ".",
+  "description": "Unofficial fan guides for Primavera Sound 2026 and Sónar 2026 in Barcelona",
+  "start_url": "/ps/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F4F1EB",
