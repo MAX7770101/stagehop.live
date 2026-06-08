@@ -305,7 +305,7 @@ function renderHome(){
   var langShort={zh:"中",zht:"繁",es:"ES",ca:"CA",en:"EN"};
   body.innerHTML=
     '<div class="home-top">'+
-      '<a class="home-brand-label mono" href="/" style="text-decoration:none;color:var(--dim)">Unofficial</a>'+
+      '<a class="home-brand-label mono" href="/" style="text-decoration:none;color:var(--dim)">‹ stagehop.live</a>'+
       '<div class="home-top-controls">'+
         '<button class="theme-toggle" onclick="toggleTheme(event)">'+
           '<span class="theme-toggle-icon">'+toggleIcon+'</span>'+
