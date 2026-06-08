@@ -8,6 +8,7 @@ window.FESTIVAL_CONFIG={
   duration:{zh:'5 天',zht:'5 天',es:'5 días',ca:'5 dies',en:'5 days'},
   faqUrl:'https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs',
   defaultDay:'thu',
+  weatherLat:41.3874,weatherLon:2.1686,
 };
 
 // ── STAGE DATA ──

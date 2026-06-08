@@ -270,10 +270,10 @@ function setLang(l){
 }
 function applyLang(){
   document.querySelectorAll(".lang-btn,.home-lang-btn").forEach(function(b){b.classList.toggle("on",b.dataset.lang===curLang);});
-  document.getElementById("lbl-city").textContent=t("city");
-  document.getElementById("lbl-mapHint").textContent=t("mapHint");
-  document.getElementById("lbl-reset").textContent=t("reset");
-  document.getElementById("lbl-favs").textContent=t("favs");
+  var _lc=document.getElementById("lbl-city");if(_lc)_lc.textContent=t("city");
+  var _lm=document.getElementById("lbl-mapHint");if(_lm)_lm.textContent=t("mapHint");
+  var _lr=document.getElementById("lbl-reset");if(_lr)_lr.textContent=t("reset");
+  var _lf=document.getElementById("lbl-favs");if(_lf)_lf.textContent=t("favs");
   document.getElementById("lbl-sort").textContent=t("sort");
   document.querySelectorAll("[data-i]").forEach(function(el){el.textContent=t(el.dataset.i);});
   var footer=document.getElementById("app-footer");

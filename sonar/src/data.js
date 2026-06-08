@@ -8,6 +8,7 @@ window.FESTIVAL_CONFIG={
   duration:{zh:'3 天',zht:'3 天',es:'3 días',ca:'3 dies',en:'3 days'},
   faqUrl:'https://sonar.es/',
   defaultDay:'thu',
+  weatherLat:41.3574,weatherLon:2.1267,
 };
 
 // ── STAGE DATA ──

@@ -1,5 +1,5 @@
 // ── UTILS ──
-function toMins(t){var p=t.split(":");return parseInt(p[0])<8?parseInt(p[0])*60+parseInt(p[1])+1440:parseInt(p[0])*60+parseInt(p[1]);}
+function toMins(t){if(!t)return 0;var p=t.split(":");return parseInt(p[0])<8?parseInt(p[0])*60+parseInt(p[1])+1440:parseInt(p[0])*60+parseInt(p[1]);}
 
 function _localDs(d){var p=function(n){return n<10?"0"+n:String(n);};return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());}
 function _effectiveDate(){var d=new Date();if(d.getHours()<8){d=new Date(d.getTime()-864e5);}return d;}
@@ -155,14 +155,8 @@ setInterval(updateNowPlaying,30000);
 
 // ── WEATHER ──
 var _wxCache=null;
-var _wxFallback=[
-  {date:"2026-06-03",code:0,max:27,min:19},
-  {date:"2026-06-04",code:1,max:26,min:18},
-  {date:"2026-06-05",code:0,max:28,min:19},
-  {date:"2026-06-06",code:2,max:25,min:18},
-  {date:"2026-06-07",code:0,max:27,min:19}
-];
-var _wxDateLabel={"2026-06-03":"Wed 6/3","2026-06-04":"Thu 6/4","2026-06-05":"Fri 6/5","2026-06-06":"Sat 6/6","2026-06-07":"Sun 6/7"};
+var _wxFallback=DAYS.map(function(d){return{date:d.date,code:0,max:27};});
+var _wxDateLabel=(function(){var m={};DAYS.forEach(function(d){m[d.date]=d.label;});return m;})();
 function _wxInfo(code,lang){
   var m=[
     [0,"☀️","晴天","Despejado","Clear"],
@@ -187,7 +181,8 @@ function _wxRowHtml(data){
 function fetchWeather(cb){
   if(_wxCache){cb(_wxCache);return;}
   var xhr=new XMLHttpRequest();
-  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude=41.3874&longitude=2.1686&daily=weather_code,temperature_2m_max&timezone=Europe%2FMadrid&start_date=2026-06-03&end_date=2026-06-07");
+  var _wc=window.FESTIVAL_CONFIG||{};
+  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude="+(_wc.weatherLat||41.3874)+"&longitude="+(_wc.weatherLon||2.1686)+"&daily=weather_code,temperature_2m_max&timezone=Europe%2FMadrid&start_date="+_wxFallback[0].date+"&end_date="+_wxFallback[_wxFallback.length-1].date);
   xhr.onload=function(){
     if(xhr.status===200){
       try{
@@ -310,7 +305,7 @@ function renderHome(){
   var langShort={zh:"中",zht:"繁",es:"ES",ca:"CA",en:"EN"};
   body.innerHTML=
     '<div class="home-top">'+
-      '<div class="home-brand-label mono">春日之声 · Unofficial</div>'+
+      '<a class="home-brand-label mono" href="/" style="text-decoration:none;color:var(--dim)">Unofficial</a>'+
       '<div class="home-top-controls">'+
         '<button class="theme-toggle" onclick="toggleTheme(event)">'+
           '<span class="theme-toggle-icon">'+toggleIcon+'</span>'+
