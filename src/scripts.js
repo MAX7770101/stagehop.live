@@ -11,8 +11,9 @@ function isLive(show){var n=getNow();return n>=toMins(show.time)&&n<toMins(show.
 function vaTrack(name,data){try{if(typeof window.va==='function')window.va('event',data?{name:name,data:data}:{name:name});}catch(e){}}
 
 // ── FAVORITES ──
-var favs=new Set(JSON.parse(localStorage.getItem("ps26_favs")||"[]"));
-function saveFavs(){localStorage.setItem("ps26_favs",JSON.stringify([...favs]));}
+var _FKEY=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.id||"ps26")+"_favs";
+var favs=new Set(JSON.parse(localStorage.getItem(_FKEY)||"[]"));
+function saveFavs(){localStorage.setItem(_FKEY,JSON.stringify([...favs]));}
 
 // Heart pop state: tracks which artists have the animation active across re-renders
 var _heartPop=new Set();
@@ -201,7 +202,7 @@ function fetchWeather(cb){
 }
 
 // ── STATE ──
-var curDay="thu",curView="home",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
+var curDay=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.defaultDay)||"thu",curView="home",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
 var curTab=parseInt(localStorage.getItem("sh.tab")||"0");
 var TAB_VIEWS=["home","schedule","map","my","info"];
 
@@ -226,7 +227,7 @@ function closeLangMenu(){
 function renderHome(){
   var body=document.getElementById("home-body");
   if(!body)return;
-  var festStart=new Date("2026-06-03T00:00:00");
+  var festStart=new Date((window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.startDate||"2026-06-03")+"T00:00:00");
   var today=new Date();today.setHours(0,0,0,0);
   var days=Math.ceil((festStart-today)/86400000);
   var daysStr=days>0?(days<10?"0"+days:String(days)):"0";
@@ -235,8 +236,10 @@ function renderHome(){
   var isDark=document.body.getAttribute("data-theme")==="dark";
   var toggleIcon=isDark?"☾":"☀";
   var toggleLbl=getThemeLbl(isDark);
-  var festDateRange=curLang==="zht"?"6月 3—7 日":isZh?"6月 3—7 日":curLang==="es"?"3—7 JUN":curLang==="ca"?"3—7 JUN":"JUN 3—7";
-  var festDuration=isZh?"5 天":curLang==="es"?"5 días":curLang==="ca"?"5 dies":"5 days";
+  var _dr=window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.dateRange;
+  var festDateRange=_dr&&(_dr[curLang]||_dr.en)||"";
+  var _du=window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.duration;
+  var festDuration=_du&&(_du[curLang]||_du.en)||"";
   // Festival day: build "Up Next" card; pre-festival: countdown
   var todayFest=getDay();
   var homeCard;
@@ -295,7 +298,7 @@ function renderHome(){
   }
   var navItemsData=[
     [curLang==="zht"?"演出 & 撞期":isZh?"演出 & 撞车检测":curLang==="es"?"Horario & choques":curLang==="ca"?"Horari & xocs":"Schedule & clashes",
-     curLang==="zht"?"5日 · 19舞台 · 撞期":isZh?"5天 · 19舞台 · 撞车检测":curLang==="es"?"5 días · 19 escenarios · solapamientos":curLang==="ca"?"5 dies · 19 escenaris · solapaments":"5 days · 19 stages · clash detection",1],
+     (function(){var nd=DAYS.length,ns=Object.keys(ST).length;return curLang==="zht"?nd+"日 · "+ns+"舞台 · 撞期":isZh?nd+"天 · "+ns+"舞台 · 撞车检测":curLang==="es"?nd+" días · "+ns+" escenarios · solapamientos":curLang==="ca"?nd+" dies · "+ns+" escenaris · solapaments":nd+" days · "+ns+" stages · clash detection";})(),1],
     [curLang==="zht"?"場地地圖":isZh?"场地地图":curLang==="es"?"Mapa del recinto":curLang==="ca"?"Mapa del recinte":"Venue map",
      curLang==="zht"?"場地熱圖 · 舞台位置":isZh?"场地热图 · 舞台位置":curLang==="es"?"Plano del recinto y escenarios":curLang==="ca"?"Plànol del recinte i escenaris":"Stage locations & venue",2],
     [curLang==="zht"?"我嘅最愛":isZh?"我的收藏":curLang==="es"?"Mis favoritos":curLang==="ca"?"Els meus favorits":"My Favorites",
@@ -327,10 +330,9 @@ function renderHome(){
       '</div>'+
     '</div>'+
     '<div class="home-wordmark syne">stage<br>hop<span class="dot" style="width:12px;height:12px;vertical-align:middle;margin-left:2px;display:inline-block"></span></div>'+
-    '<div class="home-ps-title syne">PRIMAVERA SOUND 2026</div>'+
-    '<div class="home-location mono">Barcelona · Parc del Fòrum</div>'+
+    '<div class="home-ps-title syne">'+(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.name||'PRIMAVERA SOUND 2026')+'</div>'+
+    '<div class="home-location mono">'+(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.location||'Barcelona')+'</div>'+
     homeCard+
-    (function(){var m={"en":"💜 Surprise — Olivia Rodrigo is playing at Occident tonight, 22:25. Run. 💜","es":"💜 ¡Sorpresa! Olivia Rodrigo actúa esta noche en Occident a las 22:25. Corred. 💜","ca":"💜 Sorpresa! Olivia Rodrigo actua aquesta nit a Occident a les 22:25. Correu. 💜","zh":"💜 彩蛋！Olivia Rodrigo 今晚 22:25 在 Occident 舞台演出，快去！💜","zht":"💜 彩蛋！Olivia Rodrigo 今晚 22:25 喺 Occident 舞台演出，快啲去！💜"};return'<div class="home-banner" style="color:#a855f7;border-color:#a855f750;background:#a855f712">'+(m[curLang]||m.en)+'</div>';})()+
     '<div class="home-nav">'+
     navItemsData.map(function(item,i){
       return '<div class="home-nav-item" onclick="setTab('+item[2]+')">'+
@@ -628,7 +630,7 @@ function renderInfo(){
       '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.lostBody+'</div></div>'+
     '</div>'+
     '<div class="info-section" style="text-align:center">'+
-      '<a style="font-family:\'Syne\',sans-serif;font-size:14px;font-weight:700;color:var(--accent-text);text-decoration:none" href="https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs" target="_blank" rel="noopener">🔗 '+L.faqH+' ↗</a>'+
+      '<a style="font-family:\'Syne\',sans-serif;font-size:14px;font-weight:700;color:var(--accent-text);text-decoration:none" href="'+(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.faqUrl||'https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs')+'" target="_blank" rel="noopener">🔗 '+L.faqH+' ↗</a>'+
     '</div>'+
     '<div style="font-family:\'Space Mono\',monospace;font-size:8px;letter-spacing:.06em;color:var(--dim);padding:8px 0 4px;text-align:center">OFFLINE-READY PWA · DATA STORED LOCALLY</div>'+
     '<div class="info-footer">'+

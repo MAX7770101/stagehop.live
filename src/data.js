@@ -1,3 +1,15 @@
+// ── FESTIVAL CONFIG ──
+window.FESTIVAL_CONFIG={
+  id:'ps26',
+  name:'PRIMAVERA SOUND 2026',
+  location:'Barcelona · Parc del Fòrum',
+  startDate:'2026-06-03',
+  dateRange:{zh:'6月 3—7 日',zht:'6月 3—7 日',es:'3—7 JUN',ca:'3—7 JUN',en:'JUN 3—7'},
+  duration:{zh:'5 天',zht:'5 天',es:'5 días',ca:'5 dies',en:'5 days'},
+  faqUrl:'https://www.primaverasound.com/barcelona/primavera-sound-barcelona-frequently-asked-questions-faqs',
+  defaultDay:'thu',
+};
+
 // ── STAGE DATA ──
 var ST={
   "Estrella Damm":{color:"#C4900A",bg:"#1a1400cc",e:"🌟",s:"Estrella"},
