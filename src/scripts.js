@@ -608,8 +608,8 @@ function renderInfo(){
     '<div class="info-section">'+
       '<div class="info-h">👶 '+L.minorsH+'</div>'+
       '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor12+'</div></div>'+
-      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1315+'</div></div>'+
-      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1617+'</div></div>'+
+      (L.minor1315?'<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1315+'</div></div>':'')+
+      (L.minor1617?'<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1617+'</div></div>':'')+
     '</div>'+
     '<div class="info-section">'+
       '<div class="info-h">♿ '+L.accessH+'</div>'+
