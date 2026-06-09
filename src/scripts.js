@@ -144,7 +144,10 @@ function refreshMapGlow(){
     var anim=el.style.animation||"";
     if(anim.indexOf("hsglow")!==-1)return;
     if(stages.has(s)){
+      var scl2=1/getFitScale();
       el.style.setProperty("--gc",si.color);
+      el.style.setProperty("--hs-b1",(8*scl2)+"px");
+      el.style.setProperty("--hs-b2",(16*scl2)+"px");
       el.style.animation="upnextglow 3s ease-in-out infinite";
     }else{
       if(anim.indexOf("upnextglow")!==-1)el.style.animation="";
@@ -599,7 +602,7 @@ function renderInfo(){
     '</div>'+
     '<div class="info-section">'+
       '<div class="info-h">🚇 '+L.transitH+'</div>'+
-      '<div class="info-row"><div class="info-icon">🟡</div><div class="info-text"><strong>'+L.metroLine+'</strong><br>'+L.metroStop+'<br><span style="font-size:10px;color:var(--dim)">'+L.metroHours+'</span></div></div>'+
+      '<div class="info-row"><div class="info-icon">'+(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.metroIcon||'🟡')+'</div><div class="info-text"><strong>'+L.metroLine+'</strong><br>'+L.metroStop+'<br><span style="font-size:10px;color:var(--dim)">'+L.metroHours+'</span></div></div>'+
       '<div class="info-row"><div class="info-icon">🚋</div><div class="info-text"><strong>'+L.tramLine+'</strong><br>'+L.tramStop+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🚌</div><div class="info-text"><strong>'+L.daybus+'</strong><br>'+L.daybusDesc+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🌙</div><div class="info-text"><strong>'+L.nightbus+'</strong><br>'+L.nightbusDesc+'</div></div>'+
@@ -698,7 +701,7 @@ function renderMap(){
       var bv=bpx+"px solid "+(hasShows?si.color+(hasLive?"ff":"77"):"rgba(255,255,255,0.1)");
       el.style.border=bv;
       el.dataset.border=bv;
-      if(hasLive){el.style.setProperty("--gc",si.color);el.style.animation="hsglow 2s ease-in-out infinite";}
+      if(hasLive){var scl=1/fs;el.style.setProperty("--gc",si.color);el.style.setProperty("--hs-b1",(8*scl)+"px");el.style.setProperty("--hs-b2",(18*scl)+"px");el.style.animation="hsglow 2s ease-in-out infinite";}
       var lbl=document.createElement("div");
       lbl.className="hs-label";
       lbl.style.color=hasShows?si.color:"rgba(255,255,255,0.2)";
@@ -737,13 +740,15 @@ function openStagePop(stage){
   _selStage=stage;
   var newEl=document.querySelector('.hs[data-stage="'+stage+'"]');
   if(newEl){
+    var scl=1/getFitScale();
     newEl.classList.add("selected");
     newEl.style.animation="";
-    newEl.style.boxShadow="0 0 14px 4px "+si.color+"aa, 0 0 28px 8px "+si.color+"55";
+    newEl.style.boxShadow="0 0 "+(14*scl)+"px "+(4*scl)+"px "+si.color+"aa, 0 0 "+(28*scl)+"px "+(8*scl)+"px "+si.color+"55";
     newEl.style.borderColor=si.color;
-    newEl.style.borderWidth="2px";
+    newEl.style.borderWidth=Math.round(2*scl)+"px";
   }
   var pop=document.getElementById("stagepop");
+  var alreadyOpen=pop.style.display==="block";
   pop.style.display="block";pop.classList.remove("visible");
   setTimeout(function(){pop.classList.add("visible");},10);
   var html='<div class="pop-head"><div class="pop-stage" style="color:'+si.color+'">'+si.e+" "+stage+'</div><button class="pop-close" onclick="closePop()">×</button></div><div>';
@@ -760,7 +765,7 @@ function openStagePop(stage){
     '</div>';
   });}
   html+='</div>';pop.innerHTML=html;
-  pop.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(!alreadyOpen)pop.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
 function closePop(){
@@ -826,7 +831,7 @@ function setDay(k){
   renderDayTabs();
   if(curView==="schedule")renderSchedule();
   else if(curView==="my")renderMyLineup();
-  else if(curView==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(curView==="map"){var _ps=_selStage;renderMap();setTimeout(function(){initMapGestures();if(_ps)openStagePop(_ps);},200);}
 }
 function setStage(s){curStage=s;renderSchedule();}
 function setCat(c){curCat=c;curStage=null;renderSchedule();}

@@ -6,9 +6,10 @@ window.FESTIVAL_CONFIG={
   startDate:'2026-06-11',
   dateRange:{zh:'6月 11—14 日',zht:'6月 11—14 日',es:'11—14 JUN',ca:'11—14 JUN',en:'JUN 11–14'},
   duration:{zh:'4 天',zht:'4 天',es:'4 días',ca:'4 dies',en:'4 days'},
-  faqUrl:'https://www.primaverasound.com/porto',
+  faqUrl:'https://www.primaverasound.com/es/porto/primavera-sound-porto-frequently-asked-questions-faqs',
   defaultDay:'thu',
   weatherLat:41.1579,weatherLon:-8.6291,
+  mapW:2000,mapH:1125,metroIcon:'🔵',
 };
 
 // ── STAGE DATA ──
@@ -21,7 +22,13 @@ var ST={
   "Live Over Porto":{color:"#FF6B35",e:"🌊",s:"Live"},
 };
 
-var HOTSPOTS={};
+var HOTSPOTS={
+  "Estrella Damm":  [73, 28,  9,  8],
+  "ZYN":            [47, 29,  7,  6],
+  "Vodafone":       [21, 40,  9,  8],
+  "Primavera":      [10, 48,  7,  8],
+  "Cupra Pulse":    [59, 47,  9,  9],
+};
 
 var DAYS=[
   {key:"thu",label:"Thu 6/11",date:"2026-06-11",sub:"day1",shows:[

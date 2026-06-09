@@ -288,8 +288,8 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   border:1px solid transparent;white-space:nowrap;flex-shrink:0;
 }
 @keyframes upnextglow{
-  0%,100%{box-shadow:0 0 8px 2px var(--gc,#888)33}
-  50%{box-shadow:0 0 16px 5px var(--gc,#888)66}
+  0%,100%{box-shadow:0 0 var(--hs-b1,8px) 2px var(--gc,#888)33}
+  50%{box-shadow:0 0 var(--hs-b2,16px) 5px var(--gc,#888)66}
 }
 
 /* ===== DAY CAPSULE TABS ===== */
@@ -523,8 +523,8 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   box-shadow:0 0 12px 3px var(--hs-glow,rgba(255,255,255,.6)),0 0 24px 6px var(--hs-glow,rgba(255,255,255,.3));
 }
 @keyframes hsglow{
-  0%,100%{box-shadow:0 0 8px var(--gc,#fff)44}
-  50%{box-shadow:0 0 18px var(--gc,#fff)88}
+  0%,100%{box-shadow:0 0 var(--hs-b1,8px) var(--gc,#fff)44}
+  50%{box-shadow:0 0 var(--hs-b2,18px) var(--gc,#fff)88}
 }
 .hs-label{
   font-family:"Space Mono",monospace;
