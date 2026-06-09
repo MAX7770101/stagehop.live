@@ -1,7 +1,7 @@
 // ── FESTIVAL CONFIG ──
 window.FESTIVAL_CONFIG={
   id:'ps26',
-  name:'PRIMAVERA SOUND 2026',
+  name:'PRIMAVERA SOUND BCN 2026',
   location:'Barcelona · Parc del Fòrum',
   startDate:'2026-06-03',
   dateRange:{zh:'6月 3—7 日',zht:'6月 3—7 日',es:'3—7 JUN',ca:'3—7 JUN',en:'JUN 3—7'},
