@@ -84,6 +84,14 @@
         <div class="scr-body" id="map-scr-body">
           <div id="mapview">
             <div id="dtabs-map"></div>
+            <div class="map-hint-bar">
+              <span id="lbl-mapHint">Pinch to zoom · Tap stage to see shows</span>
+              <span style="display:flex;gap:6px">
+                <button class="zbtn" onclick="mapZoom(1.5)">＋</button>
+                <button class="zbtn" onclick="mapZoom(0.67)">－</button>
+                <button class="rbtn" id="lbl-reset" onclick="mapReset()">Reset</button>
+              </span>
+            </div>
             <img id="mapimg" src="" alt="" style="display:none" width="2000" height="1345">
             <div class="map-wrap" id="mapwrap" style="display:none"><div class="map-inner" id="mapinner"></div></div>
             <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 28px 40px;text-align:center;gap:14px">

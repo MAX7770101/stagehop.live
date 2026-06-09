@@ -182,7 +182,7 @@ function fetchWeather(cb){
   if(_wxCache){cb(_wxCache);return;}
   var xhr=new XMLHttpRequest();
   var _wc=window.FESTIVAL_CONFIG||{};
-  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude="+(_wc.weatherLat||41.3874)+"&longitude="+(_wc.weatherLon||2.1686)+"&daily=weather_code,temperature_2m_max&timezone=Europe%2FMadrid&start_date="+_wxFallback[0].date+"&end_date="+_wxFallback[_wxFallback.length-1].date);
+  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude="+(_wc.weatherLat||41.3874)+"&longitude="+(_wc.weatherLon||2.1686)+"&daily=weather_code,temperature_2m_max&timezone="+encodeURIComponent(_wc.weatherTz||"Europe/Madrid")+"&start_date="+_wxFallback[0].date+"&end_date="+_wxFallback[_wxFallback.length-1].date);
   xhr.onload=function(){
     if(xhr.status===200){
       try{
@@ -197,7 +197,7 @@ function fetchWeather(cb){
 }
 
 // ── STATE ──
-var curDay=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.defaultDay)||"thu",curView="home",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
+var curDay=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.defaultDay)||"thu",curView="home",curStage=null,curCat=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
 var curTab=parseInt(localStorage.getItem("sh.tab")||"0");
 var TAB_VIEWS=["home","schedule","map","my","info"];
 
@@ -370,7 +370,7 @@ function setTab(n){
   if(ind)ind.style.left="calc("+n+" * 20% + 10%)";
   // sync curView for compat
   curView=v;
-  curStage=null;
+  curStage=null;curCat=null;
   vaTrack("view_tab",{tab:n,view:v});
   // render view
   if(v==="home"){renderHome();updateNowPlaying();}
@@ -420,8 +420,20 @@ function renderSchedule(){
   var subEl=document.getElementById("sched-sub");
   if(subEl)subEl.textContent=day.label+" · "+day.shows.length+" ACTS";
 
-  var stages=[...new Set(day.shows.map(function(s){return s.stage;}))];
-  var shows=curStage?day.shows.filter(function(s){return s.stage===curStage;}):day.shows;
+  // Detect categories present on this day
+  var L=LANGS[curLang]||LANGS.en;
+  var CAT_DEFS=[
+    {k:"music",   lbl:L.catMusic||"Music"},
+    {k:"art",     lbl:L.catArt||"Art & Activism"},
+    {k:"activity",lbl:L.catActivity||"Activities"},
+  ];
+  var dayCats=[...new Set(day.shows.map(function(s){return s.cat||"music"}))];
+  var hasMultiCat=dayCats.length>1;
+
+  // Category-filtered + stage-filtered shows
+  var shows=day.shows;
+  if(curCat)shows=shows.filter(function(s){return (s.cat||"music")===curCat;});
+  if(curStage)shows=shows.filter(function(s){return s.stage===curStage;});
   if(curFavFilter)shows=shows.filter(function(s){return favs.has(s.artist);});
   var sorted=[...shows].sort(function(a,b){return curSort==="az"?a.artist.localeCompare(b.artist):toMins(a.time)-toMins(b.time);});
   var todayDs=_localDs(_effectiveDate());
@@ -429,13 +441,26 @@ function renderSchedule(){
   var isToday=!isPastDay&&getDay()&&getDay().key===curDay;
   var conflicts=getConflicts(day.shows);
 
-  // Filter bar
-  var allLbl=(curLang==="zh"||curLang==="zht")?"全部":curLang==="es"?"Todo":curLang==="ca"?"Tot":"All";
-  document.getElementById("fbar").innerHTML=
-    '<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)">'+allLbl+'</button>'+
+  // Stages visible under current category filter
+  var catShows=curCat?day.shows.filter(function(s){return (s.cat||"music")===curCat;}):day.shows;
+  var stages=[...new Set(catShows.map(function(s){return s.stage;}))];
+
+  // Filter bar: category tabs (top) + stage pills (bottom)
+  var catTabsHtml="";
+  if(hasMultiCat){
+    var allCatLbl=L.catAll||"All";
+    catTabsHtml='<div class="cat-tabs">'+
+      '<button class="ctab'+(curCat===null?" on":"")+'" onclick="setCat(null)">'+allCatLbl+'</button>'+
+      CAT_DEFS.filter(function(c){return dayCats.indexOf(c.k)!==-1;}).map(function(c){
+        return '<button class="ctab'+(curCat===c.k?" on":"")+'" onclick="setCat(\''+c.k+'\')">'+c.lbl+'</button>';
+      }).join("")+
+    '</div>';
+  }
+  var stageHtml='<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)">'+(L.catAll||"All")+'</button>'+
     stages.map(function(s){var si=ST[s];if(!si)return"";var on=curStage===s;
       return '<button class="sfb" onclick="setStage(\''+s.replace(/'/g,"\\'")+'\')" style="background:'+(on?si.color:"var(--surface)")+';color:'+(on?"#000":si.color)+';border-color:'+si.color+(on?"cc":"55")+'">'+si.e+" "+si.s+'</button>';
     }).join("")+'</div>';
+  document.getElementById("fbar").innerHTML=catTabsHtml+stageHtml;
 
   document.getElementById("srt-time").classList.toggle("on",curSort==="time");
   document.getElementById("srt-az").classList.toggle("on",curSort==="az");
@@ -758,7 +783,10 @@ function closePop(){
 // ── PINCH-ZOOM ──
 var mapState={scale:1,x:0,y:0};
 var gesture={active:false,startDist:0,startScale:1,startMidX:0,startMidY:0,startPanX:0,startPanY:0,dragging:false,dragStartX:0,dragStartY:0};
-var MAP_W=2000,MAP_H=1345;
+var MAP_W=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.mapW)||2000;
+var MAP_H=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.mapH)||1345;
+document.documentElement.style.setProperty("--map-w",MAP_W);
+document.documentElement.style.setProperty("--map-h",MAP_H);
 function getFitScale(){var wrap=document.getElementById("mapwrap");return wrap?wrap.offsetWidth/MAP_W:0.18;}
 function applyMapTransform(){
   var wrap=document.getElementById("mapwrap"),inner=document.getElementById("mapinner");
@@ -794,13 +822,14 @@ function initMapGestures(){
 function toggleShowPast(){curShowPast=!curShowPast;renderSchedule();}
 function setDay(k){
   vaTrack('switch_day',{day:k});
-  curDay=k;curStage=null;curShowPast=false;
+  curDay=k;curStage=null;curCat=null;curShowPast=false;
   renderDayTabs();
   if(curView==="schedule")renderSchedule();
   else if(curView==="my")renderMyLineup();
   else if(curView==="map"){renderMap();setTimeout(initMapGestures,200);}
 }
 function setStage(s){curStage=s;renderSchedule();}
+function setCat(c){curCat=c;curStage=null;renderSchedule();}
 function setSort(s){curSort=s;renderSchedule();}
 function toggleFavFilter(){curFavFilter=!curFavFilter;renderSchedule();}
 function render(){

@@ -329,13 +329,30 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 .srt.on{background:var(--accent-soft);color:var(--accent-text);border-color:transparent}
 .srt-fav{margin-left:auto}
 
+/* ===== CATEGORY TAB BAR ===== */
+.cat-tabs{
+  display:flex;gap:0;padding:6px 16px 0;flex-shrink:0;
+  border-bottom:1px solid var(--hair);overflow-x:auto;scrollbar-width:none;
+}
+.cat-tabs::-webkit-scrollbar{display:none}
+.ctab{
+  font-family:"Space Mono",monospace;font-size:10px;font-weight:700;letter-spacing:0.06em;
+  padding:6px 12px 8px;border:none;background:transparent;cursor:pointer;
+  color:var(--dim);white-space:nowrap;flex-shrink:0;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:color .15s,border-color .15s;
+}
+.ctab.on{color:var(--text);border-bottom-color:var(--text);}
+
 /* ===== STAGE FILTER BAR ===== */
 #fbar{
-  display:flex;gap:6px;padding:8px 24px 0;
-  overflow-x:auto;scrollbar-width:none;flex-shrink:0;
+  display:flex;flex-direction:column;gap:0;flex-shrink:0;
 }
-#fbar::-webkit-scrollbar{display:none}
-.sfs{display:contents}
+.sfs{
+  display:flex;gap:6px;padding:8px 24px 0;
+  overflow-x:auto;scrollbar-width:none;
+}
+.sfs::-webkit-scrollbar{display:none}
 .sfb{
   font-family:"Space Mono",monospace;font-size:9px;
   padding:5px 10px;border-radius:11px;
@@ -484,14 +501,14 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   position:relative;width:100%;overflow:hidden;
   background:var(--surface-2);touch-action:none;user-select:none;
   border-radius:14px;border:1px solid var(--hair);
-  aspect-ratio:2000/1345;max-height:65vh;flex-shrink:0;
+  aspect-ratio:var(--map-w,2000)/var(--map-h,1345);max-height:65vh;flex-shrink:0;
 }
 .map-inner{
   position:relative;transform-origin:0 0;
-  will-change:transform;line-height:0;width:2000px;
+  will-change:transform;line-height:0;width:calc(var(--map-w,2000)*1px);
 }
 #mapimg{
-  display:block;width:2000px;height:1345px;
+  display:block;width:calc(var(--map-w,2000)*1px);height:calc(var(--map-h,1345)*1px);
   pointer-events:none;user-select:none;-webkit-user-drag:none;
   image-rendering:auto;
 }

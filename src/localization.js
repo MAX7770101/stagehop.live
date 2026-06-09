@@ -3,7 +3,7 @@ var LANGS={
   zh:{
     city:"Barcelona · Parc del Fòrum · Junio 2026",
     now:"▶ 正在演出",next:"⏭ 下一场",remaining:"剩余",startsIn:"后开始",
-    sort:"排序",byTime:"时间",byName:"名称",
+    sort:"排序",byTime:"时间",byName:"名称",catAll:"全部",catMusic:"音乐",catArt:"艺术与社会",catActivity:"活动",
     favs:"💖 我的收藏",noFavs:"还没有收藏的艺人",
     headliner:"HEADLINER",live:"● LIVE",
     mapHint:"双指缩放 · 点击舞台查看演出",reset:"复位",noShows:"今天暂无演出",mapOfficial:"点击查看官网高清地图",
@@ -52,7 +52,7 @@ var LANGS={
   zht:{
     city:"Barcelona · Parc del Fòrum · 2026年6月",
     now:"▶ 緊演緊",next:"⏭ 下一場",remaining:"剩餘",startsIn:"後開始",
-    sort:"排序",byTime:"時間",byName:"名稱",
+    sort:"排序",byTime:"時間",byName:"名稱",catAll:"全部",catMusic:"音樂",catArt:"藝術與社會",catActivity:"活動",
     favs:"💖 我嘅最愛",noFavs:"未有收藏嘅藝人",
     headliner:"HEADLINER",live:"● LIVE",
     mapHint:"雙指縮放 · 撳舞台睇演出",reset:"復位",noShows:"今日暫無演出",mapOfficial:"睇官網高清地圖",
@@ -101,7 +101,7 @@ var LANGS={
   es:{
     city:"Barcelona · Parc del Fòrum · Junio 2026",
     now:"▶ EN ESCENA",next:"⏭ PRÓXIMO",remaining:"restante",startsIn:"para empezar",
-    sort:"Orden",byTime:"Hora",byName:"Nombre",
+    sort:"Orden",byTime:"Hora",byName:"Nombre",catAll:"Todo",catMusic:"Música",catArt:"Arte y activismo",catActivity:"Actividades",
     favs:"💖 Mis favoritos",noFavs:"Aún no tienes favoritos",
     headliner:"HEADLINER",live:"● EN DIRECTO",
     mapHint:"Pellizca para zoom · Toca el escenario",reset:"Reset",noShows:"Sin conciertos hoy",mapOfficial:"Ver mapa oficial en alta resolución",
@@ -150,7 +150,7 @@ var LANGS={
   ca:{
     city:"Barcelona · Parc del Fòrum · Juny 2026",
     now:"▶ EN DIRECTE",next:"⏭ PRÒXIM",remaining:"restant",startsIn:"per començar",
-    sort:"Ordre",byTime:"Hora",byName:"Nom",
+    sort:"Ordre",byTime:"Hora",byName:"Nom",catAll:"Tot",catMusic:"Música",catArt:"Art i activisme",catActivity:"Activitats",
     favs:"💖 Els meus favorits",noFavs:"Encara no tens favorits",
     headliner:"HEADLINER",live:"● EN DIRECTE",
     mapHint:"Pessiga per fer zoom · Toca l'escenari",reset:"Reinicia",noShows:"Avui no hi ha concerts",mapOfficial:"Veure el mapa oficial en alta resolució",
@@ -199,7 +199,7 @@ var LANGS={
   pt:{
     city:"Barcelona · Parc del Fòrum · Junho 2026",
     now:"▶ EM CENA",next:"⏭ A SEGUIR",remaining:"restante",startsIn:"para começar",
-    sort:"Ordem",byTime:"Hora",byName:"Nome",
+    sort:"Ordem",byTime:"Hora",byName:"Nome",catAll:"Tudo",catMusic:"Música",catArt:"Arte e ativismo",catActivity:"Atividades",
     favs:"💖 Os meus favoritos",noFavs:"Ainda não tens favoritos",
     headliner:"HEADLINER",live:"● AO VIVO",
     mapHint:"Belisca para zoom · Toca no palco",reset:"Repor",noShows:"Sem concertos hoje",mapOfficial:"Ver mapa oficial em alta resolução",
@@ -248,7 +248,7 @@ var LANGS={
   en:{
     city:"Barcelona · Parc del Fòrum · June 2026",
     now:"▶ NOW PLAYING",next:"⏭ UP NEXT",remaining:"left",startsIn:"to start",
-    sort:"Sort",byTime:"Time",byName:"Name",
+    sort:"Sort",byTime:"Time",byName:"Name",catAll:"All",catMusic:"Music",catArt:"Art & Activism",catActivity:"Activities",
     favs:"💖 My Favourites",noFavs:"No saved artists yet",
     headliner:"HEADLINER",live:"● LIVE",
     mapHint:"Pinch to zoom · Tap stage to see shows",reset:"Reset",noShows:"No shows today",mapOfficial:"View official hi-res map",
