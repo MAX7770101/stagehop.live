@@ -301,8 +301,8 @@ function renderHome(){
     [curLang==="zht"?"實用資訊":isZh?"实用信息":curLang==="es"?"Info práctica":curLang==="ca"?"Info pràctica":"Practical info",
      curLang==="zht"?"交通 · 禁帶 · 實用貼士":isZh?"交通 · 禁带 · 实用贴士":curLang==="es"?"Transporte, normas y consejos":curLang==="ca"?"Transport, normes i consells":"Know before you go",4]
   ];
-  var langs=[["简中","zh"],["繁中","zht"],["Español","es"],["Català","ca"],["English","en"]];
-  var langShort={zh:"中",zht:"繁",es:"ES",ca:"CA",en:"EN"};
+  var langs=[["简中","zh"],["繁中","zht"],["Español","es"],["Català","ca"],["Português","pt"],["English","en"]];
+  var langShort={zh:"中",zht:"繁",es:"ES",ca:"CA",pt:"PT",en:"EN"};
   body.innerHTML=
     '<div class="home-top">'+
       '<a class="home-brand-label mono" href="/" style="text-decoration:none;color:var(--dim)">‹ stagehop.live</a>'+
