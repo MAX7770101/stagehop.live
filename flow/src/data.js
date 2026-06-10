@@ -8,7 +8,7 @@ window.FESTIVAL_CONFIG={
   faqUrl:'https://www.flowfestival.com/en/info/info/',
   defaultDay:'fri',
   weatherLat:60.1870,weatherLon:24.9760,
-  lineupImg:'../assets/posters/Flow.webp',
+  lineupImg:'../assets/posters/Flow Festival 2026 Lineup.webp',
 };
 var ST={};
 var HOTSPOTS={};
