@@ -8,6 +8,7 @@ window.FESTIVAL_CONFIG={
   faqUrl:'https://www.bestkeptsecret.nl/',
   defaultDay:'fri',
   weatherLat:51.5719,weatherLon:5.0984,
+  mapW:8282,mapH:7357,
 };
 
 var ST={
