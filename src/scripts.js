@@ -418,6 +418,23 @@ function renderDayTabs(){
 }
 
 function renderSchedule(){
+  // No schedule data yet — show lineup poster placeholder
+  if(!DAYS.length){
+    var cfg=window.FESTIVAL_CONFIG||{};
+    var slist=document.getElementById("slist");
+    var fbar=document.getElementById("fbar");
+    var sortbar=document.getElementById("sort-bar");
+    var subEl2=document.getElementById("sched-sub");
+    if(fbar)fbar.innerHTML="";
+    if(sortbar)sortbar.style.display="none";
+    if(subEl2)subEl2.textContent="";
+    if(slist){
+      slist.innerHTML=cfg.lineupImg
+        ?'<div style="padding:16px 14px 24px"><img src="'+cfg.lineupImg+'" style="width:100%;border-radius:12px;display:block"><p style="text-align:center;color:var(--dim);font-size:11px;font-family:\'Space Mono\',monospace;margin-top:14px;letter-spacing:0.06em">SET TIMES NOT YET ANNOUNCED</p></div>'
+        :'<div style="padding:48px 28px;text-align:center;color:var(--dim);font-family:\'Space Mono\',monospace;font-size:11px;letter-spacing:0.06em">SCHEDULE COMING SOON</div>';
+    }
+    return;
+  }
   var day=DAYS.find(function(d){return d.key===curDay;});
   // Update schedule screen subtitle
   var subEl=document.getElementById("sched-sub");
