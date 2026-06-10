@@ -8,7 +8,7 @@ window.FESTIVAL_CONFIG={
   faqUrl:'https://www.bestkeptsecret.nl/',
   defaultDay:'fri',
   weatherLat:51.5719,weatherLon:5.0984,
-  mapW:8282,mapH:7357,
+  mapW:2071,mapH:1839,
 };
 
 var ST={
@@ -21,7 +21,15 @@ var ST={
   "The Shore by Corona": {color:"#26A69A",e:"🌊",s:"Shore"},
 };
 
-var HOTSPOTS={};
+var HOTSPOTS={
+  "TWO":                [14,  3,  5,  5],
+  "ONE":                [21,  6,  5,  5],
+  "Not Nothing":        [12, 21,  5,  5],
+  "The Floor":          [16, 27,  5,  5],
+  "The Shore by Corona":[22, 31,  8,  5],
+  "The Casbah":         [22, 39,  8,  5],
+  "The Secret":         [18, 52,  6,  6],
+};
 
 var DAYS=[
   {key:"fri",label:"Fri 6/12",date:"2026-06-12",sub:"day1",shows:[
