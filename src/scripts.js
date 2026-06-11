@@ -404,17 +404,39 @@ function setView(v){
 
 // ── RENDER ──
 function renderDayTabs(){
-  var html=DAYS.map(function(d){
+  if(!DAYS.length){
+    ["dtabs","dtabs-map"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML="";});
+    return;
+  }
+  var day=DAYS.find(function(d){return d.key===curDay;})||DAYS[0];
+  var opts=DAYS.map(function(d){
     var on=d.key===curDay;
-    var shortLabel=d.label.split(" ")[0];
-    return '<button class="dtab'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')">' +
-      '<div class="dl">'+shortLabel+'</div>'+
+    var parts=d.label.split(" ");
+    return '<button class="dtab-opt'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')">' +
+      '<span class="dtab-opt-dow">'+parts[0]+'</span>' +
+      '<span class="dtab-opt-md">'+(parts[1]||"")+'</span>' +
     '</button>';
   }).join("");
+  var html=
+    '<div class="day-picker">'+
+      '<button class="day-picker-btn" onclick="toggleDayPicker(event,this)">'+
+        '<span>'+day.label+'</span>'+
+        '<span class="day-picker-caret">▾</span>'+
+      '</button>'+
+      '<div class="day-picker-panel">'+opts+'</div>'+
+    '</div>';
   ["dtabs","dtabs-map"].forEach(function(id){
     var el=document.getElementById(id);
     if(el)el.innerHTML=html;
   });
+}
+function toggleDayPicker(e,btn){
+  e.stopPropagation();
+  var panel=btn.parentElement.querySelector(".day-picker-panel");
+  var isOpen=panel.classList.contains("open");
+  document.querySelectorAll(".day-picker-panel.open").forEach(function(p){p.classList.remove("open");});
+  document.querySelectorAll(".day-picker-btn.open").forEach(function(b){b.classList.remove("open");});
+  if(!isOpen){panel.classList.add("open");btn.classList.add("open");}
 }
 
 function renderSchedule(){
@@ -698,12 +720,12 @@ function renderMap(){
   var img=document.getElementById("mapimg");
   function place(){
     var liveStages=new Set();
-    day.shows.forEach(function(s){if(isLive(s))liveStages.add(s.stage);});
+    if(day)day.shows.forEach(function(s){if(isLive(s))liveStages.add(s.stage);});
     Object.entries(HOTSPOTS).forEach(function(entry){
       var stage=entry[0],coords=entry[1];
       var l=coords[0],top=coords[1],sw=coords[2],sh=coords[3];
       var si=ST[stage];if(!si)return;
-      var hasShows=day.shows.some(function(s){return s.stage===stage;});
+      var hasShows=day?day.shows.some(function(s){return s.stage===stage;}):false;
       var hasLive=liveStages.has(stage);
       var el=document.createElement("div");
       el.className="hs";
@@ -727,7 +749,7 @@ function renderMap(){
       lbl.style.padding=Math.round(2/fs)+"px "+Math.round(6/fs)+"px";
       lbl.style.borderRadius=Math.round(3/fs)+"px";
       el.appendChild(lbl);
-      if(hasShows){el.addEventListener("click",function(e){e.stopPropagation();openStagePop(stage);});}
+      el.addEventListener("click",function(e){e.stopPropagation();openStagePop(stage);});
       inner.appendChild(el);
     });
     refreshMapGlow();
@@ -744,14 +766,14 @@ function openStagePop(stage){
   vaTrack('tap_stage',{stage:stage});
   var day=DAYS.find(function(d){return d.key===curDay;});
   var si=ST[stage];
-  var shows=day.shows.filter(function(s){return s.stage===stage;}).sort(function(a,b){return toMins(a.time)-toMins(b.time);});
+  var shows=day?day.shows.filter(function(s){return s.stage===stage;}).sort(function(a,b){return toMins(a.time)-toMins(b.time);}):[];
   var isToday=getDay()&&getDay().key===curDay;
   document.querySelectorAll(".hs.selected").forEach(function(el){
     el.classList.remove("selected");
     el.style.boxShadow="";
     el.style.border=el.dataset.border||"";
     var sn=el.dataset.stage;
-    if(day.shows.some(function(s){return s.stage===sn&&isLive(s);}))
+    if(day&&day.shows.some(function(s){return s.stage===sn&&isLive(s);}))
       el.style.animation="hsglow 2s ease-in-out infinite";
   });
   _selStage=stage;
@@ -957,5 +979,10 @@ function updateThemeToggleUI(){
 
   window.addEventListener("resize",function(){
     // nothing needed — layout is flex, no sticky heights to track
+  });
+
+  document.addEventListener("click",function(){
+    document.querySelectorAll(".day-picker-panel.open").forEach(function(p){p.classList.remove("open");});
+    document.querySelectorAll(".day-picker-btn.open").forEach(function(b){b.classList.remove("open");});
   });
 })();

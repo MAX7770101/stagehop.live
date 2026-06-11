@@ -311,26 +311,48 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 
 /* ===== DAY CAPSULE TABS ===== */
 #dtabs{
-  display:flex;gap:7px;padding:16px 24px 0;
-  flex-shrink:0;overflow-x:auto;scrollbar-width:none;
+  display:block;padding:10px 24px 0;
+  flex-shrink:0;position:relative;
 }
-#dtabs::-webkit-scrollbar{display:none}
 #dtabs-map{
-  display:flex;gap:7px;padding-bottom:12px;
-  flex-shrink:0;overflow-x:auto;scrollbar-width:none;
+  display:block;padding-bottom:8px;
+  flex-shrink:0;position:relative;
 }
-#dtabs-map::-webkit-scrollbar{display:none}
-.dtab{
-  flex:1;min-width:0;text-align:center;
-  font-family:"Space Mono",monospace;font-size:10.5px;
-  padding:8px 4px;border-radius:11px;cursor:pointer;
-  background:var(--surface);color:var(--dim);
-  border:none;font-weight:400;
-  transition:background .15s,color .15s;white-space:nowrap;
+.day-picker{position:relative;}
+.day-picker-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:22px;
+  background:var(--surface);color:var(--text);
+  border:none;cursor:pointer;
+  font-family:"Space Mono",monospace;font-size:11px;font-weight:700;
+  transition:background .15s;
 }
-.dtab.on{background:var(--text);color:var(--bg);font-weight:700}
-.dtab .dl{font-size:10.5px;font-weight:inherit;line-height:1.3}
-.dtab .ds{display:none}
+.day-picker-caret{font-size:9px;opacity:0.4;transition:transform .2s;}
+.day-picker-btn.open .day-picker-caret{transform:rotate(180deg);}
+.day-picker-panel{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:var(--card,var(--surface));
+  border-radius:14px;padding:8px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:4px;
+  z-index:200;
+  box-shadow:0 8px 32px rgba(0,0,0,0.24);
+  opacity:0;pointer-events:none;
+  transform:translateY(-6px) scaleY(0.95);
+  transform-origin:top center;
+  transition:opacity .15s,transform .15s;
+}
+.day-picker-panel.open{
+  opacity:1;pointer-events:auto;
+  transform:translateY(0) scaleY(1);
+}
+.dtab-opt{
+  text-align:center;padding:9px 2px;border-radius:8px;
+  cursor:pointer;background:transparent;color:var(--dim);
+  border:none;transition:background .15s,color .15s;
+}
+.dtab-opt.on{background:var(--text);color:var(--bg);}
+.dtab-opt-dow{display:block;font-size:8px;opacity:0.6;line-height:1.3;}
+.dtab-opt-md{display:block;font-size:10px;font-weight:700;line-height:1.5;}
 
 /* ===== SORT BAR ===== */
 #sort-bar{
