@@ -238,8 +238,7 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   font-family:"Space Mono",monospace;font-size:9px;
   letter-spacing:.08em;font-weight:700;
   padding:2px 7px;border-radius:20px;white-space:nowrap;line-height:1.6;
-}
-.hub-ended{background:rgba(128,128,128,.13);color:var(--dim)}
+}.hub-ended{background:rgba(128,128,128,.13);color:var(--dim)}
 .hub-upcoming{background:rgba(80,168,255,.1);color:#5aabff}
 .lang-menu{position:relative}
 .lang-menu-btn{
