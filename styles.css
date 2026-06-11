@@ -213,7 +213,7 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   font-family:"Space Mono",monospace;font-size:8.5px;
   letter-spacing:.05em;margin-top:3px;color:var(--dim);
 }
-.home-nav-arrow{color:var(--dim);font-size:18px;flex-shrink:0;transition:transform .15s}
+.home-nav-arrow{color:var(--dim);font-size:22px;flex-shrink:0;transition:transform .15s}
 .home-nav-item:hover .home-nav-arrow{transform:translate(2px,-2px)}
 .home-spacer{flex:1;min-height:18px}
 .home-footer{
@@ -235,7 +235,7 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
 .home-kofi:hover{color:var(--text)}
 .hub-title-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .hub-badge{
-  font-family:"Space Mono",monospace;font-size:8px;
+  font-family:"Space Mono",monospace;font-size:9px;
   letter-spacing:.08em;font-weight:700;
   padding:2px 7px;border-radius:20px;white-space:nowrap;line-height:1.6;
 }

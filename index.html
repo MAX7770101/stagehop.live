@@ -44,7 +44,7 @@
     a.home-nav-item:hover{opacity:.8}
     .home-tagline{font-size:9px;letter-spacing:.06em;color:var(--dim);margin-top:5px}
     .hub-month-hdr{font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.18em;color:var(--accent-text);padding:20px 0 6px}
-    .hub-ended-toggle{font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.18em;color:var(--dim);padding:6px 0;display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none}
+    .hub-ended-toggle{font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.18em;color:var(--dim);padding:6px 0;display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none}
     .hub-ended-toggle:hover{color:var(--text)}
     .hub-ended-list{display:none}
     .hub-ended-list.open{display:block}
@@ -93,7 +93,7 @@
     <!-- Ended (collapsed by default) -->
     <div class="hub-ended-toggle" id="hub-ended-toggle" onclick="hubToggleEnded()">
       <span id="hub-ended-arrow">▸</span>
-      <span id="hub-ended-lbl">ENDED</span>
+      <span id="hub-ended-lbl">ENDED FESTIVALS</span>
     </div>
     <div class="hub-ended-list" id="hub-ended-list">
       <a class="home-nav-item" href="/ps/">
@@ -188,12 +188,12 @@
 <script>
   var _LKEY='ps26_lang', _TKEY='ps26_theme';
   var _HS={
-    zh: {psSub:'巴塞罗那 · Parc del Fòrum · 6月3–7日',sonarSub:'巴塞罗那 · Fira Gran Via · 6月18–20日',portoSub:'波尔图 · Parque da Cidade · 6月11–14日',bksSub:'荷兰 · Beekse Bergen · 6月12–14日',roskildeSub:'丹麦 · 罗斯基勒 · 6月27日–7月4日',wowSub:'哥德堡 · Slottsskogen · 8月13–15日',flowSub:'赫尔辛基 · Suvilahti · 8月14–16日',ended:'○ 已结束',upcoming:'● 即将开幕',endedLbl:'已结束',monthJun:'六月',monthAug:'八月',kofi:'🍺 打赏一杯',thL:'日间',thD:'夜间',lShort:'中'},
-    zht:{psSub:'巴塞隆拿 · Parc del Fòrum · 6月3–7日',sonarSub:'巴塞隆拿 · Fira Gran Via · 6月18–20日',portoSub:'波爾圖 · Parque da Cidade · 6月11–14日',bksSub:'荷蘭 · Beekse Bergen · 6月12–14日',roskildeSub:'丹麥 · 羅斯基勒 · 6月27日–7月4日',wowSub:'哥德堡 · Slottsskogen · 8月13–15日',flowSub:'赫爾辛基 · Suvilahti · 8月14–16日',ended:'○ 已結束',upcoming:'● 即將開幕',endedLbl:'已結束',monthJun:'六月',monthAug:'八月',kofi:'🍺 打賞一杯',thL:'日間',thD:'夜間',lShort:'繁'},
-    es: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Gotemburgo · Slottsskogen · 13–15 AGO',flowSub:'Helsinki · Suvilahti · 14–16 AGO',ended:'○ Terminado',upcoming:'● Próximo',endedLbl:'Terminado',monthJun:'JUNIO',monthAug:'AGOSTO',kofi:'🍺 fondo de cervezas',thL:'Día',thD:'Noche',lShort:'ES'},
-    ca: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Göteborg · Slottsskogen · 13–15 AGO',flowSub:'Hèlsinki · Suvilahti · 14–16 AGO',ended:'○ Acabat',upcoming:'● Pròxim',endedLbl:'Acabat',monthJun:'JUNY',monthAug:'AGOST',kofi:'🍺 fons de cerveses',thL:'Dia',thD:'Nit',lShort:'CA'},
-    pt: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Gotemburgo · Slottsskogen · 13–15 AGO',flowSub:'Helsínquia · Suvilahti · 14–16 AGO',ended:'○ Terminado',upcoming:'● Em breve',endedLbl:'Terminado',monthJun:'JUNHO',monthAug:'AGOSTO',kofi:'🍺 fundo de cervejas',thL:'Claro',thD:'Escuro',lShort:'PT'},
-    en: {psSub:'Barcelona · Parc del Fòrum · JUN 3–7',sonarSub:'Barcelona · Fira Gran Via · JUN 18–20',portoSub:'Porto · Parque da Cidade · JUN 11–14',bksSub:'Hilvarenbeek · Beekse Bergen · JUN 12–14',roskildeSub:'Roskilde · Denmark · JUN 27–JUL 4',wowSub:'Gothenburg · Slottsskogen · AUG 13–15',flowSub:'Helsinki · Suvilahti · AUG 14–16',ended:'○ Ended',upcoming:'● Upcoming',endedLbl:'ENDED',monthJun:'JUNE',monthAug:'AUGUST',kofi:'🍺 beer fund',thL:'Light',thD:'Dark',lShort:'EN'},
+    zh: {psSub:'巴塞罗那 · Parc del Fòrum · 6月3–7日',sonarSub:'巴塞罗那 · Fira Gran Via · 6月18–20日',portoSub:'波尔图 · Parque da Cidade · 6月11–14日',bksSub:'荷兰 · Beekse Bergen · 6月12–14日',roskildeSub:'丹麦 · 罗斯基勒 · 6月27日–7月4日',wowSub:'哥德堡 · Slottsskogen · 8月13–15日',flowSub:'赫尔辛基 · Suvilahti · 8月14–16日',ended:'○ 已结束',upcoming:'● 即将开幕',endedLbl:'已结束的音乐节',monthJun:'六月',monthAug:'八月',kofi:'🍺 打赏一杯',thL:'日间',thD:'夜间',lShort:'中'},
+    zht:{psSub:'巴塞隆拿 · Parc del Fòrum · 6月3–7日',sonarSub:'巴塞隆拿 · Fira Gran Via · 6月18–20日',portoSub:'波爾圖 · Parque da Cidade · 6月11–14日',bksSub:'荷蘭 · Beekse Bergen · 6月12–14日',roskildeSub:'丹麥 · 羅斯基勒 · 6月27日–7月4日',wowSub:'哥德堡 · Slottsskogen · 8月13–15日',flowSub:'赫爾辛基 · Suvilahti · 8月14–16日',ended:'○ 已結束',upcoming:'● 即將開幕',endedLbl:'已結束的音樂節',monthJun:'六月',monthAug:'八月',kofi:'🍺 打賞一杯',thL:'日間',thD:'夜間',lShort:'繁'},
+    es: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Gotemburgo · Slottsskogen · 13–15 AGO',flowSub:'Helsinki · Suvilahti · 14–16 AGO',ended:'○ Terminado',upcoming:'● Próximo',endedLbl:'FESTIVALES TERMINADOS',monthJun:'JUNIO',monthAug:'AGOSTO',kofi:'🍺 fondo de cervezas',thL:'Día',thD:'Noche',lShort:'ES'},
+    ca: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Göteborg · Slottsskogen · 13–15 AGO',flowSub:'Hèlsinki · Suvilahti · 14–16 AGO',ended:'○ Acabat',upcoming:'● Pròxim',endedLbl:'FESTIVALS ACABATS',monthJun:'JUNY',monthAug:'AGOST',kofi:'🍺 fons de cerveses',thL:'Dia',thD:'Nit',lShort:'CA'},
+    pt: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Gotemburgo · Slottsskogen · 13–15 AGO',flowSub:'Helsínquia · Suvilahti · 14–16 AGO',ended:'○ Terminado',upcoming:'● Em breve',endedLbl:'FESTIVAIS TERMINADOS',monthJun:'JUNHO',monthAug:'AGOSTO',kofi:'🍺 fundo de cervejas',thL:'Claro',thD:'Escuro',lShort:'PT'},
+    en: {psSub:'Barcelona · Parc del Fòrum · JUN 3–7',sonarSub:'Barcelona · Fira Gran Via · JUN 18–20',portoSub:'Porto · Parque da Cidade · JUN 11–14',bksSub:'Hilvarenbeek · Beekse Bergen · JUN 12–14',roskildeSub:'Roskilde · Denmark · JUN 27–JUL 4',wowSub:'Gothenburg · Slottsskogen · AUG 13–15',flowSub:'Helsinki · Suvilahti · AUG 14–16',ended:'○ Ended',upcoming:'● Upcoming',endedLbl:'ENDED FESTIVALS',monthJun:'JUNE',monthAug:'AUGUST',kofi:'🍺 beer fund',thL:'Light',thD:'Dark',lShort:'EN'},
   };
 
   var _curLang=localStorage.getItem(_LKEY)||'zh';
