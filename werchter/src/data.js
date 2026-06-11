@@ -8,6 +8,7 @@ window.FESTIVAL_CONFIG={
   faqUrl:'https://www.rockwerchter.be/en/info/faq',
   defaultDay:'thu',
   weatherLat:50.8832,weatherLon:4.7325,
+  mapW:2000,mapH:1462,
 };
 
 var ST={
@@ -17,7 +18,12 @@ var ST={
   "NEST":      {color:"#9966CC",bg:"#0e001acc",e:"🦅",s:"NEST"},
 };
 
-var HOTSPOTS={};
+var HOTSPOTS={
+  "The Barn":   [18.5, 14.0, 15.0, 10.5],
+  "Main Stage": [47.5, 24.0,  9.5, 10.0],
+  "NEST":       [28.5, 60.5,  9.0, 11.0],
+  "KluB C":     [11.5, 78.5, 14.5, 11.0],
+};
 
 var DAYS=[
   // ── THURSDAY 02/07 ──────────────────────────────────────────────
