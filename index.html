@@ -8,19 +8,19 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0a0a0a">
-  <title>Stage Hop · Europe 2026 Festival Guide</title>
+  <title>Stage Hop · European Festival Guide 2026</title>
   <meta name="description" content="Unofficial fan-made festival companion for Primavera Sound, Sónar, Best Kept Secret, Roskilde, Way Out West, Flow Festival and more in 2026. Schedule, clash detection, venue maps. Multilingual.">
   <meta name="keywords" content="Primavera Sound 2026, Sónar 2026, Best Kept Secret 2026, Roskilde 2026, Way Out West 2026, Flow Festival 2026, music festival, lineup, schedule">
   <link rel="canonical" href="https://stagehop.live/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://stagehop.live/">
-  <meta property="og:title" content="Stage Hop · Barcelona 2026 Festival Companion">
-  <meta property="og:description" content="Unofficial fan guides for Primavera Sound 2026 and Sónar 2026 in Barcelona.">
+  <meta property="og:title" content="Stage Hop · European Festival Guide 2026">
+  <meta property="og:description" content="Unofficial fan guides for Primavera Sound, Sónar, Best Kept Secret, Roskilde, Way Out West, Flow and more. Schedule, clash detection, offline-ready. Multilingual.">
   <meta property="og:image" content="https://stagehop.live/assets/og-image.png">
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://stagehop.live/">
-  <meta property="twitter:title" content="Stage Hop · Barcelona 2026 Festival Companion">
-  <meta property="twitter:description" content="Unofficial fan guides for Primavera Sound 2026 and Sónar 2026 in Barcelona.">
+  <meta property="twitter:title" content="Stage Hop · European Festival Guide 2026">
+  <meta property="twitter:description" content="Unofficial fan guides for Primavera Sound, Sónar, Best Kept Secret, Roskilde, Way Out West, Flow and more. Schedule, clash detection, offline-ready. Multilingual.">
   <meta property="twitter:image" content="https://stagehop.live/assets/og-image.png">
   <link rel="icon" href="assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
@@ -36,11 +36,19 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     /* hub-page overrides — minimal, on top of styles.css */
-    html,body{height:auto;overflow-y:auto}
+    html,body{height:auto !important;overflow:visible !important}
+    body{overflow-y:auto !important}
     #hub-body{padding:26px 24px 20px;display:flex;flex-direction:column;min-height:100svh}
     a.home-nav-item{text-decoration:none;color:inherit;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 0;border-top:1px solid var(--hair);cursor:pointer}
     a.home-nav-item:first-child{border-top:none}
     a.home-nav-item:hover{opacity:.8}
+    .home-tagline{font-size:9px;letter-spacing:.06em;color:var(--dim);margin-top:5px}
+    .hub-month-hdr{font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.18em;color:var(--accent-text);padding:20px 0 6px}
+    .hub-ended-toggle{font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.18em;color:var(--dim);padding:6px 0;display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none}
+    .hub-ended-toggle:hover{color:var(--text)}
+    .hub-ended-list{display:none}
+    .hub-ended-list.open{display:block}
+    .hub-month-hdr+a.home-nav-item,.hub-ended-list a.home-nav-item:first-child{border-top:none}
   </style>
 </head>
 
@@ -77,65 +85,102 @@
   </div>
 
   <div class="home-wordmark syne">stage<br>hop<span class="dot" style="width:12px;height:12px;vertical-align:middle;margin-left:2px;display:inline-block"></span></div>
-  <div class="home-ps-title syne">EUROPE 2026</div>
-  <div class="home-location mono">stagehop.live</div>
+  <div class="home-ps-title syne">Free unofficial guides — schedule, clash detection, offline-ready.</div>
+
 
   <div class="home-nav">
-    <a class="home-nav-item" href="/ps/">
-      <div>
-        <div class="home-nav-title">PRIMAVERA SOUND BCN 2026</div>
-        <div class="home-nav-sub mono" id="hub-ps-sub">Barcelona · Parc del Fòrum · JUN 3–7 · Ended</div>
-      </div>
-      <span class="home-nav-arrow dim">›</span>
-    </a>
+
+    <!-- Ended (collapsed by default) -->
+    <div class="hub-ended-toggle" id="hub-ended-toggle" onclick="hubToggleEnded()">
+      <span id="hub-ended-arrow">▸</span>
+      <span id="hub-ended-lbl">ENDED</span>
+    </div>
+    <div class="hub-ended-list" id="hub-ended-list">
+      <a class="home-nav-item" href="/ps/">
+        <div style="flex:1;min-width:0">
+          <div class="hub-title-row">
+            <div class="home-nav-title">PRIMAVERA SOUND BCN 2026</div>
+            <span class="hub-badge hub-ended" data-status="ended">○ Ended</span>
+          </div>
+          <div class="home-nav-sub mono" id="hub-ps-sub">Barcelona · Parc del Fòrum · JUN 3–7</div>
+        </div>
+        <span class="home-nav-arrow dim">↗</span>
+      </a>
+    </div>
+
+    <!-- June -->
+    <div class="hub-month-hdr" id="hub-month-jun">JUNE</div>
     <a class="home-nav-item" href="/porto/">
-      <div>
-        <div class="home-nav-title">PRIMAVERA SOUND PORTO 2026</div>
-        <div class="home-nav-sub mono" id="hub-porto-sub">Porto · Parque da Cidade · JUN 11–14 · Upcoming</div>
+      <div style="flex:1;min-width:0">
+        <div class="hub-title-row">
+          <div class="home-nav-title">PRIMAVERA SOUND PORTO 2026</div>
+          <span class="hub-badge hub-upcoming" data-status="upcoming">● Upcoming</span>
+        </div>
+        <div class="home-nav-sub mono" id="hub-porto-sub">Porto · Parque da Cidade · JUN 11–14</div>
       </div>
-      <span class="home-nav-arrow dim">›</span>
+      <span class="home-nav-arrow dim">↗</span>
     </a>
     <a class="home-nav-item" href="/bks/">
-      <div>
-        <div class="home-nav-title">BEST KEPT SECRET 2026</div>
-        <div class="home-nav-sub mono" id="hub-bks-sub">Hilvarenbeek · Beekse Bergen · JUN 12–14 · Upcoming</div>
+      <div style="flex:1;min-width:0">
+        <div class="hub-title-row">
+          <div class="home-nav-title">BEST KEPT SECRET 2026</div>
+          <span class="hub-badge hub-upcoming" data-status="upcoming">● Upcoming</span>
+        </div>
+        <div class="home-nav-sub mono" id="hub-bks-sub">Hilvarenbeek · Beekse Bergen · JUN 12–14</div>
       </div>
-      <span class="home-nav-arrow dim">›</span>
+      <span class="home-nav-arrow dim">↗</span>
     </a>
     <a class="home-nav-item" href="/sonar/">
-      <div>
-        <div class="home-nav-title">SÓNAR 2026</div>
-        <div class="home-nav-sub mono" id="hub-sonar-sub">Barcelona · Fira Gran Via · JUN 18–20 · Upcoming</div>
+      <div style="flex:1;min-width:0">
+        <div class="hub-title-row">
+          <div class="home-nav-title">SÓNAR 2026</div>
+          <span class="hub-badge hub-upcoming" data-status="upcoming">● Upcoming</span>
+        </div>
+        <div class="home-nav-sub mono" id="hub-sonar-sub">Barcelona · Fira Gran Via · JUN 18–20</div>
       </div>
-      <span class="home-nav-arrow dim">›</span>
+      <span class="home-nav-arrow dim">↗</span>
     </a>
     <a class="home-nav-item" href="/roskilde/">
-      <div>
-        <div class="home-nav-title">ROSKILDE FESTIVAL 2026</div>
-        <div class="home-nav-sub mono" id="hub-roskilde-sub">Roskilde · Denmark · JUN 27–JUL 4 · Upcoming</div>
+      <div style="flex:1;min-width:0">
+        <div class="hub-title-row">
+          <div class="home-nav-title">ROSKILDE FESTIVAL 2026</div>
+          <span class="hub-badge hub-upcoming" data-status="upcoming">● Upcoming</span>
+        </div>
+        <div class="home-nav-sub mono" id="hub-roskilde-sub">Roskilde · Denmark · JUN 27–JUL 4</div>
       </div>
-      <span class="home-nav-arrow dim">›</span>
+      <span class="home-nav-arrow dim">↗</span>
     </a>
+
+    <!-- August -->
+    <div class="hub-month-hdr" id="hub-month-aug">AUGUST</div>
     <a class="home-nav-item" href="/wow/">
-      <div>
-        <div class="home-nav-title">WAY OUT WEST 2026</div>
-        <div class="home-nav-sub mono" id="hub-wow-sub">Gothenburg · Slottsskogen · AUG · Upcoming</div>
+      <div style="flex:1;min-width:0">
+        <div class="hub-title-row">
+          <div class="home-nav-title">WAY OUT WEST 2026</div>
+          <span class="hub-badge hub-upcoming" data-status="upcoming">● Upcoming</span>
+        </div>
+        <div class="home-nav-sub mono" id="hub-wow-sub">Gothenburg · Slottsskogen · AUG 13–15</div>
       </div>
-      <span class="home-nav-arrow dim">›</span>
+      <span class="home-nav-arrow dim">↗</span>
     </a>
     <a class="home-nav-item" href="/flow/">
-      <div>
-        <div class="home-nav-title">FLOW FESTIVAL 2026</div>
-        <div class="home-nav-sub mono" id="hub-flow-sub">Helsinki · Suvilahti · AUG · Upcoming</div>
+      <div style="flex:1;min-width:0">
+        <div class="hub-title-row">
+          <div class="home-nav-title">FLOW FESTIVAL 2026</div>
+          <span class="hub-badge hub-upcoming" data-status="upcoming">● Upcoming</span>
+        </div>
+        <div class="home-nav-sub mono" id="hub-flow-sub">Helsinki · Suvilahti · AUG 14–16</div>
       </div>
-      <span class="home-nav-arrow dim">›</span>
+      <span class="home-nav-arrow dim">↗</span>
     </a>
+
   </div>
 
   <div class="home-spacer"></div>
 
   <div class="home-footer">
-    <div class="home-made-by mono" id="hub-footer">Unofficial · Not affiliated with any festival organizer</div>
+    <div class="home-brand-stmt mono">Built by one festival fan.<br>No ads. Works offline.<br>Unofficial and independent.</div>
+    <div class="home-brand-stmt mono"><a class="footer-link" id="hub-kofi" href="https://ko-fi.com/max7770101" target="_blank" rel="noopener">🍺 beer fund</a></div>
   </div>
 
 </div><!-- #hub-body -->
@@ -143,12 +188,12 @@
 <script>
   var _LKEY='ps26_lang', _TKEY='ps26_theme';
   var _HS={
-    zh: {psSub:'巴塞罗那 · Parc del Fòrum · 6月3–7日 · 已结束',sonarSub:'巴塞罗那 · Fira Gran Via · 6月18–20日 · 即将开幕',portoSub:'波尔图 · Parque da Cidade · 6月11–14日 · 即将开幕',bksSub:'荷兰 · Beekse Bergen · 6月12–14日 · 即将开幕',roskildeSub:'丹麦 · 罗斯基勒 · 6月27日–7月4日 · 即将开幕',wowSub:'哥德堡 · Slottsskogen · 8月 · 即将开幕',flowSub:'赫尔辛基 · Suvilahti · 8月 · 即将开幕',footer:'非官方 · 与任何主办方无关联',thL:'日间',thD:'夜间',lShort:'中'},
-    zht:{psSub:'巴塞隆拿 · Parc del Fòrum · 6月3–7日 · 已結束',sonarSub:'巴塞隆拿 · Fira Gran Via · 6月18–20日 · 即將開幕',portoSub:'波爾圖 · Parque da Cidade · 6月11–14日 · 即將開幕',bksSub:'荷蘭 · Beekse Bergen · 6月12–14日 · 即將開幕',roskildeSub:'丹麥 · 羅斯基勒 · 6月27日–7月4日 · 即將開幕',wowSub:'哥德堡 · Slottsskogen · 8月 · 即將開幕',flowSub:'赫爾辛基 · Suvilahti · 8月 · 即將開幕',footer:'非官方 · 與任何主辦方無關聯',thL:'日間',thD:'夜間',lShort:'繁'},
-    es: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN · Terminado',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN · Próximo',portoSub:'Porto · Parque da Cidade · 11–14 JUN · Próximo',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN · Próximo',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL · Próximo',wowSub:'Gotemburgo · Slottsskogen · AGO · Próximo',flowSub:'Helsinki · Suvilahti · AGO · Próximo',footer:'No oficial · Sin afiliación con los organizadores',thL:'Día',thD:'Noche',lShort:'ES'},
-    ca: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN · Acabat',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN · Pròxim',portoSub:'Porto · Parque da Cidade · 11–14 JUN · Pròxim',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN · Pròxim',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL · Pròxim',wowSub:'Göteborg · Slottsskogen · AGO · Pròxim',flowSub:'Hèlsinki · Suvilahti · AGO · Pròxim',footer:'No oficial · Sense afiliació amb cap organitzador',thL:'Dia',thD:'Nit',lShort:'CA'},
-    pt: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN · Terminado',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN · Em breve',portoSub:'Porto · Parque da Cidade · 11–14 JUN · Em breve',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN · Em breve',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL · Em breve',wowSub:'Gotemburgo · Slottsskogen · AGO · Em breve',flowSub:'Helsínquia · Suvilahti · AGO · Em breve',footer:'Não oficial · Sem afiliação com nenhum organizador',thL:'Claro',thD:'Escuro',lShort:'PT'},
-    en: {psSub:'Barcelona · Parc del Fòrum · JUN 3–7 · Ended',sonarSub:'Barcelona · Fira Gran Via · JUN 18–20 · Upcoming',portoSub:'Porto · Parque da Cidade · JUN 11–14 · Upcoming',bksSub:'Hilvarenbeek · Beekse Bergen · JUN 12–14 · Upcoming',roskildeSub:'Roskilde · Denmark · JUN 27–JUL 4 · Upcoming',wowSub:'Gothenburg · Slottsskogen · AUG · Upcoming',flowSub:'Helsinki · Suvilahti · AUG · Upcoming',footer:'Unofficial · Not affiliated with any festival organizer',thL:'Light',thD:'Dark',lShort:'EN'},
+    zh: {psSub:'巴塞罗那 · Parc del Fòrum · 6月3–7日',sonarSub:'巴塞罗那 · Fira Gran Via · 6月18–20日',portoSub:'波尔图 · Parque da Cidade · 6月11–14日',bksSub:'荷兰 · Beekse Bergen · 6月12–14日',roskildeSub:'丹麦 · 罗斯基勒 · 6月27日–7月4日',wowSub:'哥德堡 · Slottsskogen · 8月13–15日',flowSub:'赫尔辛基 · Suvilahti · 8月14–16日',ended:'○ 已结束',upcoming:'● 即将开幕',endedLbl:'已结束',monthJun:'六月',monthAug:'八月',kofi:'🍺 打赏一杯',thL:'日间',thD:'夜间',lShort:'中'},
+    zht:{psSub:'巴塞隆拿 · Parc del Fòrum · 6月3–7日',sonarSub:'巴塞隆拿 · Fira Gran Via · 6月18–20日',portoSub:'波爾圖 · Parque da Cidade · 6月11–14日',bksSub:'荷蘭 · Beekse Bergen · 6月12–14日',roskildeSub:'丹麥 · 羅斯基勒 · 6月27日–7月4日',wowSub:'哥德堡 · Slottsskogen · 8月13–15日',flowSub:'赫爾辛基 · Suvilahti · 8月14–16日',ended:'○ 已結束',upcoming:'● 即將開幕',endedLbl:'已結束',monthJun:'六月',monthAug:'八月',kofi:'🍺 打賞一杯',thL:'日間',thD:'夜間',lShort:'繁'},
+    es: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Gotemburgo · Slottsskogen · 13–15 AGO',flowSub:'Helsinki · Suvilahti · 14–16 AGO',ended:'○ Terminado',upcoming:'● Próximo',endedLbl:'Terminado',monthJun:'JUNIO',monthAug:'AGOSTO',kofi:'🍺 fondo de cervezas',thL:'Día',thD:'Noche',lShort:'ES'},
+    ca: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Göteborg · Slottsskogen · 13–15 AGO',flowSub:'Hèlsinki · Suvilahti · 14–16 AGO',ended:'○ Acabat',upcoming:'● Pròxim',endedLbl:'Acabat',monthJun:'JUNY',monthAug:'AGOST',kofi:'🍺 fons de cerveses',thL:'Dia',thD:'Nit',lShort:'CA'},
+    pt: {psSub:'Barcelona · Parc del Fòrum · 3–7 JUN',sonarSub:'Barcelona · Fira Gran Via · 18–20 JUN',portoSub:'Porto · Parque da Cidade · 11–14 JUN',bksSub:'Hilvarenbeek · Beekse Bergen · 12–14 JUN',roskildeSub:'Roskilde · Dinamarca · 27 JUN–4 JUL',wowSub:'Gotemburgo · Slottsskogen · 13–15 AGO',flowSub:'Helsínquia · Suvilahti · 14–16 AGO',ended:'○ Terminado',upcoming:'● Em breve',endedLbl:'Terminado',monthJun:'JUNHO',monthAug:'AGOSTO',kofi:'🍺 fundo de cervejas',thL:'Claro',thD:'Escuro',lShort:'PT'},
+    en: {psSub:'Barcelona · Parc del Fòrum · JUN 3–7',sonarSub:'Barcelona · Fira Gran Via · JUN 18–20',portoSub:'Porto · Parque da Cidade · JUN 11–14',bksSub:'Hilvarenbeek · Beekse Bergen · JUN 12–14',roskildeSub:'Roskilde · Denmark · JUN 27–JUL 4',wowSub:'Gothenburg · Slottsskogen · AUG 13–15',flowSub:'Helsinki · Suvilahti · AUG 14–16',ended:'○ Ended',upcoming:'● Upcoming',endedLbl:'ENDED',monthJun:'JUNE',monthAug:'AUGUST',kofi:'🍺 beer fund',thL:'Light',thD:'Dark',lShort:'EN'},
   };
 
   var _curLang=localStorage.getItem(_LKEY)||'zh';
@@ -165,7 +210,13 @@
     document.getElementById('hub-roskilde-sub').textContent=S.roskildeSub;
     document.getElementById('hub-wow-sub').textContent=S.wowSub;
     document.getElementById('hub-flow-sub').textContent=S.flowSub;
-    document.getElementById('hub-footer').textContent=S.footer;
+    document.querySelectorAll('.hub-badge[data-status]').forEach(function(el){
+      el.textContent=S[el.dataset.status]||el.textContent;
+    });
+    document.getElementById('hub-kofi').textContent=S.kofi;
+    document.getElementById('hub-ended-lbl').textContent=S.endedLbl;
+    document.getElementById('hub-month-jun').textContent=S.monthJun;
+    document.getElementById('hub-month-aug').textContent=S.monthAug;
     document.getElementById('hub-lang-cur').textContent=S.lShort;
     document.getElementById('hub-th-lbl').textContent=_curTheme==='dark'?S.thD:S.thL;
     document.querySelectorAll('#hub-lang-dd .lang-menu-item').forEach(function(btn){
@@ -194,6 +245,13 @@
     var vt=document.startViewTransition(apply);
     if(vt.ready)vt.ready.catch(function(){});
     if(vt.finished)vt.finished.catch(function(){});
+  }
+
+  function hubToggleEnded(){
+    var list=document.getElementById('hub-ended-list');
+    var arrow=document.getElementById('hub-ended-arrow');
+    var open=list.classList.toggle('open');
+    arrow.textContent=open?'▾':'▸';
   }
 
   function hubToggleLangMenu(e){

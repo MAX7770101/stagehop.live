@@ -213,16 +213,34 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   font-family:"Space Mono",monospace;font-size:8.5px;
   letter-spacing:.05em;margin-top:3px;color:var(--dim);
 }
-.home-nav-arrow{color:var(--dim);font-size:17px;flex-shrink:0}
+.home-nav-arrow{color:var(--dim);font-size:18px;flex-shrink:0;transition:transform .15s}
+.home-nav-item:hover .home-nav-arrow{transform:translate(2px,-2px)}
 .home-spacer{flex:1;min-height:18px}
 .home-footer{
-  padding-top:14px;border-top:1px solid var(--hair);
-  display:flex;justify-content:space-between;align-items:center;flex-shrink:0;
+  padding-top:16px;border-top:1px solid var(--hair);
+  display:flex;flex-direction:column;gap:10px;flex-shrink:0;
 }
 .home-made-by{
   font-family:"Space Mono",monospace;font-size:9px;
   letter-spacing:.08em;color:var(--dim);
 }
+.home-brand-stmt{
+  font-family:"Space Mono",monospace;font-size:9px;
+  letter-spacing:.06em;color:var(--dim);line-height:2;
+}
+.home-kofi{
+  font-family:"Space Mono",monospace;font-size:9px;
+  letter-spacing:.06em;color:var(--dim);text-decoration:none;
+}
+.home-kofi:hover{color:var(--text)}
+.hub-title-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.hub-badge{
+  font-family:"Space Mono",monospace;font-size:8px;
+  letter-spacing:.08em;font-weight:700;
+  padding:2px 7px;border-radius:20px;white-space:nowrap;line-height:1.6;
+}
+.hub-ended{background:rgba(128,128,128,.13);color:var(--dim)}
+.hub-upcoming{background:rgba(80,168,255,.1);color:#5aabff}
 .lang-menu{position:relative}
 .lang-menu-btn{
   display:inline-flex;align-items:center;gap:4px;
