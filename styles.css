@@ -240,6 +240,8 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   padding:2px 7px;border-radius:20px;white-space:nowrap;line-height:1.6;
 }.hub-ended{background:rgba(128,128,128,.13);color:var(--dim)}
 .hub-upcoming{background:rgba(80,168,255,.1);color:#5aabff}
+.hub-live{background:rgba(74,222,128,.15);color:#4ade80;animation:hub-pulse 2s ease-in-out infinite}
+@keyframes hub-pulse{0%,100%{opacity:1}50%{opacity:.55}}
 .lang-menu{position:relative}
 .lang-menu-btn{
   display:inline-flex;align-items:center;gap:4px;
