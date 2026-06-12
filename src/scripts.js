@@ -408,23 +408,32 @@ function renderDayTabs(){
     ["dtabs","dtabs-map"].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML="";});
     return;
   }
-  var day=DAYS.find(function(d){return d.key===curDay;})||DAYS[0];
-  var opts=DAYS.map(function(d){
-    var on=d.key===curDay;
-    var parts=d.label.split(" ");
-    return '<button class="dtab-opt'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')">' +
-      '<span class="dtab-opt-dow">'+parts[0]+'</span>' +
-      '<span class="dtab-opt-md">'+(parts[1]||"")+'</span>' +
-    '</button>';
-  }).join("");
-  var html=
-    '<div class="day-picker">'+
-      '<button class="day-picker-btn" onclick="toggleDayPicker(event,this)">'+
-        '<span>'+day.label+'</span>'+
-        '<span class="day-picker-caret">▾</span>'+
-      '</button>'+
-      '<div class="day-picker-panel">'+opts+'</div>'+
+  var html;
+  if(DAYS.length<=5){
+    html='<div class="dtab-row">'+
+      DAYS.map(function(d){
+        return '<button class="dtab'+(d.key===curDay?" on":"")+'" onclick="setDay(\''+d.key+'\')">'+d.label+'</button>';
+      }).join("")+
     '</div>';
+  }else{
+    var day=DAYS.find(function(d){return d.key===curDay;})||DAYS[0];
+    var opts=DAYS.map(function(d){
+      var on=d.key===curDay;
+      var parts=d.label.split(" ");
+      return '<button class="dtab-opt'+(on?" on":"")+'" onclick="setDay(\''+d.key+'\')">' +
+        '<span class="dtab-opt-dow">'+parts[0]+'</span>' +
+        '<span class="dtab-opt-md">'+(parts[1]||"")+'</span>' +
+      '</button>';
+    }).join("");
+    html=
+      '<div class="day-picker">'+
+        '<button class="day-picker-btn" onclick="toggleDayPicker(event,this)">'+
+          '<span>'+day.label+'</span>'+
+          '<span class="day-picker-caret">▾</span>'+
+        '</button>'+
+        '<div class="day-picker-panel">'+opts+'</div>'+
+      '</div>';
+  }
   ["dtabs","dtabs-map"].forEach(function(id){
     var el=document.getElementById(id);
     if(el)el.innerHTML=html;

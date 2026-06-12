@@ -317,9 +317,19 @@ body[data-theme="dark"] .tab-ind{box-shadow:0 0 8px var(--accent)}
   flex-shrink:0;position:relative;
 }
 #dtabs-map{
-  display:block;padding-bottom:8px;
+  display:block;padding:10px 24px 8px;
   flex-shrink:0;position:relative;
 }
+.dtab-row{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.dtab-row::-webkit-scrollbar{display:none}
+.dtab{
+  flex-shrink:0;white-space:nowrap;
+  font-family:"Space Mono",monospace;font-size:11px;font-weight:700;
+  padding:7px 14px;border-radius:22px;
+  background:var(--surface);color:var(--dim);
+  border:none;cursor:pointer;transition:background .15s,color .15s;
+}
+.dtab.on{background:var(--text);color:var(--bg);}
 .day-picker{position:relative;}
 .day-picker-btn{
   display:inline-flex;align-items:center;gap:8px;
