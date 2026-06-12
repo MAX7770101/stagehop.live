@@ -8,6 +8,7 @@ window.FESTIVAL_CONFIG={
   faqUrl:'https://nosalive.com/en/faq/',
   defaultDay:'thu',
   weatherLat:38.7098,weatherLon:-9.2362,
+  mapW:2048,mapH:1365,
   lineupImg:'../assets/posters/NA26_Mupi_site_Geral_EN-scaled.jpg',
 };
 var ST={};
