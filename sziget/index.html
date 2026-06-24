@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0E1017">
+  <title>Sziget Festival 2026 · Stage Hop</title>
+  <meta name="description" content="Unofficial fan-made guide to Sziget Festival 2026. Lineup, schedule, clash detection. Multilingual.">
+  <meta name="keywords" content="Sziget 2026, Sziget Festival, Budapest, Óbuda Island, Hungary, music festival, lineup, schedule">
+  <link rel="canonical" href="https://stagehop.live/sziget/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stagehop.live/sziget/">
+  <meta property="og:title" content="Stage Hop · Sziget Festival 2026 Fan Guide">
+  <meta property="og:description" content="Unofficial multilingual schedule and guide for Sziget Festival 2026.">
+  <meta property="og:image" content="https://stagehop.live/assets/icons-europe/og-europe.png">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://stagehop.live/sziget/">
+  <meta property="twitter:title" content="Stage Hop · Sziget Festival 2026 Fan Guide">
+  <meta property="twitter:description" content="Unofficial multilingual schedule and guide for Sziget Festival 2026.">
+  <meta property="twitter:image" content="https://stagehop.live/assets/icons-europe/og-europe.png">
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"></noscript>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body data-theme="dark">
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <div id="app-root">
+
+    <main id="main-content">
+
+      <div id="vhome" class="view on">
+        <div class="scr-body" id="home-body"></div>
+      </div>
+
+      <div id="vschedule" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" data-i="navSchedule">Schedule</div>
+            <div class="scr-sub" id="sched-sub"></div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-sched">☾</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-sched">Dark</span>
+          </button>
+        </div>
+        <div id="dtabs"></div>
+        <div id="fbar"></div>
+        <div id="sort-bar">
+          <span class="slbl" id="lbl-sort">Sort</span>
+          <button class="srt on" id="srt-time" onclick="setSort('time')">⏱ <span data-i="byTime">Time</span></button>
+          <button class="srt" id="srt-az" onclick="setSort('az')">🔤 <span data-i="byName">Name</span></button>
+          <button class="srt srt-fav" id="srt-fav" onclick="toggleFavFilter()">💖</button>
+        </div>
+        <div id="slist" class="scr-body"></div>
+      </div>
+
+      <div id="vmap" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" data-i="navMap">Map</div>
+            <div class="scr-sub">ÓBUDA ISLAND · 47.56°N</div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-map">☾</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-map">Dark</span>
+          </button>
+        </div>
+        <div class="scr-body" id="map-scr-body">
+          <div id="mapview">
+            <div id="dtabs-map"></div>
+            <div class="map-hint-bar">
+              <span id="lbl-mapHint">Pinch to zoom · Tap stage to see shows</span>
+              <span style="display:flex;gap:6px">
+                <button class="zbtn" onclick="mapZoom(1.5)">＋</button>
+                <button class="zbtn" onclick="mapZoom(0.67)">－</button>
+                <button class="rbtn" id="lbl-reset" onclick="mapReset()">Reset</button>
+              </span>
+            </div>
+            <img id="mapimg" src="" alt="" style="display:none" width="2000" height="1345">
+            <div class="map-wrap" id="mapwrap" style="display:none"><div class="map-inner" id="mapinner"></div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 28px 40px;text-align:center;gap:14px">
+              <div style="font-size:52px;opacity:0.18;line-height:1">◎</div>
+              <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:0.08em;color:var(--text,#f0ebe0)">NO OFFICIAL MAP RELEASED YET</div>
+              <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--dim,#888);max-width:260px;line-height:1.7;letter-spacing:0.04em">The official Sziget Festival 2026 venue map has not been released yet.</div>
+              <a href="https://szigetfestival.com/en/" target="_blank" rel="noopener" style="margin-top:8px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.06em;color:#4D9FFF;text-decoration:none;border:1px solid #4D9FFF44;border-radius:10px;padding:8px 18px">szigetfestival.com ↗</a>
+            </div>
+            <div id="stagepop"></div>
+            <div id="map-disc"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="vmy" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" id="lbl-fav-title">Saved</div>
+            <div class="scr-sub" id="lbl-fav-count"></div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-fav">☾</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-fav">Dark</span>
+          </button>
+        </div>
+        <div id="mylist" class="scr-body"></div>
+      </div>
+
+      <div id="vinfo" class="view">
+        <div class="scr-head">
+          <div>
+            <div class="scr-title syne" data-i="infoTitle">Info</div>
+            <div class="scr-sub">KNOW BEFORE YOU GO</div>
+          </div>
+          <button class="theme-toggle" onclick="toggleTheme(event)">
+            <span class="theme-toggle-icon" id="theme-icon-info">☾</span>
+            <span class="theme-toggle-lbl" id="theme-lbl-info">Dark</span>
+          </button>
+        </div>
+        <div id="info-body" class="scr-body"></div>
+      </div>
+
+    </main>
+
+    <div id="now-playing">
+      <div id="np-rows"></div>
+      <div id="np-more"></div>
+    </div>
+
+    <nav id="tabbar">
+      <div class="tab-row">
+        <span class="tab-ind" id="tab-ind"></span>
+        <button class="tab-btn on" onclick="setTab(0)">
+          <span class="tab-ic"><span class="dot" style="width:13px;height:13px;vertical-align:middle"></span></span>
+          <span class="tab-lbl" data-i="navHome">Home</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(1)">
+          <span class="tab-ic">☰</span>
+          <span class="tab-lbl" data-i="navSchedule">Schedule</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(2)">
+          <span class="tab-ic">◎</span>
+          <span class="tab-lbl" data-i="navMap">Map</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(3)">
+          <span class="tab-ic" id="fav-tab-ic">♥</span>
+          <span class="tab-lbl" data-i="navFavs">Saved</span>
+        </button>
+        <button class="tab-btn" onclick="setTab(4)">
+          <span class="tab-ic">ⓘ</span>
+          <span class="tab-lbl" data-i="navInfo">Info</span>
+        </button>
+      </div>
+    </nav>
+
+  </div><!-- #app-root -->
+
+  <div id="app-footer" style="display:none"></div>
+  <div id="lbl-city" style="display:none"></div>
+  <div id="lbl-favs" style="display:none"></div>
+
+  <script type="text/javascript" src="../src/localization.js"></script>
+  <script type="text/javascript" src="src/localization-overrides.js"></script>
+  <script type="text/javascript" src="src/data.js"></script>
+  <script type="text/javascript" src="../src/scripts.js"></script>
+</body>
+
+</html>
