@@ -144,7 +144,10 @@ function refreshMapGlow(){
     var anim=el.style.animation||"";
     if(anim.indexOf("hsglow")!==-1)return;
     if(stages.has(s)){
+      var scl2=1/getFitScale();
       el.style.setProperty("--gc",si.color);
+      el.style.setProperty("--hs-b1",(8*scl2)+"px");
+      el.style.setProperty("--hs-b2",(16*scl2)+"px");
       el.style.animation="upnextglow 3s ease-in-out infinite";
     }else{
       if(anim.indexOf("upnextglow")!==-1)el.style.animation="";
@@ -182,7 +185,7 @@ function fetchWeather(cb){
   if(_wxCache){cb(_wxCache);return;}
   var xhr=new XMLHttpRequest();
   var _wc=window.FESTIVAL_CONFIG||{};
-  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude="+(_wc.weatherLat||41.3874)+"&longitude="+(_wc.weatherLon||2.1686)+"&daily=weather_code,temperature_2m_max&timezone=Europe%2FMadrid&start_date="+_wxFallback[0].date+"&end_date="+_wxFallback[_wxFallback.length-1].date);
+  xhr.open("GET","https://api.open-meteo.com/v1/forecast?latitude="+(_wc.weatherLat||41.3874)+"&longitude="+(_wc.weatherLon||2.1686)+"&daily=weather_code,temperature_2m_max&timezone="+encodeURIComponent(_wc.weatherTz||"Europe/Madrid")+"&start_date="+_wxFallback[0].date+"&end_date="+_wxFallback[_wxFallback.length-1].date);
   xhr.onload=function(){
     if(xhr.status===200){
       try{
@@ -197,7 +200,7 @@ function fetchWeather(cb){
 }
 
 // ── STATE ──
-var curDay=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.defaultDay)||"thu",curView="home",curStage=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
+var curDay=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.defaultDay)||"thu",curView="home",curStage=null,curCat=null,curSort="time",activeStageFilter=null,curFavFilter=false,curShowPast=false;
 var curTab=parseInt(localStorage.getItem("sh.tab")||"0");
 var TAB_VIEWS=["home","schedule","map","my","info"];
 
@@ -305,7 +308,7 @@ function renderHome(){
   var langShort={zh:"中",zht:"繁",es:"ES",ca:"CA",pt:"PT",en:"EN"};
   body.innerHTML=
     '<div class="home-top">'+
-      '<a class="home-brand-label mono" href="/" style="text-decoration:none;color:var(--dim)">‹ stagehop.live</a>'+
+      '<a class="home-brand-label mono" href="/" style="text-decoration:none;color:var(--dim)">← back</a>'+
       '<div class="home-top-controls">'+
         '<button class="theme-toggle" onclick="toggleTheme(event)">'+
           '<span class="theme-toggle-icon">'+toggleIcon+'</span>'+
@@ -370,7 +373,7 @@ function setTab(n){
   if(ind)ind.style.left="calc("+n+" * 20% + 10%)";
   // sync curView for compat
   curView=v;
-  curStage=null;
+  curStage=null;curCat=null;
   vaTrack("view_tab",{tab:n,view:v});
   // render view
   if(v==="home"){renderHome();updateNowPlaying();}
@@ -415,13 +418,42 @@ function renderDayTabs(){
 }
 
 function renderSchedule(){
+  // No schedule data yet — show lineup poster placeholder
+  if(!DAYS.length){
+    var cfg=window.FESTIVAL_CONFIG||{};
+    var slist=document.getElementById("slist");
+    var fbar=document.getElementById("fbar");
+    var sortbar=document.getElementById("sort-bar");
+    var subEl2=document.getElementById("sched-sub");
+    if(fbar)fbar.innerHTML="";
+    if(sortbar)sortbar.style.display="none";
+    if(subEl2)subEl2.textContent="";
+    if(slist){
+      slist.innerHTML=cfg.lineupImg
+        ?'<div style="padding:16px 14px 24px"><img src="'+cfg.lineupImg+'" style="width:100%;border-radius:12px;display:block"><p style="text-align:center;color:var(--dim);font-size:11px;font-family:\'Space Mono\',monospace;margin-top:14px;letter-spacing:0.06em">SET TIMES NOT YET ANNOUNCED</p></div>'
+        :'<div style="padding:48px 28px;text-align:center;color:var(--dim);font-family:\'Space Mono\',monospace;font-size:11px;letter-spacing:0.06em">SCHEDULE COMING SOON</div>';
+    }
+    return;
+  }
   var day=DAYS.find(function(d){return d.key===curDay;});
   // Update schedule screen subtitle
   var subEl=document.getElementById("sched-sub");
   if(subEl)subEl.textContent=day.label+" · "+day.shows.length+" ACTS";
 
-  var stages=[...new Set(day.shows.map(function(s){return s.stage;}))];
-  var shows=curStage?day.shows.filter(function(s){return s.stage===curStage;}):day.shows;
+  // Detect categories present on this day
+  var L=LANGS[curLang]||LANGS.en;
+  var CAT_DEFS=[
+    {k:"music",   lbl:L.catMusic||"Music"},
+    {k:"art",     lbl:L.catArt||"Art & Activism"},
+    {k:"activity",lbl:L.catActivity||"Activities"},
+  ];
+  var dayCats=[...new Set(day.shows.map(function(s){return s.cat||"music"}))];
+  var hasMultiCat=dayCats.length>1;
+
+  // Category-filtered + stage-filtered shows
+  var shows=day.shows;
+  if(curCat)shows=shows.filter(function(s){return (s.cat||"music")===curCat;});
+  if(curStage)shows=shows.filter(function(s){return s.stage===curStage;});
   if(curFavFilter)shows=shows.filter(function(s){return favs.has(s.artist);});
   var sorted=[...shows].sort(function(a,b){return curSort==="az"?a.artist.localeCompare(b.artist):toMins(a.time)-toMins(b.time);});
   var todayDs=_localDs(_effectiveDate());
@@ -429,13 +461,26 @@ function renderSchedule(){
   var isToday=!isPastDay&&getDay()&&getDay().key===curDay;
   var conflicts=getConflicts(day.shows);
 
-  // Filter bar
-  var allLbl=(curLang==="zh"||curLang==="zht")?"全部":curLang==="es"?"Todo":curLang==="ca"?"Tot":"All";
-  document.getElementById("fbar").innerHTML=
-    '<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)">'+allLbl+'</button>'+
+  // Stages visible under current category filter
+  var catShows=curCat?day.shows.filter(function(s){return (s.cat||"music")===curCat;}):day.shows;
+  var stages=[...new Set(catShows.map(function(s){return s.stage;}))];
+
+  // Filter bar: category tabs (top) + stage pills (bottom)
+  var catTabsHtml="";
+  if(hasMultiCat){
+    var allCatLbl=L.catAll||"All";
+    catTabsHtml='<div class="cat-tabs">'+
+      '<button class="ctab'+(curCat===null?" on":"")+'" onclick="setCat(null)">'+allCatLbl+'</button>'+
+      CAT_DEFS.filter(function(c){return dayCats.indexOf(c.k)!==-1;}).map(function(c){
+        return '<button class="ctab'+(curCat===c.k?" on":"")+'" onclick="setCat(\''+c.k+'\')">'+c.lbl+'</button>';
+      }).join("")+
+    '</div>';
+  }
+  var stageHtml='<div class="sfs"><button class="sfb all'+(curStage?"":" on")+'" onclick="setStage(null)">'+(L.catAll||"All")+'</button>'+
     stages.map(function(s){var si=ST[s];if(!si)return"";var on=curStage===s;
       return '<button class="sfb" onclick="setStage(\''+s.replace(/'/g,"\\'")+'\')" style="background:'+(on?si.color:"var(--surface)")+';color:'+(on?"#000":si.color)+';border-color:'+si.color+(on?"cc":"55")+'">'+si.e+" "+si.s+'</button>';
     }).join("")+'</div>';
+  document.getElementById("fbar").innerHTML=catTabsHtml+stageHtml;
 
   document.getElementById("srt-time").classList.toggle("on",curSort==="time");
   document.getElementById("srt-az").classList.toggle("on",curSort==="az");
@@ -574,7 +619,7 @@ function renderInfo(){
     '</div>'+
     '<div class="info-section">'+
       '<div class="info-h">🚇 '+L.transitH+'</div>'+
-      '<div class="info-row"><div class="info-icon">🟡</div><div class="info-text"><strong>'+L.metroLine+'</strong><br>'+L.metroStop+'<br><span style="font-size:10px;color:var(--dim)">'+L.metroHours+'</span></div></div>'+
+      '<div class="info-row"><div class="info-icon">'+(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.metroIcon||'🟡')+'</div><div class="info-text"><strong>'+L.metroLine+'</strong><br>'+L.metroStop+'<br><span style="font-size:10px;color:var(--dim)">'+L.metroHours+'</span></div></div>'+
       '<div class="info-row"><div class="info-icon">🚋</div><div class="info-text"><strong>'+L.tramLine+'</strong><br>'+L.tramStop+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🚌</div><div class="info-text"><strong>'+L.daybus+'</strong><br>'+L.daybusDesc+'</div></div>'+
       '<div class="info-row"><div class="info-icon">🌙</div><div class="info-text"><strong>'+L.nightbus+'</strong><br>'+L.nightbusDesc+'</div></div>'+
@@ -608,8 +653,8 @@ function renderInfo(){
     '<div class="info-section">'+
       '<div class="info-h">👶 '+L.minorsH+'</div>'+
       '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor12+'</div></div>'+
-      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1315+'</div></div>'+
-      '<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1617+'</div></div>'+
+      (L.minor1315?'<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1315+'</div></div>':'')+
+      (L.minor1617?'<div class="info-row"><div class="info-icon">·</div><div class="info-text">'+L.minor1617+'</div></div>':'')+
     '</div>'+
     '<div class="info-section">'+
       '<div class="info-h">♿ '+L.accessH+'</div>'+
@@ -673,7 +718,7 @@ function renderMap(){
       var bv=bpx+"px solid "+(hasShows?si.color+(hasLive?"ff":"77"):"rgba(255,255,255,0.1)");
       el.style.border=bv;
       el.dataset.border=bv;
-      if(hasLive){el.style.setProperty("--gc",si.color);el.style.animation="hsglow 2s ease-in-out infinite";}
+      if(hasLive){var scl=1/fs;el.style.setProperty("--gc",si.color);el.style.setProperty("--hs-b1",(8*scl)+"px");el.style.setProperty("--hs-b2",(18*scl)+"px");el.style.animation="hsglow 2s ease-in-out infinite";}
       var lbl=document.createElement("div");
       lbl.className="hs-label";
       lbl.style.color=hasShows?si.color:"rgba(255,255,255,0.2)";
@@ -712,13 +757,15 @@ function openStagePop(stage){
   _selStage=stage;
   var newEl=document.querySelector('.hs[data-stage="'+stage+'"]');
   if(newEl){
+    var scl=1/getFitScale();
     newEl.classList.add("selected");
     newEl.style.animation="";
-    newEl.style.boxShadow="0 0 14px 4px "+si.color+"aa, 0 0 28px 8px "+si.color+"55";
+    newEl.style.boxShadow="0 0 "+(14*scl)+"px "+(4*scl)+"px "+si.color+"aa, 0 0 "+(28*scl)+"px "+(8*scl)+"px "+si.color+"55";
     newEl.style.borderColor=si.color;
-    newEl.style.borderWidth="2px";
+    newEl.style.borderWidth=Math.round(2*scl)+"px";
   }
   var pop=document.getElementById("stagepop");
+  var alreadyOpen=pop.style.display==="block";
   pop.style.display="block";pop.classList.remove("visible");
   setTimeout(function(){pop.classList.add("visible");},10);
   var html='<div class="pop-head"><div class="pop-stage" style="color:'+si.color+'">'+si.e+" "+stage+'</div><button class="pop-close" onclick="closePop()">×</button></div><div>';
@@ -735,7 +782,7 @@ function openStagePop(stage){
     '</div>';
   });}
   html+='</div>';pop.innerHTML=html;
-  pop.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(!alreadyOpen)pop.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
 function closePop(){
@@ -758,7 +805,10 @@ function closePop(){
 // ── PINCH-ZOOM ──
 var mapState={scale:1,x:0,y:0};
 var gesture={active:false,startDist:0,startScale:1,startMidX:0,startMidY:0,startPanX:0,startPanY:0,dragging:false,dragStartX:0,dragStartY:0};
-var MAP_W=2000,MAP_H=1345;
+var MAP_W=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.mapW)||2000;
+var MAP_H=(window.FESTIVAL_CONFIG&&window.FESTIVAL_CONFIG.mapH)||1345;
+document.documentElement.style.setProperty("--map-w",MAP_W);
+document.documentElement.style.setProperty("--map-h",MAP_H);
 function getFitScale(){var wrap=document.getElementById("mapwrap");return wrap?wrap.offsetWidth/MAP_W:0.18;}
 function applyMapTransform(){
   var wrap=document.getElementById("mapwrap"),inner=document.getElementById("mapinner");
@@ -794,13 +844,14 @@ function initMapGestures(){
 function toggleShowPast(){curShowPast=!curShowPast;renderSchedule();}
 function setDay(k){
   vaTrack('switch_day',{day:k});
-  curDay=k;curStage=null;curShowPast=false;
+  curDay=k;curStage=null;curCat=null;curShowPast=false;
   renderDayTabs();
   if(curView==="schedule")renderSchedule();
   else if(curView==="my")renderMyLineup();
-  else if(curView==="map"){renderMap();setTimeout(initMapGestures,200);}
+  else if(curView==="map"){var _ps=_selStage;renderMap();setTimeout(function(){initMapGestures();if(_ps)openStagePop(_ps);},200);}
 }
 function setStage(s){curStage=s;renderSchedule();}
+function setCat(c){curCat=c;curStage=null;renderSchedule();}
 function setSort(s){curSort=s;renderSchedule();}
 function toggleFavFilter(){curFavFilter=!curFavFilter;renderSchedule();}
 function render(){
