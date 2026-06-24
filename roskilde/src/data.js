@@ -323,7 +323,7 @@ var DAYS=[
     // ── 13:00 ──
     {time:"13:00",end:"14:30",stage:"STADION",              artist:"Wheelchair Basketball Celebrity Game",  cat:"activity"},
     // ── 17:00 ──
-    {time:"17:00",end:"18:30",stage:"EOS",                  artist:"Bia",                                   cat:"music"},
+    {time:"17:00",end:"18:30",stage:"EOS",                  artist:"Iceage",                                cat:"music"},
     {time:"17:00",end:"18:15",stage:"PLATFORM",             artist:"Dorotea Saykaly & Emil Dam Seidel",     cat:"music"},
     // ── 17:30 ──
     {time:"17:30",end:"18:45",stage:"GLORIA",               artist:"Joshua Idehen",                         cat:"music"},
@@ -510,7 +510,7 @@ var DAYS=[
     {time:"19:00",end:"20:30",stage:"ORANGE SCENE",         artist:"Addison Rae",                           cat:"music"},
     {time:"19:00",end:"20:30",stage:"FAUNA",                artist:"Saad Tiouly",                           cat:"music"},
     // ── 20:00 ──
-    {time:"20:00",end:"21:15",stage:"LAGUNE",               artist:"Jim Legxacy",                           cat:"music"},
+    {time:"20:00",end:"21:15",stage:"LAGUNE",               artist:"Genesis Owusu",                         cat:"music"},
     // ── 20:15 ──
     {time:"20:15",end:"21:30",stage:"PLATFORM",             artist:"Thicket",                               cat:"music"},
     // ── 20:30 ──
