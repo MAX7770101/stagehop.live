@@ -30,7 +30,26 @@ var ST={
   "PLATFORM":               {color:"#F59E0B",e:"▲",s:"Platform"},
   "FOOD IS NOW":            {color:"#F472B6",e:"🍽",s:"Food"},
 };
-var HOTSPOTS={};
+
+var HOTSPOTS={
+  "ORANGE SCENE":           [37.5, 29.0, 9.0, 8.5],
+  "ARENA":                  [55.0, 42.0, 7.5, 7.0],
+  "GLORIA":                 [52.0, 33.5, 5.5, 5.0],
+  "FAUNA":                  [48.5, 30.0, 5.0, 4.5],
+  "PLATFORM":               [50.5, 36.5, 5.5, 4.5],
+  "EOS":                    [35.0, 37.5, 5.5, 5.0],
+  "LAGUNE":                 [30.5, 41.0, 5.5, 5.0],
+  "DANCEFLOOR":             [46.0, 56.0, 7.0, 6.5],
+  "THE YARD":               [60.0, 50.0, 6.5, 6.0],
+  "GROW":                   [62.5, 57.5, 5.5, 5.0],
+  "SKATE":                  [26.5, 44.5, 5.0, 4.5],
+  "STADION":                [32.0, 46.5, 6.0, 5.5],
+  "RE:ACT":                 [43.5, 44.0, 5.5, 5.0],
+  "CINEMA":                 [40.5, 52.0, 5.5, 5.0],
+  "REHEARSALS OF BELONGING":[60.5, 62.5, 7.5, 5.5],
+  "THE LONG WAY AROUND":    [44.0, 38.5, 5.5, 4.5],
+  "FOOD IS NOW":            [40.5, 43.0, 5.5, 4.5],
+};
 
 var DAYS=[
   {key:"sun",label:"Sun 6/28",date:"2026-06-28",sub:"day1",shows:[
